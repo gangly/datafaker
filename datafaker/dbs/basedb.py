@@ -38,7 +38,7 @@ class BaseDB(object):
     @count_time
     def do_fake(self):
         lines = self.fake_data()
-        spliter = self.args.out_spliter if self.args.out_spliter else ','
+        spliter = self.args.outspliter if self.args.outspliter else ','
         if self.args.outprint:
             for items in lines:
                 # line = spliter.join([str(item) for item in items])

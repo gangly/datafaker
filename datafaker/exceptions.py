@@ -32,7 +32,9 @@ class FileNotFoundError(BaseError):
     """
     file not found
     """
-    fmt = 'file not found.'
+    def __init__(self, filepath=''):
+        Exception.__init__(self, "error, %s not found!" % filepath)
+
 
 
 class MetaFileError(BaseError):

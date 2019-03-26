@@ -22,9 +22,10 @@ def parse_args():
     parser.add_argument('--interval', action='store', type=int, default=1, help='meta file path')
     parser.add_argument('--version', action='store_true', help="print the version number and exit")
     parser.add_argument('--outprint', action='store_true', help="print fake date to screen")
-    parser.add_argument('--out_spliter', action='store', help="print the version number and exit")
+    parser.add_argument('--outspliter', action='store', help="print data, to split columns")
     parser.add_argument('--locale', action='store', default='zh_CN', help='which country language')
     parser.add_argument('--outfile', help='file to write output to (default: stdout)')
+    parser.add_argument('--format', default='text', help='outprint and outfile format: json, text (default: text)')
     args = parser.parse_args()
 
     if not args.dbtype:
@@ -55,7 +56,7 @@ def load_db_class(dbtype):
     read subcommand from subcmds directory
     :return: subcommands list
     """
-    pkgname = 'datagen.dbs.' + dbtype + 'db'
+    pkgname = 'datafaker.dbs.' + dbtype + 'db'
     classname = dbtype.capitalize() + 'DB'
     module = __import__(pkgname, fromlist=(classname))
     db_class = getattr(module, classname)

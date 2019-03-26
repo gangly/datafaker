@@ -10,6 +10,6 @@ class FileDB(BaseDB):
         return []
 
     def save_data(self, lines):
-        spliter = self.args.out_spliter if self.args.out_spliter else ','
+        spliter = self.args.outspliter if self.args.outspliter else ','
         save2file(lines, self.args.outfile, spliter)
 
