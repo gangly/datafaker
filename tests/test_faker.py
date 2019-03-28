@@ -6,20 +6,7 @@ from faker import Factory
 
 
 fake = Factory().create('zh_CN')
-li = dir(fake)
-def get_dir_run():
-    with open('somefile.txt', 'wt') as f:
-        for i in li:
-            a = None
-            try:
-                cmd = "fake."+i+"()"
-                a = eval(cmd)
-                print(cmd)
-            except Exception:
-                a = None
-            if a:
-                message = "{0}   # {1} \n".format(cmd,a)
-                f.write(message)
+
 
 def test_func():
     print(fake.random_number(1))
