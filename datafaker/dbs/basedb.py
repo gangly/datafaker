@@ -90,8 +90,8 @@ class BaseDB(object):
             if cmd == 'enum':
                 if len(rets) == 0:
                     raise EnumMustNotEmptyError
-                if len(rets) == 1:
-                    rets = read_file_lines(rets[0])
+                if len(rets) == 1 and rets[0].startswith('file://'):
+                    rets = read_file_lines(rets[0][len('file://'):])
 
                 if ctype in INT_TYPES:
                     args = [int(ret) for ret in rets]
@@ -123,7 +123,6 @@ class BaseDB(object):
         return rows
 
 
-
     @abstractmethod
     def construct_self_rows(self):
         return []
@@ -131,3 +130,4 @@ class BaseDB(object):
     @abstractmethod
     def save_data(self, lines):
         pass
+

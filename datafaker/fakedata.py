@@ -83,7 +83,7 @@ class FackData(object):
     ########### mysql 字符串类型##############
 
     def fake_char(self, *args):
-        return self.fake.pystr(min_chars=0, max_chars=255)
+        return self.faker.pystr(min_chars=0, max_chars=255)
 
     def fake_varchar(self, *args):
         return self.faker.pystr(min_chars=0, max_chars=args[0])

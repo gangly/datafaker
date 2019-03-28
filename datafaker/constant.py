@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: UTF-8 -*-
 
-__version__ = '0.0.2'
+__version__ = '0.0.8'
 
 # 每次插入mysql数据条数
 BATCH_SIZE = 1000

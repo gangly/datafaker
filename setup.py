@@ -24,8 +24,15 @@ def find_version(*file_paths):
     raise RuntimeError("Unable to find version string.")
 
 
-requires = [open('requirements.txt').read().splitlines()]
-
+# requires = [open('requirements.txt').read().splitlines()]
+requires = [
+    'pyhive',
+    'sqlparse',
+    'faker',
+    'configparser>=3.5.0',
+    'kafka-python==1.4.3',
+    'sqlalchemy'
+]
 
 if sys.platform == 'win32':
     requires.append('pywin32')
@@ -40,15 +47,14 @@ setup_options = dict(
     name='datafaker',
     version=find_version("datafaker", "constant.py"),
     description='A tool for generating batch test data or stream data.',
-    long_description=open('README.md').read(),
+    long_description=open('README.rst').read(),
     author='GaryLi',
     author_email='gangly123@163.com',
     url='https://github.com/gangly/datafaker',
     scripts=['bin/datafaker',
              ],
     packages=find_packages(exclude=['tests*']),
-    package_data={'datafaker': ['data/*.json', 'data/*.ini', 'examples/*/*.rst',
-                             'examples/*/*/*.rst']},
+    package_data={'datafaker': ['data/*.json', 'data/*.ini', 'requirements.txt', ]},
     install_requires=requires,
     extras_require={
         ':python_version=="2.6"': [
