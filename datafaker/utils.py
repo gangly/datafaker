@@ -12,78 +12,14 @@ from datafaker.exceptions import FileNotFoundError
 from datafaker.reg import reg_keyword, reg_cmd, reg_args
 
 
-# def parse_table_schema_from_file(filepath):
-#
-#     if not os.path.exists(filepath):
-#         raise FileNotFoundError
-#     with open(filepath) as fp:
-#         lines = fp.read().splitlines()
-#         rows = [line.split("||") for line in lines]
-#     return parse_table_schema_from_rows(rows)
-
-#
-# def get_table_schema(url, table):
-#     """
-#     获取表中字段信息
-#     包括：字段名、字段类型、注释
-#
-#     mysql+pymysql://root:root@localhost:3600/test
-#     hive://yarn@host:10000/default?auth=NONE
-#     :param url: load_sqlalchemy 连接信息
-#     :param table: 表名
-#     :return: []
-#     """
-#     session = load_sqlalchemy(url)
-#     if url.startswith('mysql'):
-#         sql = 'show full columns from %s' % table
-#     else:
-#         sql = 'desc %s' % table
-#     rows = session.execute(sql)
-#     return parse_table_schema_from_rows(rows)
-
-
-# def parse_table_schema_from_rows(rows):
-#     shema = []
-#     for row in rows:
-#
-#         # mysql show full columns command has more than three columns
-#         # hive desc command has only three columns
-#         item = {'name': row[0], 'type': row[1], 'comment': row[-1]}
-#         keyword = reg_keyword(item['comment'])
-#
-#         ctype = reg_cmd(item['type'])
-#         if not keyword:
-#             keyword = item['type']
-#
-#         cmd = reg_cmd(keyword) if keyword else ctype
-#
-#         rets = reg_args(keyword)
-#         if cmd == 'enum':
-#             if ctype in INT_TYPES:
-#                 args = [int(ret) for ret in rets]
-#             elif ctype in FLOAT_TYPES:
-#                 args = [float(ret) for ret in rets]
-#             else:
-#                 args = rets
-#         else:
-#             args = [int(ret) for ret in rets]
-#
-#         item['cmd'] = cmd
-#         item['ctype'] = ctype
-#         item['args'] = args
-#         shema.append(item)
-#
-#     return shema
-
-
-def make_sqlalchemy_uri(dbtype, host, port, db, user, password):
-    "mysql+mysqldb://root:root@localhost:3600/test"
-    if dbtype == 'mysql':
-        uri = "mysql+mysqldb://root:root@localhost:3600/test"
-    pass
-
-
 def save2file(items, outfile, spliter=','):
+    """
+    将数据保存到文件
+    :param items:
+    :param outfile:
+    :param spliter:
+    :return:
+    """
     with open(outfile, 'w') as fp:
         lines = []
         for item in items:
@@ -144,5 +80,6 @@ def read_file_lines(filepath):
         raise FileNotFoundError(filepath)
     with open(filepath) as fp:
         lines = safe_decode(fp.read()).splitlines()
-        lines = [line for line in lines if line and not line.startswith("#")]
+        # start with # is comment line, and filter empty line
+        lines = [line for line in lines if line and not line.startswith("#") and line.strip()]
     return lines

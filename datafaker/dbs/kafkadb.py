@@ -11,7 +11,7 @@ class KafkaDB(BaseDB):
 
     def init(self):
         self.producer = KafkaProducer(bootstrap_servers=self.args.connect)
-        self.names = [item['name'] for item in self.schema]
+
 
     def construct_self_rows(self):
         return []
@@ -25,7 +25,7 @@ class KafkaDB(BaseDB):
         try:
             while True:
                 lines = self.fake_column()
-                content = json_item(self.names, lines)
+                content = json_item(self.column_names, lines)
                 if self.args.outprint:
                     print(content)
                 self.save_data(content)

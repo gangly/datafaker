@@ -53,3 +53,7 @@ class EnumMustNotEmptyError(BaseError):
 
 class ParseSchemaError(BaseError):
     fmt = 'parse schema error.'
+
+
+class ParamValidationError(BaseError):
+    fmt = 'Parameter validation failed:\n{report}'

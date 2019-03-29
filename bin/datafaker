@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: UTF-8 -*-
 import sys
-from datafaker.cli import main
+from datafaker import main
 
 if __name__ == "__main__":
 

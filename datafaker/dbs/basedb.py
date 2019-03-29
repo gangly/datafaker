@@ -3,7 +3,7 @@
 from abc import abstractmethod
 
 from datafaker.compat import safe_encode, safe_decode
-from datafaker.constant import INT_TYPES, FLOAT_TYPES
+from datafaker.constant import INT_TYPES, FLOAT_TYPES, ENUM_FILE
 from datafaker.exceptions import MetaFileError, FileNotFoundError, EnumMustNotEmptyError, ParseSchemaError
 from datafaker.fakedata import FackData
 from datafaker.reg import reg_keyword, reg_cmd, reg_args
@@ -16,6 +16,7 @@ class BaseDB(object):
     def __init__(self, args):
         self.args = args
         self.schema = self.parse_schema()
+        self.column_names = [item['name'] for item in self.schema]
         self.fakedata = FackData(self.args.locale)
         self.init()
 
@@ -37,21 +38,25 @@ class BaseDB(object):
 
     @count_time
     def do_fake(self):
-        lines = self.fake_data()
+        data_items = self.fake_data()
+
+        data_num = len(data_items)
         spliter = self.args.outspliter if self.args.outspliter else ','
+
+        if self.args.withheader:
+            data_items.insert(0, self.column_names)
+
         if self.args.outprint:
-            for items in lines:
-                # line = spliter.join([str(item) for item in items])
-                # for item in items:
+            for items in data_items:
                 line = spliter.join([str(safe_encode(item)) for item in items])
                 print(line)
         elif self.args.outfile:
-            save2file(lines, self.args.outfile, spliter)
+            save2file(data_items, self.args.outfile, spliter)
         else:
-            self.save_data(lines)
+            self.save_data(data_items)
         msg = 'printed' if self.args.outprint else 'saved'
-        print("generated records : %d" % len(lines))
-        print("%s records : %d" % (msg, len(lines)))
+        print("generated records : %d" % data_num)
+        print("%s records : %d" % (msg, data_num))
 
     def parse_schema(self):
         if self.args.meta:
@@ -90,8 +95,11 @@ class BaseDB(object):
             if cmd == 'enum':
                 if len(rets) == 0:
                     raise EnumMustNotEmptyError
-                if len(rets) == 1 and rets[0].startswith('file://'):
-                    rets = read_file_lines(rets[0][len('file://'):])
+
+                # 如果enum类型只有一个值，则产生固定值
+                # 如果enum类型只有一个值，且以file://开头，则读取文件
+                if len(rets) == 1 and rets[0].startswith(ENUM_FILE):
+                    rets = read_file_lines(rets[0][len(ENUM_FILE):])
 
                 if ctype in INT_TYPES:
                     args = [int(ret) for ret in rets]
@@ -102,8 +110,6 @@ class BaseDB(object):
             else:
                 args = [int(ret) for ret in rets]
 
-
-            # args = reg_args(keyword)
             item['cmd'] = cmd
             item['ctype'] = ctype
             item['args'] = args
@@ -112,6 +118,13 @@ class BaseDB(object):
         return shema
 
     def construct_meta_rows(self):
+        """
+        元数据文件中每行中每个字段以||分割，一共有三列：
+        第一列表示：字段名
+        第二列表示：字段类型
+        第三列表示：带标记的字段注释
+        :return:
+        """
         filepath = self.args.meta
         lines = read_file_lines(filepath)
         rows = []
@@ -119,9 +132,8 @@ class BaseDB(object):
             words = line.split("||")
             if len(words) != 3:
                 raise ParseSchemaError('parse schema error, %s' % line)
-            rows.append(words)
+            rows.append([word.strip() for word in words])
         return rows
-
 
     @abstractmethod
     def construct_self_rows(self):

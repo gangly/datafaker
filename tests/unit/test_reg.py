@@ -17,7 +17,7 @@ def test_reg_keyword():
 def test_reg_args():
     assert ['20', '45'] == reg_args("varchar(20,45)")
     assert ['20', '45', '1'] == reg_args("varchar(20,45,1)")
-    assert ['/home/lovelife'] == reg_args("enum(/home/lovelife)")
+    assert ['file:///home/lovelife'] == reg_args("enum(file:///home/lovelife)")
     assert ['20', ] == reg_args("varchar(20)")
 
 
