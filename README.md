@@ -166,7 +166,7 @@ insert records : 6
 time used: 6.285 s
 ```
 消费端验证:
-![数据消费](./img/datafaker.png)
+![数据消费](./img/kafka.png)
 
 ##命令参数
 datafaker参数包含4个必选参数和一些可选参数，如下表所示
