@@ -12,7 +12,7 @@ if __name__ == "__main__":
     # cmd = 'datafaker file out.txt hello 10 --meta /Users/lovelife/git/github/python/datafaker/datafaker/data/student.text --outprint --outfile output.txt'
     # cmd = 'datafaker file out.txt hello 10 --meta /Users/lovelife/git/github/python/datafaker/datafaker/data/student.text --outfile output.txt'
     cmd = 'datafaker file out.txt hello 10 --meta /Users/lovelife/git/github/python/datafaker/datafaker/data/student.text'
-    cmd = 'datafaker file . hello.txt 10 --meta data/student.text --outspliter ##'
+    cmd = 'datafaker file . hello.txt 10 --meta data/student.text --outprint --outspliter ## --withheader'
     sys.argv = cmd.strip().split(' ')
 
     sys.exit(main())
