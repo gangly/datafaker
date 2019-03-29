@@ -1,6 +1,7 @@
 ##工具产生背景
+========
 
-在软件开发测试过程，经常需要测试数据。这些场景包括：
+<font color=gray face="黑体">在软件开发测试过程，经常需要测试数据。这些场景包括：</font>
 - 后端开发
 新建表后，需要构造数据库测试数据，生成接口数据提供给前端使用。
 - 数据库性能测试
@@ -22,9 +23,10 @@
 比如针对流数据，需要随机每隔几秒钟写入kafka。或者动态随机插入mysql，手工操作相对麻烦，而且不好统计写入数据条数
 
 
-针对目前这些痛点，datafaker应运而生。datafaker是一个多数据源测试数据构造工具，可以模拟产生大部分常用数据类型，轻松解决以上痛点。datafaker具有以下功能：
+**<font color=#6495ED face="黑体">针对目前这些痛点，datafaker应运而生。datafaker是一个多数据源测试数据构造工具，可以模拟产生大部分常用数据类型，轻松解决以上痛点。datafaker具有以下功能：</font>**
 
-- 多种数据类型。
+
+- 多种数据类型
 包括常见数据库字段类型（整型、浮点型、字符型）、自定义类型（IP地址，邮箱，身份证号码等）
 - 模拟多表关联数据
 通过制定某些字段为枚举类型（从指定的数据列表里面随机选择），这样在数据量多的情况下能保证多表Join能关联上，查询到数据
@@ -36,6 +38,7 @@
 
 
 ##软件架构
+=======
 datafaker是用python编写，支持python2.7，python3.4+。目前版本0.08，已经发布在pypi上。
 ![架构图](https://upload-images.jianshu.io/upload_images/2982570-8ebbb9ec2abcd564.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
@@ -47,13 +50,16 @@ datafaker是用python编写，支持python2.7，python3.4+。目前版本0.08，
 - 数据源适配器。适配不同数据源，将数据导入到数据源中。
 
 ##安装流程
+=======
 1）安装python
 2）安装pip
 3）pip install datafaker
 
 ##使用举例
+=========
 $代表终端提示符
 - 查看版本号，查看参数使用说明
+---------
 ```
 $ datafaker --version
 0.0.8
@@ -89,6 +95,7 @@ optional arguments:
 
 
 - 从本地mysql的test数据库的stu表中读取表元数据，并构造10条数据写入stu表
+---------
 ```
 $ datafaker mysql mysql+mysqldb://root:root@localhost:3600/test stu 10
 generated records : 10
@@ -96,6 +103,7 @@ saved records : 10
 time used: 0.038 s
 ```
 - 从本地文件meta.txt中读取元数据，以,,分隔符构造10条数据，打印在屏幕上
+----------------
 ```
 $ datafaker mysql mysql+mysqldb://root:root@localhost:3600/test stu 10 --outprint --meta meta.txt --outspliter ',,'
 1,,鲍红,,人和中心,,高小王子,,3,,81,,55.6,,13197453222,,mwei@gmail.com,,192.100.224.255,,江苏省西宁市梁平朱路I座 944204
@@ -145,6 +153,7 @@ meta.txt文件中每行数据为元数据的一个字段描述，以||分割为�
 ```
 
 - 从meta.txt中读取元数据，产生10条数据写入到out.txt中
+--------------------
 
 ```
 datafaker file out.txt hello 10 --meta meta.txt
@@ -152,6 +161,7 @@ datafaker file out.txt hello 10 --meta meta.txt
 
 
 - 从本地meta.txt参数数据，以1秒间隔输出到kafka的topic hello中
+------------------
 
 ```
 $ datafaker kafka localhost:9092 hello 1 --meta meta.txt --outprint
@@ -166,9 +176,11 @@ insert records : 6
 time used: 6.285 s
 ```
 消费端验证:
+
 ![数据消费](./img/kafka.png)
 
 ##命令参数
+=================
 datafaker参数包含4个必选参数和一些可选参数，如下表所示
 
 | 参数名 | 含义 |  参数类型| 是否必选 | 默认值 | 备注 |
@@ -191,7 +203,9 @@ datafaker参数包含4个必选参数和一些可选参数，如下表所示
 
 
 ##数据构造规则
+====================
 ####1.数据库常用类型
+----------------
 这部分数据类型可以不用指定元数据文件
 - 数值类型
 支持大部分标准SQL数值数据类型。
@@ -204,21 +218,30 @@ datafaker参数包含4个必选参数和一些可选参数，如下表所示
 
 
 ####2.可变数据库类型
+------------------
 | 类型名 | 含义 | 默认值 | 备注|
 | ---- | ---- | ---- | ---- |
 | decimal(M,D, negative) | M指定总的数据位数，D指定小数位数,  negative指定正1负0 | 无 | decimal(4, 2, 1)指定4位数，2位小数的正浮点数，如78.23 |
 | string(min, max) | min, max 指定字符串位数范围|无 | |
 |date(start, end)| start, end 指定日期范围 | 无 | 如date(1990-01-01, 2019-12-12)|
 
-**enum**类型
-enum类型表示随机从列表里随机选取一个对象，例如：
-enum(2, 4, 5, 18) 表示每次从2，4，5，8这四个整数中随机选择一个
-如果enum数组中只有一个对象，则表示从文件读取数据列表，每行一个对象：
-enum(data.txt) 表示从当前目录的data.txt文件中读取列表。
-enum类型可用来构造多表关联，比如两个表的某些字段都用同一个enum数据列表产生数据。
+**enum类型**
+------
 
+<font color=#6495ED face="黑体">
+enum类型表示随机从列表里随机选取一个对象，例如：
+
+enum(2, 4, 5, 18) 表示每次从2，4，5，8这四个整数中随机选择一个
+
+如果enum数组中只有一个对象，则表示从文件读取数据列表，每行一个对象：
+
+enum(file://data.txt) 表示从当前目录的data.txt文件中读取列表。
+
+enum类型可用来构造多表关联，比如两个表的某些字段都用同一个enum数据列表产生数据。
+</font>
 
 ###3.自定义扩展类型
+-----------------
 
 - address 地址
 
