@@ -1,5 +1,12 @@
-##工具产生背景
-========
+## 开源情况
+datafaker是笔者开发的一个大批量测试数据和流测试数据生成工具，兼容python2.7和python3.4+，欢迎下载使用。github地址为：
+
+https://github.com/gangly/datafaker
+
+文档同步更新在github
+
+## 工具产生背景
+
 
 <font color=gray face="黑体">在软件开发测试过程，经常需要测试数据。这些场景包括：</font>
 - 后端开发
@@ -37,10 +44,11 @@
 
 
 
-##软件架构
-=======
+## 软件架构
+
 datafaker是用python编写，支持python2.7，python3.4+。目前版本0.08，已经发布在pypi上。
-![架构图](https://upload-images.jianshu.io/upload_images/2982570-8ebbb9ec2abcd564.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+![架构图](img/datafaker.png)
 
 架构图完整的画出了工具的执行过程，从图可知工具经历了5个模块：
 - 参数解析器。解析用户从终端命令行输入的命令。
@@ -49,11 +57,18 @@ datafaker是用python编写，支持python2.7，python3.4+。目前版本0.08，
 - 数据路由。根据不同的数据输出类型，分成批量数据和流数据生成。流数据可指定产生频率。然后将数据转换成用户指定的格式输出到不同数据源中。
 - 数据源适配器。适配不同数据源，将数据导入到数据源中。
 
-##安装流程
-=======
-1）安装python
-2）安装pip
-3）pip install datafaker
+## 安装流程
+
+首先确保已经安装python和pip
+
+1.下载安装。下载源码压缩包，解压后，执行：
+
+```python setup.py install ```
+
+
+2.直接安装
+
+```pip install datafaker```
 
 ##使用举例
 =========
@@ -124,25 +139,34 @@ time used: 0.458 s
 其中meta.txt文件内容为：
 ```
 id||int||自增id[:id]
-name||varchar(20)||学生名字[:name]
+name||varchar(20)||学生名字
 school||varchar(20)||学校名字[:enum(names.txt)]
 nickname||varchar(20)||学生小名[:enum(鬼泣, 高小王子, 歌神, 逗比)]
-age||int||学生年龄[:enum(3, 6, 7, 8, 9)]
-class_num||int||学生年龄[:int(10, 100)]
+age||int||学生年龄
+class_num||int||班级人数[:int(10, 100)]
 score||decimal(4,2)||成绩[:decimal(4,2,1)]
-phone||varchar(20)||电话号码[:phone_number]
-email||decimal(4,2)||邮箱[:email]
+phone||int(20)||电话号码[:phone_number]
+email||varchar(64)||家庭网络邮箱[:email]
 ip||varchar(32)||IP地址[:ipv4]
-address||decimal(4,2)||地址[:address]
+address||text||家庭地址[:address]
 ```
 meta.txt文件中每行数据为元数据的一个字段描述，以||分割为三列
 - 第一列：字段名
 - 第二列：表字段类型
 - 第三列：字段注释，其中包含构造规则标识
-每行代表字段为：
-表自增id，学生姓名，学校名称，学生小名，年龄，班级人数，学生成绩，电话号码，邮箱，家庭网络IP，家庭地址
+
+### 构造规则优先级：
+
+解析器将优先选择第三列的带规则标记的字段注释进行解析，如果不带标记，则选择第二列的字段类型进行解析。
+
+这种好处是：
+
+1）对应已经创建的数据表，用户可以用desc tablename 或者show full columns from tablename，将表shema查询复制下来，对用字段类型构造数据不满足的情况下，在注释里面进行打标机进行特殊处理
+
+2）对于新表，在create table创建表时直接在注释里面打上标记。这种情况不用指定元数据文件。
 
 后面将详细介绍构造规则说明
+
 其中学校名字[:enum(names.txt)]表示从本地文件names.txt中读取枚举数据，内容为，表示学校名称只能从下面这5所学校中随机产生。
 ```
 清华中学
@@ -177,10 +201,10 @@ time used: 6.285 s
 ```
 消费端验证:
 
-![数据消费](./img/kafka.png)
+![数据消费](img/kafka.png)
 
-##命令参数
-=================
+## 命令参数
+
 datafaker参数包含4个必选参数和一些可选参数，如下表所示
 
 | 参数名 | 含义 |  参数类型| 是否必选 | 默认值 | 备注 |
@@ -202,10 +226,10 @@ datafaker参数包含4个必选参数和一些可选参数，如下表所示
 
 
 
-##数据构造规则
-====================
-####1.数据库常用类型
-----------------
+## 数据构造规则
+
+#### 1.数据库常用类型
+
 这部分数据类型可以不用指定元数据文件
 - 数值类型
 支持大部分标准SQL数值数据类型。
@@ -217,7 +241,7 @@ datafaker参数包含4个必选参数和一些可选参数，如下表所示
     字符串类型指char、varchar、binary、varbinary、blob、text、enum和set。该节描述了这些类型如何工作以及如何在查询中使用这些类型。
 
 
-####2.可变数据库类型
+#### 2.可变数据库类型
 ------------------
 | 类型名 | 含义 | 默认值 | 备注|
 | ---- | ---- | ---- | ---- |
@@ -240,7 +264,7 @@ enum(file://data.txt) 表示从当前目录的data.txt文件中读取列表。
 enum类型可用来构造多表关联，比如两个表的某些字段都用同一个enum数据列表产生数据。
 </font>
 
-###3.自定义扩展类型
+### 3.自定义扩展类型
 -----------------
 
 - address 地址
