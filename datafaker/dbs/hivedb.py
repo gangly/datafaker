@@ -11,7 +11,8 @@ class HiveDB(BaseDB):
         session = load_sqlalchemy(self.args.connect)
         sql = 'desc %s' % self.args.table
         rows = session.execute(sql)
+        rows = [row for row in rows]
         return rows
 
     def save_data(self, lines):
-        save2db(lines, self.schema, self.args.table, self.args.connect)
+        save2db(lines, self.args.table, self.schema,  self.args.connect)
