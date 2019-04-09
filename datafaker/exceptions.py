@@ -36,7 +36,6 @@ class FileNotFoundError(BaseError):
         Exception.__init__(self, "error, %s not found!" % filepath)
 
 
-
 class MetaFileError(BaseError):
     """
     file not found
@@ -57,3 +56,7 @@ class ParseSchemaError(BaseError):
 
 class ParamValidationError(BaseError):
     fmt = 'Parameter validation failed:\n{report}'
+
+
+class ParamError(BaseError):
+    fmt = 'parameter error'

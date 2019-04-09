@@ -203,6 +203,26 @@ time used: 6.285 s
 
 ![数据消费](img/kafka.png)
 
+- 数据写入hbase
+---------------
+
+```
+datafaker hbase localhost:9090 test-table 10 --meta data/hbase.txt
+```
+需要开启hbase thrift服务,不能为thrift2
+例子中，创建一张表test-table, 列族为someCf
+元数据文件hbase.txt内容为
+
+```
+keyrow||varchar(20)||sdflll
+someCf:name||varchar(20)||学生名字
+someCf:age||int||学生名字[:age]
+```
+
+其中第一行必须为rowkey
+后面行为列族中的列名，可以创建多个列族
+
+
 ## 命令参数
 
 datafaker参数包含4个必选参数和一些可选参数，如下表所示

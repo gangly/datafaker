@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: UTF-8 -*-
 
-__version__ = '0.0.9'
+__version__ = '0.1.0'
 
 # 每次插入mysql数据条数
 BATCH_SIZE = 1000
@@ -28,4 +28,6 @@ STR_TYPES = ['date', 'time', 'datetime', 'char', 'varchar', 'tinyblob',
 INT_TYPES = ['tinyint', 'smallint', 'mediumint', 'int', 'integer', 'bigint', ]
 
 FLOAT_TYPES = ['float', 'double', 'decimal', ]
+
+HBASE_PUT_MAX_ROWS = 1000
 

@@ -31,7 +31,8 @@ requires = [
     'faker',
     'configparser>=3.5.0',
     'kafka-python==1.4.3',
-    'sqlalchemy'
+    'sqlalchemy',
+    'happybase'
 ]
 
 if sys.platform == 'win32':
