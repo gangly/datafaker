@@ -6,7 +6,7 @@ import json
 import time
 
 from datafaker.compat import safe_decode, safe_encode
-from datafaker.constant import BATCH_SIZE, STR_TYPES, INT_TYPES, FLOAT_TYPES
+from datafaker.constant import RDB_BATCH_SIZE, STR_TYPES, INT_TYPES, FLOAT_TYPES
 from datafaker.drivers import load_sqlalchemy
 from datafaker.exceptions import FileNotFoundError
 from datafaker.reg import reg_keyword, reg_cmd, reg_args
@@ -46,7 +46,7 @@ def save2db(items, table, schema, connect):
     # 构造数据格式，字符串需要加上单引号
     formats = ["'%s'" if ctype in STR_TYPES else "%s" for ctype in ctypes]
     names_format = "(" + ",".join(formats) + ")"
-    batches = [items[i:i + BATCH_SIZE] for i in range(0, len(items), BATCH_SIZE)]
+    batches = [items[i:i + RDB_BATCH_SIZE] for i in range(0, len(items), RDB_BATCH_SIZE)]
     column_names = ','.join(names)
     for batch in batches:
         batch_value = []

@@ -4,7 +4,7 @@
 __version__ = '0.1.0'
 
 # 每次插入mysql数据条数
-BATCH_SIZE = 1000
+RDB_BATCH_SIZE = 1000
 
 # 产生流数据间隔时间(秒)
 DEFAULT_INTERVAL = 1

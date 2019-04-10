@@ -40,6 +40,16 @@ def parse_args():
         parser.print_help()
         exit(0)
 
+    if not args.table:
+        print('You must supply a table\n')
+        parser.print_help()
+        exit(0)
+
+    if not args.num:
+        print('You must supply number of records\n')
+        parser.print_help()
+        exit(0)
+
     return args
 
 

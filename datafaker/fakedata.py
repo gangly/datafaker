@@ -58,10 +58,11 @@ class FackData(object):
 
 
     ############ mysql 日期和时间类型 ###################
+
     def fake_date(self, *args):
         """
         以今天为基点，start_day, end_day两个参数，往前后推的天数
-        end_day默认我今天
+        end_day默认今天
         :param args:
         :return:
         """
@@ -83,10 +84,10 @@ class FackData(object):
     ########### mysql 字符串类型##############
 
     def fake_char(self, *args):
-        return self.faker.pystr(min_chars=0, max_chars=255)
+        return self.faker.pystr(min_chars=1, max_chars=255)
 
     def fake_varchar(self, *args):
-        return self.faker.pystr(min_chars=0, max_chars=args[0])
+        return self.faker.pystr(min_chars=1, max_chars=args[0])
 
     def fake_tinyblob(self, *args):
         # TODO 待实现
@@ -133,7 +134,6 @@ class FackData(object):
         :param args:
         :return:
         """
-        i = 0
         return random.choice(list(args))
 
     #################
