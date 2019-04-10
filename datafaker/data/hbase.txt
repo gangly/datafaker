@@ -1,16 +1,16 @@
-rowkey(0,1)||varchar(20)||rowkey
-cf:fnumbe||bigint||猪只编码[:random_number(18)]
-cf:earno||bigint||猪只耳号[:random_number(18)]
-cf:breeding||bigint||猪只品种[:random_number(18)]
-cf:breeding_name||string||猪只品种名称[:enum(file://data/pigtype.txt)]
-cf:parity||int||猪只胎次[:random_int(1,100)]
-cf:farm_id||bigint||猪只猪场ID[:random_number(18)]
-cf:master_org_id||bigint||猪只公司ID[:random_number(18)]
-cf:lanid||bigint||栏位ID[:random_number(18)]
-cf:lanname||string||栏位名称
-cf:sheid||bigint||舍ID[:random_number(18)]
-cf:shename||string||舍名称
-cf:louid||bigint||楼ID[:random_number(18)]
-cf:louname||string||楼名称
-cf:estatus||string||猪只状态
-cf:pignum||int||猪只当前带仔数[:random_int(1,100)]
+ROWKEY(1)||varchar(20)||rowkey
+CF:FNUMBE||bigint||猪只编码[:number(18, 1, 1)]
+CF:EARNO||bigint||猪只耳号[:number(18, 1, 1)]
+CF:BREEDING||bigint||猪只品种[:number(18, 1, 1)]
+CF:BREEDING_NAME||string||猪只品种名称[:enum(file://data/pigtype.txt)]
+CF:PARITY||int||猪只胎次[:random_int(1,100)]
+CF:FARM_ID||bigint||猪只猪场ID[:number(18, 1, 1)]
+CF:MASTER_ORG_ID||bigint||猪只公司ID[:number(18, 1, 1)]
+CF:LANID||bigint||栏位ID[:number(18, 1, 1)]
+CF:LANNAME||string||栏位名称
+CF:SHEID||bigint||舍ID[:number(18, 1, 1)]
+CF:SHENAME||string||舍名称
+CF:LOUID||bigint||楼ID[:number(18, 1, 1)]
+CF:LOUNAME||string||楼名称
+CF:ESTATUS||string||猪只状态
+CF:PIGNUM||int||猪只当前带仔数[:random_int(1,100)]

@@ -78,7 +78,9 @@ class FackData(object):
         return self.faker.date_time()
 
     def fake_timestamp(self, *args):
+
         return self.faker.unix_time()
+
 
 
     ########### mysql 字符串类型##############
@@ -110,6 +112,24 @@ class FackData(object):
         return None
 
     ############ hive 基本数据类型 #############
+
+    def fake_number(self, digits=None, fix_len=0, positive=0):
+        """
+        digits=None, fix_len=0, positive=0
+
+        :param digits:
+        :param fix_len:
+        :param positive:
+        :return:
+        """
+        fixlen = (fix_len == 1)
+        val = self.faker.random_number(digits=digits, fix_len=fixlen)
+        if positive > 0:
+            val = val if val >= 0 else -val
+        if positive < 0:
+            val = val if val <= 0 else -val
+        return val
+
     def fake_string(self, *args):
         return self.faker.pystr(*args)
 
