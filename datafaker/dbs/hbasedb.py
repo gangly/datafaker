@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: UTF-8 -*-
+from datafaker.compat import safe_encode
 from datafaker.constant import HBASE_PUT_MAX_ROWS
 from datafaker.dbs.basedb import BaseDB
 from datafaker.exceptions import ParamError
@@ -29,7 +30,7 @@ class HbaseDB(BaseDB):
                 rowkey = line[0]
                 if args:
                     words = [line[arg] for arg in args]
-                    rowkey = '_'.join(words)
+                    rowkey = u'_'.join(words)
 
                 value = dict(zip(self.column_names[1:], line[1:]))
                 # this put() will result in two mutations (two cells)

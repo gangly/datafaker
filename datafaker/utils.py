@@ -79,7 +79,7 @@ def read_file_lines(filepath):
     if not os.path.exists(filepath):
         raise FileNotFoundError(filepath)
     with open(filepath) as fp:
-        lines = safe_decode(fp.read()).splitlines()
+        lines = fp.read().splitlines()
         # start with # is comment line, and filter empty line
         lines = [line for line in lines if line and not line.startswith("#") and line.strip()]
     return lines
