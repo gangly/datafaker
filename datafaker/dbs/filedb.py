@@ -2,7 +2,8 @@
 # -*- coding: UTF-8 -*-
 import os
 
-from datafaker.constant import JSON_FORMAT
+from datafaker.compat import safe_encode
+from datafaker.constant import JSON_FORMAT, TEXT_FORMAT
 from datafaker.dbs.basedb import BaseDB
 from datafaker.utils import save2file, json_item
 
@@ -16,5 +17,13 @@ class FileDB(BaseDB):
         spliter = self.args.outspliter if self.args.outspliter else ','
         filepath = os.path.join(self.args.connect, self.args.table)
 
-        save2file(lines, filepath, spliter)
+        items = []
+        if self.args.format == TEXT_FORMAT:
+
+            for item in lines:
+                line = spliter.join([str(safe_encode(word)) for word in item]) + "\n"
+                items.append(line)
+        else:
+            items = [line+"\n" for line in lines]
+        save2file(items, filepath)
 

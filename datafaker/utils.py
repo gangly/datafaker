@@ -12,7 +12,7 @@ from datafaker.exceptions import FileNotFoundError
 from datafaker.reg import reg_keyword, reg_cmd, reg_args
 
 
-def save2file(items, outfile, spliter=','):
+def save2file(items, outfile):
     """
     将数据保存到文件
     :param items:
@@ -21,12 +21,7 @@ def save2file(items, outfile, spliter=','):
     :return:
     """
     with open(outfile, 'w') as fp:
-        lines = []
-        for item in items:
-            line = spliter.join([str(safe_encode(word)) for word in item]) + "\n"
-            lines.append(line)
-
-        fp.writelines(lines)
+        fp.writelines(items)
 
 
 def save2db(items, table, schema, connect):

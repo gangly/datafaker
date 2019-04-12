@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: UTF-8 -*-
+from datafaker.constant import TEXT_FORMAT
 from datafaker.dbs.basedb import BaseDB
 from datafaker.drivers import load_sqlalchemy
 from datafaker.utils import save2db
@@ -15,4 +16,5 @@ class HiveDB(BaseDB):
         return rows
 
     def save_data(self, lines):
+
         save2db(lines, self.args.table, self.schema,  self.args.connect)
