@@ -14,6 +14,7 @@ def test_func():
     print(fake.random_number(3))
 
     print(fake.pydecimal(left_digits=None, right_digits=None, positive=True))
+    print(fake.pydecimal(left_digits=0, right_digits=4, positive=True))
     print(fake.date())
 
     print(fake.date_between(2, 5))

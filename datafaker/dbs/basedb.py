@@ -114,7 +114,10 @@ class BaseDB(object):
                 else:
                     args = rets
             else:
-                args = [int(ret) for ret in rets]
+                try:
+                    args = [int(ret) for ret in rets]
+                except:
+                    args = rets
 
             item['cmd'] = cmd
             item['ctype'] = ctype

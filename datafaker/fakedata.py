@@ -165,11 +165,19 @@ class FackData(object):
         :param args:
         :return:
         """
-        if keyword in self.faker_funcs:
-            method = getattr(self.faker, keyword, None)
-        else:
-            method = getattr(self, 'fake_' + keyword, None)
+        # if keyword in self.faker_funcs:
+        #     method = getattr(self.faker, keyword, None)
+        # else:
+        #     method = getattr(self, 'fake_' + keyword, None)
+        # if callable(method):
+        #     return method(*args)
+        # return None
+
+        method = getattr(self, 'fake_' + keyword, None)
         if callable(method):
             return method(*args)
+        if keyword in self.faker_funcs:
+            method = getattr(self.faker, keyword, None)
+            if callable(method):
+                return method(*args)
         return None
-
