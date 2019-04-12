@@ -176,11 +176,11 @@ meta.txt文件中每行数据为元数据的一个字段描述，以||分割为�
 旧大院
 ```
 
-- 从meta.txt中读取元数据，产生10条数据写入到out.txt中
+- 从meta.txt中读取元数据，产生10条json格式数据写入到/home目录out.txt中
 --------------------
 
 ```
-datafaker file out.txt hello 10 --meta meta.txt
+datafaker file /home out.txt 10 --meta meta.txt --format json
 ```
 
 
