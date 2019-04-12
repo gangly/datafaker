@@ -32,7 +32,8 @@ requires = [
     'configparser>=3.5.0',
     'kafka-python==1.4.3',
     'sqlalchemy',
-    'happybase'
+    'happybase',
+    'elasticsearch'
 ]
 
 if sys.platform == 'win32':
@@ -88,19 +89,6 @@ def get_full_path(path):
     fullpath = os.path.abspath(fullpath)
     return fullpath
 
-# FABLINKER_DIR = get_full_path(os.path.join('~', '.fablinker'))
-# CONFIG_FILE = os.path.join(FABLINKER_DIR, 'fabconf.ini')
-# # DEFAULT_CONFIG_FILE = os.path.join(FABLINKER_DIR, 'default.ini')
-#
-# ROOT_DIR = os.path.dirname(__file__)
-# HCMD_INI = os.path.join(ROOT_DIR, 'fablinker', 'data', 'fabconf.ini')
-#
-#
-# if not os.path.exists(FABLINKER_DIR):
-#     os.makedirs(FABLINKER_DIR)
-# # shutil.copyfile(HCMD_INI, DEFAULT_CONFIG_FILE)
-# if not os.path.exists(CONFIG_FILE):
-#     shutil.copyfile(HCMD_INI, CONFIG_FILE)
 
 if 'py2exe' in sys.argv:
     # This will actually give us a py2exe command.

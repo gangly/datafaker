@@ -30,4 +30,5 @@ INT_TYPES = ['tinyint', 'smallint', 'mediumint', 'int', 'integer', 'bigint', ]
 FLOAT_TYPES = ['float', 'double', 'decimal', ]
 
 HBASE_PUT_MAX_ROWS = 1000
+ES_INDEX_MAX_ROWS = 1000
 

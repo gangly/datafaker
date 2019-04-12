@@ -24,12 +24,12 @@ class HbaseDB(BaseDB):
             args = reg_args(self.column_names[0])
             args = [int(arg) for arg in args]
 
-
             for line in lines:
                 line = [str(word) for word in line]
                 rowkey = line[0]
                 if args:
                     words = [line[arg] for arg in args]
+                    # words = [bytes((line[arg]).encode('utf-8')) for arg in args]
                     rowkey = u'_'.join(words)
 
                 value = dict(zip(self.column_names[1:], line[1:]))

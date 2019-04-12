@@ -3,11 +3,11 @@
 from abc import abstractmethod
 
 from datafaker.compat import safe_encode, safe_decode
-from datafaker.constant import INT_TYPES, FLOAT_TYPES, ENUM_FILE
+from datafaker.constant import INT_TYPES, FLOAT_TYPES, ENUM_FILE, JSON_FORMAT
 from datafaker.exceptions import MetaFileError, FileNotFoundError, EnumMustNotEmptyError, ParseSchemaError
 from datafaker.fakedata import FackData
 from datafaker.reg import reg_keyword, reg_cmd, reg_args
-from datafaker.utils import save2file, count_time, read_file_lines
+from datafaker.utils import save2file, count_time, read_file_lines, json_item
 import os
 
 
@@ -40,16 +40,22 @@ class BaseDB(object):
     def do_fake(self):
         data_items = self.fake_data()
 
+        if self.args.format == JSON_FORMAT:
+            data_items = [json_item(self.column_names, line) for line in data_items]
+
         data_num = len(data_items)
         spliter = self.args.outspliter if self.args.outspliter else ','
 
-        if self.args.withheader:
+        if self.args.withheader and self.args.format != JSON_FORMAT:
             data_items.insert(0, self.column_names)
 
         if self.args.outprint:
             for items in data_items:
-                line = spliter.join([str(safe_encode(item)) for item in items])
-                print(line)
+                if self.args.format != JSON_FORMAT:
+                    line = spliter.join([str(safe_encode(item)) for item in items])
+                    print(line)
+                else:
+                    print(items)
         elif self.args.outfile:
             save2file(data_items, self.args.outfile, spliter)
         else:
