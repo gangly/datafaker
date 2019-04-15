@@ -57,7 +57,7 @@ class BaseDB(object):
                 else:
                     print(items)
         elif self.args.outfile:
-            save2file(data_items, self.args.outfile, spliter)
+            save2file(data_items, self.args.outfile)
         else:
             self.save_data(data_items)
         msg = 'printed' if self.args.outprint else 'saved'

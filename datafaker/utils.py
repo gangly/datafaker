@@ -48,7 +48,7 @@ def save2db(items, table, schema, connect):
         for row in batch:
             batch_value.append(names_format % tuple(row))
         sql = u"insert into {table} ({column_names}) values {values}".format(
-            table=table, column_names=column_names, values=','.join([item for item in batch_value]))
+            table=table, column_names=column_names, values=u','.join([safe_decode(item) for item in batch_value]))
         session.execute(sql)
     session.commit()
 
