@@ -1,15 +1,17 @@
 #!/usr/bin/env python
 # -*- coding: UTF-8 -*-
+import datetime
 import functools
 import os
 import json
+import re
 import time
 
 from datafaker.compat import safe_decode, safe_encode
 from datafaker.constant import RDB_BATCH_SIZE, STR_TYPES, INT_TYPES, FLOAT_TYPES
 from datafaker.drivers import load_sqlalchemy
 from datafaker.exceptions import FileNotFoundError
-from datafaker.reg import reg_keyword, reg_cmd, reg_args
+from datafaker.reg import reg_keyword, reg_cmd, reg_args, reg_integer, reg_int, reg_all_int
 
 
 def save2file(items, outfile):
@@ -78,3 +80,34 @@ def read_file_lines(filepath):
         # start with # is comment line, and filter empty line
         lines = [line for line in lines if line and not line.startswith("#") and line.strip()]
     return lines
+
+
+def diffdate(date1, date2):
+    """
+    #计算两个日期相差天数，自定义函数名，和两个日期的变量名。
+    :param date1:
+    :param date2:
+    :return:
+    """
+    date1 = datetime.datetime.strptime(date1, '%Y-%m-%d')
+    date2 = datetime.datetime.strptime(date2, '%Y-%m-%d')
+
+    return (date2-date1).days
+
+
+def process_op_args(arg, lst_name):
+    """
+    解析op标记的参数
+    将c12*c2+c22 解析成 columns[12]*columns[2]+columns[22]
+    
+    :param arg: 
+    :param lst_name: 
+    :return: 
+    """
+    digits = sorted(reg_all_int(arg), reverse=True)
+
+    for digit in digits:
+         arg = arg.replace('c%d' % digit, 'c[%d]' % digit)
+    arg = arg.replace('c', lst_name)
+
+    return arg

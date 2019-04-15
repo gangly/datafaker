@@ -3,8 +3,6 @@
 import os
 import sys
 
-from _pytest import tmpdir
-
 from datafaker import main
 from datafaker.cli import parse_args
 from datafaker.testutils import FileCreator
@@ -85,7 +83,33 @@ def test_fake_data_to_hbase():
     :return:
     """
     test_tmpdir, meta_file = _make_tmp_file()
-    cmd = 'datafaker file {connect} hello.txt 10 --meta {meta_file}'.format(connect=test_tmpdir, meta_file=meta_file)
 
-    result = _main_file(cmd)
-    assert 10 == len(result)
+    cmd = 'datafaker hbase localhost:9090 pigtest 2 --meta {meta_file}'.format(meta_file=meta_file)
+
+    _main(cmd)
+
+
+def test_hive():
+    meta_content = """
+        feed_date||string||饲喂日期（yyyy-mm-dd）[:date(-7d, -1d)]
+        tenant_id||bigint||租户ID[:enum(162494980391305218)]
+        farm_id||bigint||猪场ID[:enum(162498397843095552)]
+        identity_id||string||猪只身份ID[:enum(LL05MLKS3G170201F40999)]
+    """
+    test_tmpdir, meta_file = _make_tmp_file()
+    cmd = 'datafaker hive hive://localhost:10000/yz_targetmetric_nuc dws_f_nuc_female_feeding_test 10 --meta {meta_file}'.format(meta_file=meta_file)
+    _main(cmd, meta_content)
+
+
+def test_op():
+    meta_content = """
+        id||int||自增id[:id]
+        name||varchar(20)||学生名字[:name]
+        nickname||varchar(20)||学生名字[:enum(xiao ming, hah, lele, esd f222)]
+        age||int||学生年龄[:enum(3, 6, 7, 8, 9)]
+        age2||int||学生年龄[:age(10, 20)]
+        allage||int||总年龄[:op(c0*c3+c4)]
+    """
+    test_tmpdir, meta_file = _make_tmp_file()
+    cmd = 'datafaker file . hello.txt 10 --meta {meta_file} --format text --outprint'.format(meta_file=meta_file)
+    _main(cmd, meta_content)

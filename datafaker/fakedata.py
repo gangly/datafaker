@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: UTF-8 -*-
+import datetime
 import random
 
 from faker import Faker
@@ -59,14 +60,38 @@ class FackData(object):
 
     ############ mysql 日期和时间类型 ###################
 
-    def fake_date(self, *args):
+    def fake_date(self, start_date='-30y', end_date='today', format='%Y-%m-%d'):
         """
         以今天为基点，start_day, end_day两个参数，往前后推的天数
         end_day默认今天
+        format为输出格式
         :param args:
         :return:
         """
-        return self.faker.date_between(*args)
+
+        thedate = self.faker.date_between(start_date, end_date)
+        return thedate.strftime(format)
+
+    def fake_date_between(self, start_date=None, end_date=None, format='%Y-%m-%d'):
+        # 去掉时分秒，不然后续计算天差值会出错
+        today = datetime.datetime.strftime(datetime.datetime.today(), "%Y-%m-%d")
+        today = datetime.datetime.strptime(today, '%Y-%m-%d')
+
+        if start_date is None:
+            start_diff = 'today'
+        else:
+            start_date = datetime.datetime.strptime(start_date, '%Y-%m-%d')
+            diff = (start_date - today).days
+            start_diff = '%dd' % diff if diff != 0 else 'today'
+
+        if end_date is None:
+            end_diff = today
+        else:
+            end_date = datetime.datetime.strptime(end_date, '%Y-%m-%d')
+            diff = (end_date - today).days
+            end_diff = '%dd' % diff if diff != 0 else 'today'
+
+        return self.fake_date(start_diff, end_diff, format)
 
     def fake_time(self, *args):
         return self.faker.time()
@@ -88,8 +113,8 @@ class FackData(object):
     def fake_char(self, *args):
         return self.faker.pystr(min_chars=1, max_chars=255)
 
-    def fake_varchar(self, *args):
-        return self.faker.pystr(min_chars=1, max_chars=args[0])
+    def fake_varchar(self, max_chars=255):
+        return self.faker.pystr(min_chars=1, max_chars=max_chars)
 
     def fake_tinyblob(self, *args):
         # TODO 待实现
@@ -156,6 +181,9 @@ class FackData(object):
         """
         return random.choice(list(args))
 
+    def fake_op(self, *args):
+        return None
+
     #################
     def do_fake(self, keyword, args):
         """
@@ -165,13 +193,6 @@ class FackData(object):
         :param args:
         :return:
         """
-        # if keyword in self.faker_funcs:
-        #     method = getattr(self.faker, keyword, None)
-        # else:
-        #     method = getattr(self, 'fake_' + keyword, None)
-        # if callable(method):
-        #     return method(*args)
-        # return None
 
         method = getattr(self, 'fake_' + keyword, None)
         if callable(method):

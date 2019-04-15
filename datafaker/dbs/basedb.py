@@ -7,7 +7,7 @@ from datafaker.constant import INT_TYPES, FLOAT_TYPES, ENUM_FILE, JSON_FORMAT
 from datafaker.exceptions import MetaFileError, FileNotFoundError, EnumMustNotEmptyError, ParseSchemaError
 from datafaker.fakedata import FackData
 from datafaker.reg import reg_keyword, reg_cmd, reg_args
-from datafaker.utils import save2file, count_time, read_file_lines, json_item
+from datafaker.utils import save2file, count_time, read_file_lines, json_item, process_op_args
 import os
 
 
@@ -34,7 +34,16 @@ class BaseDB(object):
         columns = []
         for item in self.schema:
             columns.append(self.fakedata.do_fake(item['cmd'], item['args']))
+
+        # 处理op操作，与多个字段有逻辑关系
+        # 必须等第一遍完成后再处理一遍
+        for idx, item in enumerate(self.schema):
+            if item['cmd'] == 'op':
+                columns[idx] = eval(item['args'][0])
         return columns
+
+
+
 
     @count_time
     def do_fake(self):
@@ -113,6 +122,8 @@ class BaseDB(object):
                     args = [float(ret) for ret in rets]
                 else:
                     args = rets
+            elif cmd == 'op':
+                args = [process_op_args(rets[0], 'columns'), ]
             else:
                 try:
                     args = [int(ret) for ret in rets]

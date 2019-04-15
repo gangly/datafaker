@@ -53,14 +53,19 @@ def reg_float(data):
     return float(ret[0]) if ret else 0
 
 
+def reg_integer(data):
+    patt = re.compile(r"(\d+)")
+    return patt.findall(data)
+
+
 def reg_int(data):
     """
     匹配整数
     :param data: 
     :return: 
     """
-    patt = re.compile(r"(\d+)")
-    ret = patt.findall(data)
+
+    ret = reg_integer(data)
     return int(ret[0]) if ret else 0
 
 
