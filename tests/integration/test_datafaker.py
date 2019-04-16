@@ -77,6 +77,12 @@ def test_fake_data_to_file_with_header():
     assert 'id,name,nickname,age,age2,score,phone,email,address' == result[0]
 
 
+def test_fake_data_to_mysql():
+
+    cmd = 'datafaker mysql mysql+mysqldb://root:root@localhost:3600/test student 10'
+    sys.argv = cmd.strip().split(' ')
+    main()
+
 def test_fake_data_to_hbase():
     """
     must install hbase locally, and start thrift service

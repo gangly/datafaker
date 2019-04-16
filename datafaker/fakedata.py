@@ -16,17 +16,18 @@ class FackData(object):
         self.id = start
 
     ######## mysql 数值类型 #############
-    def fake_tinyint(self, *args):
-        return self.faker.random_int(0, 255) if len(args) > 0 else self.faker.random_int(-128, 127)
 
-    def fake_smallint(self, *args):
-        return self.faker.random_int(0, 65535) if len(args) > 0 else self.faker.random_int(-32768, 32767)
+    def fake_tinyint(self, digits=None, unsigned=False):
+        return self.faker.random_int(0, 255) if unsigned else self.faker.random_int(-128, 127)
 
-    def fake_mediumint(self, *args):
-        return self.faker.random_int(0, 16777215) if len(args) > 0 else self.faker.random_int(-8388608, 8388607)
+    def fake_smallint(self, digits=None, unsigned=False):
+        return self.faker.random_int(0, 65535) if unsigned else self.faker.random_int(-32768, 32767)
 
-    def fake_int(self, *args):
-        return self.faker.random_int(0, 4294967295) if len(args) > 0 else self.faker.random_int(-2147483648, 2147483647)
+    def fake_mediumint(self, digits=None, unsigned=False):
+        return self.faker.random_int(0, 16777215) if unsigned else self.faker.random_int(-8388608, 8388607)
+
+    def fake_int(self, digits=None, unsigned=False):
+        return self.faker.random_int(0, 4294967295) if unsigned else self.faker.random_int(-2147483648, 2147483647)
 
     def fake_integer(self, *args):
         return self.fake_int(*args)

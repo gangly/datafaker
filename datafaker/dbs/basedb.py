@@ -122,6 +122,9 @@ class BaseDB(object):
                     args = [float(ret) for ret in rets]
                 else:
                     args = rets
+            elif cmd in INT_TYPES:
+                args = [int(ret) for ret in rets]
+                args.append(True) if 'unsigned' in keyword else args.append(False)
             elif cmd == 'op':
                 args = [process_op_args(rets[0], 'columns'), ]
             else:
