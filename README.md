@@ -140,7 +140,7 @@ time used: 0.458 s
 ```
 id||int||自增id[:id]
 name||varchar(20)||学生名字
-school||varchar(20)||学校名字[:enum(names.txt)]
+school||varchar(20)||学校名字[:enum(file://names.txt)]
 nickname||varchar(20)||学生小名[:enum(鬼泣, 高小王子, 歌神, 逗比)]
 age||int||学生年龄
 class_num||int||班级人数[:int(10, 100)]
