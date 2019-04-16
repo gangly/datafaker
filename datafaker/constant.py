@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: UTF-8 -*-
 
-__version__ = '0.2.3'
+__version__ = '0.2.4'
 
 # 每次插入mysql数据条数
 RDB_BATCH_SIZE = 1000
