@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: UTF-8 -*-
 from datafaker.compat import safe_encode
-from datafaker.constant import HBASE_PUT_MAX_ROWS
+from datafaker.constant import HBASE_BATCH_SIZE
 from datafaker.dbs.basedb import BaseDB
 from datafaker.exceptions import ParamError
 import happybase
@@ -20,7 +20,7 @@ class HbaseDB(BaseDB):
         raise ParamError('hbase must set meta parameter')
 
     def save_data(self, lines):
-        with self.table.batch(batch_size=HBASE_PUT_MAX_ROWS) as bt:
+        with self.table.batch(batch_size=HBASE_BATCH_SIZE) as bt:
             args = reg_args(self.column_names[0])
             args = [int(arg) for arg in args]
 

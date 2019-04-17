@@ -1,11 +1,11 @@
-## 开源情况
+## 一、开源情况
 datafaker是笔者开发的一个大批量测试数据和流测试数据生成工具，兼容python2.7和python3.4+，欢迎下载使用。github地址为：
 
 https://github.com/gangly/datafaker
 
 文档同步更新在github
 
-## 工具产生背景
+## 二、工具产生背景
 
 
 <font color=gray face="黑体">在软件开发测试过程，经常需要测试数据。这些场景包括：</font>
@@ -39,12 +39,12 @@ https://github.com/gangly/datafaker
 通过制定某些字段为枚举类型（从指定的数据列表里面随机选择），这样在数据量多的情况下能保证多表Join能关联上，查询到数据
 - 支持批数据和流数据生成，可指定流数据间隔时间
 - 支持多种数据输出方式，包括屏幕打印、文件和远程数据源
-- 支持多种数据源。目前支持关系型数据库、Hive、Kafka、Hbase。后面将扩展到Mongo，ES等数据源
+- 支持多种数据源。目前支持关系型数据库、Hive、Kafka、Hbase、ES。后面将扩展到Mongo，Kudu等数据源
 - 可指定输出格式，目前支持text，json
 
 
 
-## 软件架构
+## 三、软件架构
 
 datafaker是用python编写，支持python2.7，python3.4+。目前版本0.08，已经发布在pypi上。
 
@@ -57,7 +57,7 @@ datafaker是用python编写，支持python2.7，python3.4+。目前版本0.08，
 - 数据路由。根据不同的数据输出类型，分成批量数据和流数据生成。流数据可指定产生频率。然后将数据转换成用户指定的格式输出到不同数据源中。
 - 数据源适配器。适配不同数据源，将数据导入到数据源中。
 
-## 安装流程
+## 四、安装流程
 
 首先确保已经安装python和pip
 有两种安装方法：
@@ -72,11 +72,14 @@ datafaker是用python编写，支持python2.7，python3.4+。目前版本0.08，
 
 ```pip install datafaker```
 
-##使用举例
-=========
+## 五、使用举例
+
+
 $代表终端提示符
-- 查看版本号，查看参数使用说明
+
+### 5.1 查看版本号，查看参数使用说明
 ---------
+
 ```
 $ datafaker --version
 0.0.8
@@ -111,16 +114,19 @@ optional arguments:
 ```
 
 
-- 从本地mysql的test数据库的stu表中读取表元数据，并构造10条数据写入stu表
+### 5.2 从本地mysql的test数据库的stu表中读取表元数据，并构造10条数据写入stu表
 ---------
+
 ```
 $ datafaker mysql mysql+mysqldb://root:root@localhost:3600/test stu 10
 generated records : 10
 saved records : 10
 time used: 0.038 s
 ```
-- 从本地文件meta.txt中读取元数据，以,,分隔符构造10条数据，打印在屏幕上
+
+### 5.3 从本地文件meta.txt中读取元数据，以,,分隔符构造10条数据，打印在屏幕上
 ----------------
+
 ```
 $ datafaker mysql mysql+mysqldb://root:root@localhost:3600/test stu 10 --outprint --meta meta.txt --outspliter ',,'
 1,,鲍红,,人和中心,,高小王子,,3,,81,,55.6,,13197453222,,mwei@gmail.com,,192.100.224.255,,江苏省西宁市梁平朱路I座 944204
@@ -178,12 +184,13 @@ meta.txt文件中每行数据为元数据的一个字段描述，以||分割为�
 旧大院
 ```
 
-- 从本地data/hive_meta.txt文件中读取元数据，产生1000条数据写入hive的test库，stu表中
+### 5.4 从本地data/hive_meta.txt文件中读取元数据，产生1000条数据写入hive的test库，stu表中
+
 ```
 datafaker hive hive://yarn@localhost:10000/test stu 1000 --meta data/hive_meta.txt
 ```
 
-- 从meta.txt中读取元数据，产生10条json格式数据写入到/home目录out.txt中
+### 5.5 从meta.txt中读取元数据，产生10条json格式数据写入到/home目录out.txt中
 --------------------
 
 ```
@@ -191,8 +198,8 @@ datafaker file /home out.txt 10 --meta meta.txt --format json
 ```
 
 
-- 从本地meta.txt参数数据，以1秒间隔输出到kafka的topic hello中
-------------------
+### 5.6 从本地meta.txt参数数据，以1秒间隔输出到kafka的topic hello中
+-------------------------------------------
 
 ```
 $ datafaker kafka localhost:9092 hello 1 --meta meta.txt --outprint
@@ -210,8 +217,8 @@ time used: 6.285 s
 
 ![数据消费](img/kafka.png)
 
-- 数据写入hbase
----------------
+### 5.7 数据写入hbase
+----------
 
 ```
 datafaker hbase localhost:9090 test-table 10 --meta data/hbase.txt
@@ -230,6 +237,19 @@ Cf:age||int||学生名字[:age]
 
 后面行为列族中的列名，可以创建多个列族
 
+### 5.8 数据写入es
+-------
+
+```
+datafaker es localhost:9200 example1/tp1 100 --auth elastic:elastic --meta meta.txt
+```
+
+其中localhost:9200为es的连接方式，多个host用逗号分隔
+
+example1/tp1为index和type，以/分隔
+
+elastic:elastic为账号和密码，若没有，则可不带该参数
+
 
 ## 命令参数
 
@@ -239,8 +259,9 @@ datafaker参数包含4个必选参数和一些可选参数，如下表所示
 | ------ | ------ | ------ | ----- | ------| ---- |
 |dbtype| 数据源类型 | string | 是 | 无 | 可选值为 mysql,hive, kafka, file |
 | connect | 数据源连接信息 | string| 是 | 无 | 关系型数据库和hive为 sqlachemy的连接串<br>kafka为broker连接串<br>file为文件路径<br>hbase为thrift host和端口|
-|table| 表名 | string | 是 |  无 | 将各种数据源操作单位都抽象为表，数据库中为表，kafka中为topic，file为文件名，hbase为表，mongo为集合|
-| num | 数据条数 | int | 是 | 无 | 其中kafka必须为1
+|table| 表名 | string | 是 |  无 | 将各种数据源操作单位都抽象为表，数据库中为表，kafka中为topic，file为文件名，hbase为表，es为索引和type，mongo为集合|
+| num | 数据条数 | int | 是 | 无 | 其中kafka必须为1 |
+| auth | 账号密码 | string | 否 | 无 | 数据源的账号密码，以:分隔，例如 admin:12334 |
 | meta | 元数据文件 | string | 否 | 无 | 若设定该参数，则忽略从数据源连接信息中读取远数据 |
 | interval | 流数据产生间隔 | int | 否 | 1 | 单位秒|
 | version | 显示版本号 | bool | 否 |  无 |  |

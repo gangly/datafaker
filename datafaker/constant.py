@@ -1,10 +1,12 @@
 #!/usr/bin/env python
 # -*- coding: UTF-8 -*-
 
-__version__ = '0.2.4'
+__version__ = '0.2.5'
 
-# 每次插入mysql数据条数
+# 每次批量插入数据条数
 RDB_BATCH_SIZE = 1000
+HBASE_BATCH_SIZE = 1000
+ES_BATCH_SIZE = 1000
 
 # 产生流数据间隔时间(秒)
 DEFAULT_INTERVAL = 1
@@ -29,6 +31,5 @@ INT_TYPES = ['tinyint', 'smallint', 'mediumint', 'int', 'integer', 'bigint', ]
 
 FLOAT_TYPES = ['float', 'double', 'decimal', ]
 
-HBASE_PUT_MAX_ROWS = 1000
-ES_INDEX_MAX_ROWS = 1000
+
 

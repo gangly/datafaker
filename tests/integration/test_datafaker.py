@@ -119,3 +119,10 @@ def test_op():
     test_tmpdir, meta_file = _make_tmp_file()
     cmd = 'datafaker file . hello.txt 10 --meta {meta_file} --format text --outprint'.format(meta_file=meta_file)
     _main(cmd, meta_content)
+
+
+
+def test_es():
+    test_tmpdir, meta_file = _make_tmp_file()
+    cmd = 'datafaker es localhost:9200 example1/tp1 100 --auth elastic:elastic --meta {meta_file} --format text'.format(meta_file=meta_file)
+    _main(cmd)
