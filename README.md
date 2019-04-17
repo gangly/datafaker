@@ -244,7 +244,7 @@ Cf:age||int||学生名字[:age]
 datafaker es localhost:9200 example1/tp1 100 --auth elastic:elastic --meta meta.txt
 ```
 
-其中localhost:9200为es的连接方式，多个host用逗号分隔
+其中localhost:9200为es的连接方式，多个host用逗号分隔。如host1:9200,host2:9200
 
 example1/tp1为index和type，以/分隔
 

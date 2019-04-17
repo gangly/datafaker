@@ -45,6 +45,7 @@ def save2db(items, table, schema, connect):
     names_format = "(" + ",".join(formats) + ")"
     batches = [items[i:i + RDB_BATCH_SIZE] for i in range(0, len(items), RDB_BATCH_SIZE)]
     column_names = ','.join(names)
+    i = 0
     for batch in batches:
         batch_value = []
         for row in batch:
@@ -52,6 +53,8 @@ def save2db(items, table, schema, connect):
         sql = u"insert into {table} ({column_names}) values {values}".format(
             table=table, column_names=column_names, values=u','.join([safe_decode(item) for item in batch_value]))
         session.execute(sql)
+        i += RDB_BATCH_SIZE
+        print('insert %d records' % i)
     session.commit()
 
 

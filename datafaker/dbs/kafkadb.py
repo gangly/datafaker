@@ -30,6 +30,7 @@ class KafkaDB(BaseDB):
                     print(content)
                 self.save_data(content)
                 i += 1
+                print('insert %d records' % i)
                 time.sleep(self.args.interval)
         except KeyboardInterrupt:
             print("generated records : %d" % i)

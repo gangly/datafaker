@@ -79,7 +79,7 @@ def test_fake_data_to_file_with_header():
 
 def test_fake_data_to_mysql():
 
-    cmd = 'datafaker mysql mysql+mysqldb://root:root@localhost:3600/test student 10'
+    cmd = 'datafaker mysql mysql+mysqldb://root:root@localhost:3600/test student 100'
     sys.argv = cmd.strip().split(' ')
     main()
 
@@ -88,11 +88,29 @@ def test_fake_data_to_hbase():
     must install hbase locally, and start thrift service
     :return:
     """
+    meta_content = """
+        ROWKEY(1)||varchar(20)||rowkey
+        CF:FNUMBE||bigint||猪只编码[:number(18, 1, 1)]
+        CF:EARNO||bigint||猪只耳号[:number(18, 1, 1)]
+        CF:BREEDING||bigint||猪只品种[:number(18, 1, 1)]
+        CF:BREEDING_NAME||string||猪只品种名称[:enum(esd2)]
+        CF:PARITY||int||猪只胎次[:random_int(1,100)]
+        CF:FARM_ID||bigint||猪只猪场ID[:number(18, 1, 1)]
+        CF:MASTER_ORG_ID||bigint||猪只公司ID[:number(18, 1, 1)]
+        CF:LANID||bigint||栏位ID[:number(18, 1, 1)]
+        CF:LANNAME||string||栏位名称
+        CF:SHEID||bigint||舍ID[:number(18, 1, 1)]
+        CF:SHENAME||string||舍名称
+        CF:LOUID||bigint||楼ID[:number(18, 1, 1)]
+        CF:LOUNAME||string||楼名称
+        CF:ESTATUS||string||猪只状态
+        CF:PIGNUM||int||猪只当前带仔数[:random_int(1,100)]
+    """
     test_tmpdir, meta_file = _make_tmp_file()
 
-    cmd = 'datafaker hbase localhost:9090 pigtest 2 --meta {meta_file}'.format(meta_file=meta_file)
+    cmd = 'datafaker hbase localhost:9090 pigtest 100 --meta {meta_file}'.format(meta_file=meta_file)
 
-    _main(cmd)
+    _main(cmd, meta_content)
 
 
 def test_hive():

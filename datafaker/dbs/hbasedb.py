@@ -20,6 +20,8 @@ class HbaseDB(BaseDB):
         raise ParamError('hbase must set meta parameter')
 
     def save_data(self, lines):
+        i = 0
+        length = len(lines)
         with self.table.batch(batch_size=HBASE_BATCH_SIZE) as bt:
             args = reg_args(self.column_names[0])
             args = [int(arg) for arg in args]
@@ -35,5 +37,9 @@ class HbaseDB(BaseDB):
                 value = dict(zip(self.column_names[1:], line[1:]))
                 # this put() will result in two mutations (two cells)
                 bt.put(rowkey, value)
+
+                i += 1
+                if i % HBASE_BATCH_SIZE == 0 or i >= length:
+                    print('insert %d records' % i)
 
 

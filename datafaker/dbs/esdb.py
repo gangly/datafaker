@@ -35,6 +35,6 @@ class EsDB(BaseDB):
             i = i+1
             if i % ES_BATCH_SIZE == 0 or i >= length:
                 success, _ = bulk(self.es, actions, index=self.args.table, raise_on_error=True)
-                print('insert %d actions' % i)
+                print('insert %d records' % i)
 
 
