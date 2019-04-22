@@ -22,7 +22,7 @@ def save2file(items, outfile):
     :param spliter:
     :return:
     """
-    with open(outfile, 'w') as fp:
+    with open(outfile, 'a+') as fp:
         fp.writelines(items)
 
 
@@ -56,7 +56,7 @@ def save2db(items, table, schema, connect, batch_size):
         session.execute(sql)
         i += batch_size
         session.commit()
-        print('insert %d records' % i)
+
     session.close()
 
 

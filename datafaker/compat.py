@@ -42,7 +42,7 @@ if is_windows:
     from hcmd.multithreading import *
 else:
     import multiprocessing
-    from multiprocessing import Process, Lock, Value
+    from multiprocessing import Process, Lock, Value, Queue
     List = multiprocessing.Manager().list
     Dict = multiprocessing.Manager().dict
 

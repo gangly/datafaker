@@ -1,9 +1,12 @@
 #!/usr/bin/env python
 # -*- coding: UTF-8 -*-
+from Queue import Queue
 from abc import abstractmethod
+from time import sleep
 
+from datafaker import compat
 from datafaker.compat import safe_encode, safe_decode
-from datafaker.constant import INT_TYPES, FLOAT_TYPES, ENUM_FILE, JSON_FORMAT
+from datafaker.constant import INT_TYPES, FLOAT_TYPES, ENUM_FILE, JSON_FORMAT, MAX_QUEUE_SIZE
 from datafaker.exceptions import MetaFileError, FileNotFoundError, EnumMustNotEmptyError, ParseSchemaError
 from datafaker.fakedata import FackData
 from datafaker.reg import reg_keyword, reg_cmd, reg_args
@@ -17,17 +20,28 @@ class BaseDB(object):
         self.schema = self.parse_schema()
         self.column_names = [item['name'] for item in self.schema]
         self.fakedata = FackData(self.args.locale)
+
+        self.queue = compat.Queue(maxsize=MAX_QUEUE_SIZE)
+        # self.queue = Queue(maxsize=MAX_QUEUE_SIZE)
+        self.isover = compat.Value('b', False)
+        self.cur_num = compat.Value('L', 0)
         self.init()
 
     def init(self):
         pass
 
     def fake_data(self):
-        lines = []
-        for i in range(self.args.num):
+        if self.args.withheader and self.args.format != JSON_FORMAT:
+            self.queue.put(self.column_names)
+        # for i in range(self.args.num):
+        while self.cur_num.value < self.args.num:
             columns = self.fake_column()
-            lines.append(columns)
-        return lines
+            if self.args.format == JSON_FORMAT:
+                columns = [json_item(self.column_names, line) for line in columns]
+            self.queue.put(columns)
+            self.cur_num.value += 1
+            # sleep(1)
+        self.isover.value = True
 
     def fake_column(self):
         columns = []
@@ -44,31 +58,44 @@ class BaseDB(object):
 
     @count_time
     def do_fake(self):
-        data_items = self.fake_data()
+        for _ in range(4):
+            producer = compat.Process(target=self.fake_data, args=())
+            producer.daemon = True
+            producer.start()
 
-        if self.args.format == JSON_FORMAT:
-            data_items = [json_item(self.column_names, line) for line in data_items]
+        func = self.print_data if self.args.outprint else self.save
+        consumer = compat.Process(target=func, args=())
+        consumer.daemon = True
+        consumer.start()
 
-        data_num = len(data_items)
-        spliter = self.args.outspliter if self.args.outspliter else ','
+        producer.join()
+        consumer.join()
 
-        if self.args.withheader and self.args.format != JSON_FORMAT:
-            data_items.insert(0, self.column_names)
 
-        if self.args.outprint:
-            for items in data_items:
-                if self.args.format != JSON_FORMAT:
-                    line = spliter.join([str(safe_encode(item)) for item in items])
-                    print(line)
-                else:
-                    print(items)
-        elif self.args.outfile:
-            save2file(data_items, self.args.outfile)
-        else:
-            self.save_data(data_items)
-        msg = 'printed' if self.args.outprint else 'saved'
-        print("generated records : %d" % data_num)
-        print("%s records : %d" % (msg, data_num))
+    def save(self):
+        saved_records = 0
+        while not self.isover.value or not self.queue.empty():
+            lines = []
+            i = 0
+            while i < self.args.batch and (not self.isover.value or not self.queue.empty()):
+                try:
+                    lines.append(self.queue.get_nowait())
+                    i += 1
+                except:
+                    pass
+            self.save_data(lines)
+            saved_records += len(lines)
+            del(lines)
+            print('insert %d records' % saved_records)
+
+    def print_data(self):
+        while not self.isover.value or not self.queue.empty():
+            try:
+                data = self.queue.get_nowait()
+                print(data)
+            except:
+                pass
+
 
     def parse_schema(self):
         if self.args.meta:

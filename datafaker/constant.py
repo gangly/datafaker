@@ -1,11 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: UTF-8 -*-
 
-__version__ = '0.2.9'
+__version__ = '0.3.3'
 
 # 每次批量插入数据条数
 BATCH_SIZE = 1000
 
+# multiprocessing  queue 最大为32767，超过会报错
+MAX_QUEUE_SIZE = 30000
 
 # 产生流数据间隔时间(秒)
 DEFAULT_INTERVAL = 1

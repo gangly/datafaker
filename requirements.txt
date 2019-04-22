@@ -8,3 +8,4 @@ happybase
 elasticsearch
 thrift
 sasl
+mysql-python

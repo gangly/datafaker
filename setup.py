@@ -33,7 +33,8 @@ requires = [
     'kafka-python==1.4.3',
     'sqlalchemy',
     'happybase',
-    'elasticsearch'
+    'elasticsearch',
+    'mysql-python'
 ]
 
 if sys.platform == 'win32':

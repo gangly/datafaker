@@ -271,6 +271,7 @@ datafaker参数包含4个必选参数和一些可选参数，如下表所示
 | outfile | 输出到文件 | string | 否 |  无 |  |
 | format | 数据格式 | string | 否 |  text |  kafka 默认为json|
 | withheader | 打印和存储到文件是否带表头 | bool | 否 | False| |
+| batch | 每次批量写入数据源大小 | int | 否 | 1000 |  |
 
 
 
@@ -297,6 +298,24 @@ datafaker参数包含4个必选参数和一些可选参数，如下表所示
 | decimal(M,D, negative) | M指定总的数据位数，D指定小数位数,  negative指定正1负0 | 无 | decimal(4, 2, 1)指定4位数，2位小数的正浮点数，如78.23 |
 | string(min, max) | min, max 指定字符串位数范围|无 | |
 |date(start, end)| start, end 指定日期范围 | 无 | 如date(1990-01-01, 2019-12-12)|
+
+
+**自增类型**
+------
+<font color=#6495ED face="黑体">
+inc(mark, start, step)
+
+mark: 自增的变量名
+
+start: 起始值, 默认值为1
+
+step: 自增步长，默认值为1
+
+inc(id)表示将当前列名为id的列，从1开始每次增长1, 可用于mysql的自增主键
+
+inc(score, 100, 2)表示将当前列名为score的列，从100开始每次增长2
+
+</font>
 
 **enum类型**
 ------

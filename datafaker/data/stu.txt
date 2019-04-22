@@ -1,0 +1,3 @@
+id||int||自增id[:inc(id, 50000)]
+name||varchar(20)||学生名字[:name]
+age||int||学生年龄[:enum(3, 6, 7, 8, 9)]

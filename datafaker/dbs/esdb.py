@@ -21,8 +21,7 @@ class EsDB(BaseDB):
 
     def save_data(self, lines):
         actions = []
-        i = 0
-        length = len(lines)
+
         for line in lines:
             source = dict(zip(self.column_names, line))
             action = {
@@ -31,9 +30,8 @@ class EsDB(BaseDB):
                 "_source": source,
             }
             actions.append(action)
-            i = i+1
-            if i % self.args.batch == 0 or i >= length:
-                success, _ = bulk(self.es, actions, index=self.args.table, raise_on_error=True)
-                print('insert %d records' % i)
+
+        success, _ = bulk(self.es, actions, index=self.args.table, raise_on_error=True)
+
 
 

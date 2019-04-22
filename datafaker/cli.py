@@ -72,6 +72,7 @@ def main():
 
     try:
         args = parse_args()
+
         db = load_db_class(args.dbtype)(args)
         db.do_fake()
     except Exception as e:

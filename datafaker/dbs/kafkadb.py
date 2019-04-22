@@ -12,7 +12,6 @@ class KafkaDB(BaseDB):
     def init(self):
         self.producer = KafkaProducer(bootstrap_servers=self.args.connect)
 
-
     def construct_self_rows(self):
         return []
 
