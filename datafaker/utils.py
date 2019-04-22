@@ -42,7 +42,7 @@ def save2db(items, table, schema, connect):
 
     # 构造数据格式，字符串需要加上单引号
     formats = ["'%s'" if ctype in STR_TYPES else "%s" for ctype in ctypes]
-    names_format = "(" + ",".join(formats) + ")"
+    names_format = u"(" + u",".join(formats) + u")"
     batches = [items[i:i + RDB_BATCH_SIZE] for i in range(0, len(items), RDB_BATCH_SIZE)]
     column_names = ','.join(names)
     i = 0
@@ -50,12 +50,14 @@ def save2db(items, table, schema, connect):
         batch_value = []
         for row in batch:
             batch_value.append(names_format % tuple(row))
+
         sql = u"insert into {table} ({column_names}) values {values}".format(
-            table=table, column_names=column_names, values=u','.join([safe_decode(item) for item in batch_value]))
+            table=table, column_names=column_names, values=u','.join([item for item in batch_value]))
         session.execute(sql)
         i += RDB_BATCH_SIZE
         print('insert %d records' % i)
-    session.commit()
+        session.commit()
+    session.close()
 
 
 def json_item(column_names, item):
@@ -81,7 +83,7 @@ def read_file_lines(filepath):
     with open(filepath) as fp:
         lines = fp.read().splitlines()
         # start with # is comment line, and filter empty line
-        lines = [line for line in lines if line and not line.startswith("#") and line.strip()]
+        lines = [safe_decode(line) for line in lines if line and not line.startswith("#") and line.strip()]
     return lines
 
 

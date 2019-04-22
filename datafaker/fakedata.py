@@ -8,12 +8,14 @@ from faker import Faker
 
 class FackData(object):
 
-    def __init__(self, locale, start=0):
+    def __init__(self, locale):
 
         self.faker = Faker(locale)
         self.faker.random_int()
         self.faker_funcs = dir(self.faker)
-        self.id = start
+
+
+        self.auto_inc = {}
 
     ######## mysql 数值类型 #############
 
@@ -165,14 +167,17 @@ class FackData(object):
             args = [0, 100]
         return self.faker.random_int(*args)
 
-    def fake_id(self, *args):
+    def fake_inc(self, mark, start=0, step=1):
         """
         用于实现自增id
         :param args:
         :return:
         """
-        self.id += 1
-        return self.id
+        if mark not in self.auto_inc:
+            self.auto_inc[mark] = int(start)
+        ret = self.auto_inc[mark]
+        self.auto_inc[mark] += int(step)
+        return ret
 
     def fake_enum(self, *args):
         """

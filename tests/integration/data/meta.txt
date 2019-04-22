@@ -1,0 +1,16 @@
+id||bigint||comment'parimary key[:inc(id,320111)]'
+FNUMBE||bigint||comment'猪只编码[:number(18,1,1)]'
+EARNO||bigint||comment'猪只耳号[:number(18,1,1)]'
+BREEDING||bigint||comment'猪只品种[:number(18,1,1)]'
+BREEDING_NAME||varchar(50)||comment'猪只品种名称[:enum(file://data/pigtype.txt)]
+PARITY||int||comment'猪只胎次[:random_int(1,100)]
+FARM_ID||bigint||comment'猪只猪场ID[:number(18,1,1)]
+MASTER_ORG_ID||bigint||comment'猪只公司ID[:number(18,1,1)]
+LANID||bigint||comment'栏位ID[:number(18,1,1)]
+LANNAME||varchar(50)||comment'栏位名称
+SHEID||bigint||comment'舍ID[:number(18,1,1)]
+SHENAME||varchar(50)||comment'舍名称
+LOUID||bigint||comment'楼ID[:number(18,1,1)]
+LOUNAME||varchar(50)||comment'楼名称
+ESTATUS||varchar(50)||comment'猪只状态
+PIGNUM||int||comment'猪只当前带仔数[:random_int(1,100)]

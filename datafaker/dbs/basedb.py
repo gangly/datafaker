@@ -43,8 +43,6 @@ class BaseDB(object):
         return columns
 
 
-
-
     @count_time
     def do_fake(self):
         data_items = self.fake_data()
