@@ -8,7 +8,7 @@ import re
 import time
 
 from datafaker.compat import safe_decode, safe_encode
-from datafaker.constant import RDB_BATCH_SIZE, STR_TYPES, INT_TYPES, FLOAT_TYPES
+from datafaker.constant import STR_TYPES, INT_TYPES, FLOAT_TYPES
 from datafaker.drivers import load_sqlalchemy
 from datafaker.exceptions import FileNotFoundError
 from datafaker.reg import reg_keyword, reg_cmd, reg_args, reg_integer, reg_int, reg_all_int
@@ -26,7 +26,7 @@ def save2file(items, outfile):
         fp.writelines(items)
 
 
-def save2db(items, table, schema, connect):
+def save2db(items, table, schema, connect, batch_size):
     """
     保存数据到mysql, hive
     :param items: 保存的数据，list
@@ -43,7 +43,7 @@ def save2db(items, table, schema, connect):
     # 构造数据格式，字符串需要加上单引号
     formats = ["'%s'" if ctype in STR_TYPES else "%s" for ctype in ctypes]
     names_format = u"(" + u",".join(formats) + u")"
-    batches = [items[i:i + RDB_BATCH_SIZE] for i in range(0, len(items), RDB_BATCH_SIZE)]
+    batches = [items[i:i + batch_size] for i in range(0, len(items), batch_size)]
     column_names = ','.join(names)
     i = 0
     for batch in batches:
@@ -54,9 +54,9 @@ def save2db(items, table, schema, connect):
         sql = u"insert into {table} ({column_names}) values {values}".format(
             table=table, column_names=column_names, values=u','.join([item for item in batch_value]))
         session.execute(sql)
-        i += RDB_BATCH_SIZE
-        print('insert %d records' % i)
+        i += batch_size
         session.commit()
+        print('insert %d records' % i)
     session.close()
 
 

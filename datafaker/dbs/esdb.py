@@ -3,7 +3,6 @@
 from elasticsearch import Elasticsearch
 from elasticsearch.helpers import bulk
 
-from datafaker.constant import ES_BATCH_SIZE
 from datafaker.dbs.basedb import BaseDB
 from datafaker.exceptions import ParamError
 
@@ -33,7 +32,7 @@ class EsDB(BaseDB):
             }
             actions.append(action)
             i = i+1
-            if i % ES_BATCH_SIZE == 0 or i >= length:
+            if i % self.args.batch == 0 or i >= length:
                 success, _ = bulk(self.es, actions, index=self.args.table, raise_on_error=True)
                 print('insert %d records' % i)
 

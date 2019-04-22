@@ -15,4 +15,4 @@ class MysqlDB(BaseDB):
         return rows
 
     def save_data(self, lines):
-        save2db(lines,  self.args.table, self.schema, self.args.connect)
+        save2db(lines, self.args.table, self.schema, self.args.connect, self.args.batch)

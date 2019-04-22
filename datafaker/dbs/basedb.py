@@ -8,7 +8,6 @@ from datafaker.exceptions import MetaFileError, FileNotFoundError, EnumMustNotEm
 from datafaker.fakedata import FackData
 from datafaker.reg import reg_keyword, reg_cmd, reg_args
 from datafaker.utils import save2file, count_time, read_file_lines, json_item, process_op_args
-import os
 
 
 class BaseDB(object):

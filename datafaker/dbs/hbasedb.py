@@ -1,7 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: UTF-8 -*-
-from datafaker.compat import safe_encode
-from datafaker.constant import HBASE_BATCH_SIZE
 from datafaker.dbs.basedb import BaseDB
 from datafaker.exceptions import ParamError
 import happybase
@@ -22,7 +20,7 @@ class HbaseDB(BaseDB):
     def save_data(self, lines):
         i = 0
         length = len(lines)
-        with self.table.batch(batch_size=HBASE_BATCH_SIZE) as bt:
+        with self.table.batch(batch_size=self.args.batch) as bt:
             args = reg_args(self.column_names[0])
             args = [int(arg) for arg in args]
 
@@ -39,7 +37,7 @@ class HbaseDB(BaseDB):
                 bt.put(rowkey, value)
 
                 i += 1
-                if i % HBASE_BATCH_SIZE == 0 or i >= length:
+                if i % self.args.batch == 0 or i >= length:
                     print('insert %d records' % i)
 
 

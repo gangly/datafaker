@@ -150,6 +150,6 @@ def test_mysql():
 
     cmd = 'datafaker mysql mysql+mysqldb://root:root@localhost:3600/test pig_fnumbe_test 1000000 --meta data/meta.txt --format text'
     cmd = 'datafaker mysql mysql+mysqldb://yz_test_bigdata:Tidbtest123@172.18.21.21:4000/yz_test_bigdata pig_fnumbe_test 10'
-    cmd = 'datafaker mysql mysql+mysqldb://yz_test_bigdata:Tidbtest123@172.18.21.21:4000/yz_test_bigdata pig_fnumbe_test 100000 --meta data/meta.txt'
+    cmd = 'datafaker mysql mysql+mysqldb://yz_test_bigdata:Tidbtest123@172.18.21.21:4000/yz_test_bigdata pig_fnumbe_test 100000 --meta data/meta.txt --batch 10000'
     sys.argv = cmd.strip().split(' ')
     main()
