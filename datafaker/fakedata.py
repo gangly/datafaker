@@ -6,7 +6,7 @@ from copy import copy
 
 from faker import Faker
 
-from datafaker import globl, compat
+from datafaker import compat
 from datafaker.compat import Dict
 
 
@@ -18,7 +18,6 @@ class FackData(object):
         self.faker.random_int()
         self.faker_funcs = dir(self.faker)
 
-        globl.init()
         self.lock = compat.Lock()
         # self.auto_inc = {}
         self.auto_inc = Dict()
@@ -185,7 +184,7 @@ class FackData(object):
                 self.auto_inc[mark] = int(start)
             ret = self.auto_inc[mark]
             self.auto_inc[mark] += int(step)
-            return ret
+        return ret
 
     def fake_enum(self, *args):
         """

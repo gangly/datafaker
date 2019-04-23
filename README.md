@@ -272,6 +272,7 @@ datafaker参数包含4个必选参数和一些可选参数，如下表所示
 | format | 数据格式 | string | 否 |  text |  kafka 默认为json|
 | withheader | 打印和存储到文件是否带表头 | bool | 否 | False| |
 | batch | 每次批量写入数据源大小 | int | 否 | 1000 |  |
+| workers | 生成测试数据的线程数 | int | 否 | 4 |  |
 
 
 

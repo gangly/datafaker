@@ -22,7 +22,6 @@ class BaseDB(object):
         self.fakedata = FackData(self.args.locale)
 
         self.queue = compat.Queue(maxsize=MAX_QUEUE_SIZE)
-        # self.queue = Queue(maxsize=MAX_QUEUE_SIZE)
         self.isover = compat.Value('b', False)
         self.cur_num = compat.Value('L', 0)
         self.lock = compat.Lock()
@@ -32,8 +31,7 @@ class BaseDB(object):
         pass
 
     def fake_data(self):
-        if self.args.withheader and self.args.format != JSON_FORMAT:
-            self.queue.put(self.column_names)
+
         while self.cur_num.value < self.args.num:
             columns = self.fake_column()
             if self.args.format == JSON_FORMAT:
@@ -58,6 +56,10 @@ class BaseDB(object):
 
     @count_time
     def do_fake(self):
+
+        if self.args.withheader and self.args.format != JSON_FORMAT:
+            self.queue.put(self.column_names)
+
         procs = []
         for _ in range(self.args.workers):
             producer = compat.Process(target=self.fake_data, args=())
@@ -91,11 +93,13 @@ class BaseDB(object):
             del(lines)
             print('insert %d records' % saved_records)
 
+
     def print_data(self):
+        print()
         while not self.isover.value or not self.queue.empty():
             try:
-                # data = self.queue.get_nowait()
-                data = self.queue.get()
+                data = self.queue.get_nowait()
+                # data = self.queue.get()
                 print(data)
             except:
                 pass

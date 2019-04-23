@@ -136,7 +136,7 @@ def test_op():
         allage||int||总年龄[:op(c0*c3+c4)]
     """
     test_tmpdir, meta_file = _make_tmp_file()
-    cmd = 'datafaker file . hello.txt 100 --meta {meta_file} --format text --outprint'.format(meta_file=meta_file)
+    cmd = 'datafaker file . hello.txt 100 --meta {meta_file} --format text --outprint --withheader'.format(meta_file=meta_file)
     _main(cmd, meta_content)
 
 
@@ -150,7 +150,5 @@ def test_es():
 def test_mysql():
 
     cmd = 'datafaker mysql mysql+mysqldb://root:root@localhost:3600/test pig_fnumbe_test 1000000 --meta data/meta.txt --format text'
-    cmd = 'datafaker mysql mysql+mysqldb://yz_test_bigdata:Tidbtest123@172.18.21.21:4000/yz_test_bigdata pig_fnumbe_test 10'
-    cmd = 'datafaker mysql mysql+mysqldb://yz_test_bigdata:Tidbtest123@172.18.21.21:4000/yz_test_bigdata pig_fnumbe_test 100000 --meta data/meta.txt --batch 10000'
     sys.argv = cmd.strip().split(' ')
     main()
