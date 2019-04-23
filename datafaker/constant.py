@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: UTF-8 -*-
 
-__version__ = '0.3.4'
+__version__ = '0.3.5'
 
 # 每次批量插入数据条数
 BATCH_SIZE = 1000

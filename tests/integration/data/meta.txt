@@ -1,4 +1,4 @@
-id||bigint||comment'parimary key[:inc(id,91452161)]'
+id||bigint||comment'parimary key[:inc(id,1191452361)]'
 FNUMBE||bigint||comment'猪只编码[:number(18,1,1)]'
 EARNO||bigint||comment'猪只耳号[:number(18,1,1)]'
 BREEDING||bigint||comment'猪只品种[:number(18,1,1)]'

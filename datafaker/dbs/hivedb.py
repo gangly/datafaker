@@ -1,12 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: UTF-8 -*-
-from datafaker.constant import TEXT_FORMAT
-from datafaker.dbs.basedb import BaseDB
+
+from datafaker.dbs.rdb import RDB
 from datafaker.drivers import load_sqlalchemy
-from datafaker.utils import save2db
 
 
-class HiveDB(BaseDB):
+class HiveDB(RDB):
 
     def construct_self_rows(self):
         session = load_sqlalchemy(self.args.connect)
@@ -14,7 +13,3 @@ class HiveDB(BaseDB):
         rows = session.execute(sql)
         rows = [row for row in rows]
         return rows
-
-    def save_data(self, lines):
-
-        save2db(lines, self.args.table, self.schema, self.args.connect, self.args.batch)

@@ -149,6 +149,6 @@ def test_es():
 
 def test_mysql():
 
-    cmd = 'datafaker mysql mysql+mysqldb://root:root@localhost:3600/test pig_fnumbe_test 1000000 --meta data/meta.txt --format text'
+    cmd = 'datafaker mysql mysql+mysqldb://root:root@localhost:3600/test pig_fnumbe_test 10 --meta data/meta.txt --format text'
     sys.argv = cmd.strip().split(' ')
     main()
