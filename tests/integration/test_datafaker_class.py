@@ -25,7 +25,7 @@ class TestDataFaker:
         print('\nteardown_method()')
 
     meta = """
-       id||int||自增id[:id]
+       id||int||自增id[:inc(id)]
        name||varchar(20)||学生名字[:name]
        nickname||varchar(20)||学生名字[:enum(xiao ming, hah, lele, esd f222)]
        age||int||学生年龄[:enum(3, 6, 7, 8, 9)]

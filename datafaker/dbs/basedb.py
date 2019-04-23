@@ -25,6 +25,7 @@ class BaseDB(object):
         # self.queue = Queue(maxsize=MAX_QUEUE_SIZE)
         self.isover = compat.Value('b', False)
         self.cur_num = compat.Value('L', 0)
+        self.lock = compat.Lock()
         self.init()
 
     def init(self):
@@ -33,14 +34,13 @@ class BaseDB(object):
     def fake_data(self):
         if self.args.withheader and self.args.format != JSON_FORMAT:
             self.queue.put(self.column_names)
-        # for i in range(self.args.num):
         while self.cur_num.value < self.args.num:
             columns = self.fake_column()
             if self.args.format == JSON_FORMAT:
                 columns = [json_item(self.column_names, line) for line in columns]
             self.queue.put(columns)
-            self.cur_num.value += 1
-            # sleep(1)
+            with self.lock:
+                self.cur_num.value += 1
         self.isover.value = True
 
     def fake_column(self):
@@ -58,17 +58,20 @@ class BaseDB(object):
 
     @count_time
     def do_fake(self):
-        for _ in range(4):
+        procs = []
+        for _ in range(self.args.workers):
             producer = compat.Process(target=self.fake_data, args=())
             producer.daemon = True
             producer.start()
+            procs.append(producer)
 
         func = self.print_data if self.args.outprint else self.save
         consumer = compat.Process(target=func, args=())
         consumer.daemon = True
         consumer.start()
 
-        producer.join()
+        for proc in procs:
+            proc.join()
         consumer.join()
 
 
@@ -91,7 +94,8 @@ class BaseDB(object):
     def print_data(self):
         while not self.isover.value or not self.queue.empty():
             try:
-                data = self.queue.get_nowait()
+                # data = self.queue.get_nowait()
+                data = self.queue.get()
                 print(data)
             except:
                 pass

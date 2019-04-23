@@ -5,7 +5,7 @@ import sys
 import traceback
 
 
-from datafaker.constant import __version__, DEFAULT_INTERVAL, DEFAULT_FORMAT, DEFAULT_LOCALE, BATCH_SIZE
+from datafaker.constant import __version__, DEFAULT_INTERVAL, DEFAULT_FORMAT, DEFAULT_LOCALE, BATCH_SIZE, WORKERS
 
 
 def parse_args():
@@ -24,6 +24,7 @@ def parse_args():
     parser.add_argument('--meta', nargs='?', action='store', help='meta file path')
     parser.add_argument('--interval', action='store', type=int, default=DEFAULT_INTERVAL, help='the interval to make stream data')
     parser.add_argument('--batch', action='store', type=int, default=BATCH_SIZE, help='the interval to make stream data')
+    parser.add_argument('--workers', action='store', type=int, default=WORKERS, help='the interval to make stream data')
     parser.add_argument('--version', action='store_true', help="print the version number and exit")
     parser.add_argument('--outprint', action='store_true', help="print fake date to screen")
     parser.add_argument('--outspliter', action='store', help="print data, to split columns")

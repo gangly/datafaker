@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: UTF-8 -*-
 
-__version__ = '0.3.3'
+__version__ = '0.3.4'
 
 # 每次批量插入数据条数
 BATCH_SIZE = 1000
@@ -11,6 +11,9 @@ MAX_QUEUE_SIZE = 30000
 
 # 产生流数据间隔时间(秒)
 DEFAULT_INTERVAL = 1
+
+# 任务并发数
+WORKERS = 4
 
 # 输出数据格式
 TEXT_FORMAT = 'text'

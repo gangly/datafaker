@@ -127,15 +127,16 @@ def test_hive():
 
 def test_op():
     meta_content = """
-        id||int||自增id[:id]
+        id||int||自增id[:inc(id)]
         name||varchar(20)||学生名字[:name]
         nickname||varchar(20)||学生名字[:enum(xiao ming, hah, lele, esd f222)]
         age||int||学生年龄[:enum(3, 6, 7, 8, 9)]
         age2||int||学生年龄[:age(10, 20)]
+        score||int||学生年龄[:inc(score, 10, 2)]
         allage||int||总年龄[:op(c0*c3+c4)]
     """
     test_tmpdir, meta_file = _make_tmp_file()
-    cmd = 'datafaker file . hello.txt 10 --meta {meta_file} --format text --outprint'.format(meta_file=meta_file)
+    cmd = 'datafaker file . hello.txt 100 --meta {meta_file} --format text --outprint'.format(meta_file=meta_file)
     _main(cmd, meta_content)
 
 

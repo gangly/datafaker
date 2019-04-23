@@ -2,10 +2,12 @@
 # -*- coding: UTF-8 -*-
 import datetime
 import random
+from copy import copy
 
 from faker import Faker
 
 from datafaker import globl, compat
+from datafaker.compat import Dict
 
 
 class FackData(object):
@@ -18,8 +20,8 @@ class FackData(object):
 
         globl.init()
         self.lock = compat.Lock()
-        self.auto_inc = {}
-        # globl.set_value('auto_inc', {})
+        # self.auto_inc = {}
+        self.auto_inc = Dict()
 
 
     ######## mysql 数值类型 #############
@@ -183,19 +185,6 @@ class FackData(object):
                 self.auto_inc[mark] = int(start)
             ret = self.auto_inc[mark]
             self.auto_inc[mark] += int(step)
-            return ret
-
-    def fake_inc_lock(self, mark, start=0, step=1):
-        """
-        用于实现自增id
-        :param args:
-        :return:
-        """
-        with self.lock:
-            if not globl.exists(mark):
-                globl.set_value(mark, int(start))
-            ret = globl.get_value(mark)
-            globl.set_value(mark, ret+step)
             return ret
 
     def fake_enum(self, *args):
