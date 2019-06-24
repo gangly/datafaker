@@ -1,5 +1,5 @@
 ## 一、开源情况
-datafaker是笔者开发的一个大批量测试数据和流测试数据生成工具，兼容python2.7和python3.4+，欢迎下载使用。github地址为：
+datafaker是一个大批量测试数据和流测试数据生成工具，兼容python2.7和python3.4+，欢迎下载使用。github地址为：
 
 https://github.com/gangly/datafaker
 
@@ -506,9 +506,13 @@ op(c1*c4+c13) 表示第一列值乘上第五列值加上第十四列值
 ## 八、注意事项
 
 #### 1.构造大批量数据
-若需要构造大批量数据，原生python将耗费大量时间，请使用pypy执行datafaker，例如：
+若需要构造大批量数据，原生python将耗费大量时间，请使用pypy执行datafaker。例如：
 
 ```pypy -m datafaker hbase localhost:9090 PIGONE 50000 --meta hbase.txt```
+
+或者多线程执行, 8个线程产生数据，每次批量写入pg 2000条数据:
+
+```datafaker postgresql+psycopg2://postgres:postgres@172.19.101.141/testpg pig_fnumbe_test 100000 --meta meta.txt --worker 8 --batch 2000```
 
 #### 2.写入Hbase报错Broken pipe
 是由于hbase设置的hbase.thrift.server.socket.read.timeout参数过小，默认为60秒
@@ -521,6 +525,8 @@ op(c1*c4+c13) 表示第一列值乘上第五列值加上第十四列值
 </property>
 ```
 重启hbase, 重启thrift
+
+
 
 
 
