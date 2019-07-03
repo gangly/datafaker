@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: UTF-8 -*-
 
-__version__ = '0.3.5'
+__version__ = '0.3.6'
 
 # 每次批量插入数据条数
 BATCH_SIZE = 1000
@@ -14,6 +14,9 @@ DEFAULT_INTERVAL = 1
 
 # 任务并发数
 WORKERS = 4
+
+# 最小并行产生记录数（小于该值为单线程）
+MIN_RECORDS_FOR_PARALLEL = 10
 
 # 输出数据格式
 TEXT_FORMAT = 'text'

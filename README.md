@@ -512,7 +512,7 @@ op(c1*c4+c13) 表示第一列值乘上第五列值加上第十四列值
 
 或者多线程执行, 8个线程产生数据，每次批量写入pg 2000条数据:
 
-```datafaker postgresql+psycopg2://postgres:postgres@172.19.101.141/testpg pig_fnumbe_test 100000 --meta meta.txt --worker 8 --batch 2000```
+```datafaker mysql postgresql+psycopg2://postgres:postgres@172.19.101.141/testpg pig_fnumbe_test 100000 --meta meta.txt --worker 8 --batch 2000```
 
 #### 2.写入Hbase报错Broken pipe
 是由于hbase设置的hbase.thrift.server.socket.read.timeout参数过小，默认为60秒
@@ -525,6 +525,12 @@ op(c1*c4+c13) 表示第一列值乘上第五列值加上第十四列值
 </property>
 ```
 重启hbase, 重启thrift
+
+### 3. 支持关系型数据库
+例子中大部分是以mysql为例子展示的。
+只要支持sqlachemy的都是可以的，例如pg, oracle, tidb等等。
+但type类型都是mysql指定，例如：
+```datafaker mysql postgresql+psycopg2://postgres:postgres@172.19.101.141/testpg pig_fnumbe_test 100000 --meta meta.txt --worker 8 --batch 2000```
 
 
 

@@ -6,7 +6,7 @@ from time import sleep
 
 from datafaker import compat
 from datafaker.compat import safe_encode, safe_decode
-from datafaker.constant import INT_TYPES, FLOAT_TYPES, ENUM_FILE, JSON_FORMAT, MAX_QUEUE_SIZE
+from datafaker.constant import INT_TYPES, FLOAT_TYPES, ENUM_FILE, JSON_FORMAT, MAX_QUEUE_SIZE, MIN_RECORDS_FOR_PARALLEL
 from datafaker.exceptions import MetaFileError, FileNotFoundError, EnumMustNotEmptyError, ParseSchemaError
 from datafaker.fakedata import FackData
 from datafaker.reg import reg_keyword, reg_cmd, reg_args
@@ -31,14 +31,21 @@ class BaseDB(object):
         pass
 
     def fake_data(self):
+        """
+        多线程产生数据，需要先加一再产生数据，不然其他线程会执行产生多的数据
+        sleep是为了防止产生数据后消费数据过慢
+        :return:
+        """
 
         while self.cur_num.value < self.args.num:
+            with self.lock:
+                self.cur_num.value += 1
             columns = self.fake_column()
             if self.args.format == JSON_FORMAT:
                 columns = [json_item(self.column_names, line) for line in columns]
             self.queue.put(columns)
-            with self.lock:
-                self.cur_num.value += 1
+
+        sleep(0.1)
         self.isover.value = True
 
     def fake_column(self):
@@ -53,7 +60,6 @@ class BaseDB(object):
                 columns[idx] = eval(item['args'][0])
         return columns
 
-
     @count_time
     def do_fake(self):
 
@@ -61,7 +67,8 @@ class BaseDB(object):
             self.queue.put(self.column_names)
 
         procs = []
-        for _ in range(self.args.workers):
+        procs_num = 1 if self.args.num <= MIN_RECORDS_FOR_PARALLEL else self.args.workers
+        for _ in range(procs_num):
             producer = compat.Process(target=self.fake_data, args=())
             producer.daemon = True
             producer.start()
@@ -75,7 +82,6 @@ class BaseDB(object):
         for proc in procs:
             proc.join()
         consumer.join()
-
 
     def save(self):
         saved_records = 0
@@ -93,9 +99,9 @@ class BaseDB(object):
             del(lines)
             print('insert %d records' % saved_records)
 
-
     def print_data(self):
         print()
+        # start with empty queue, must set self.isover.value
         while not self.isover.value or not self.queue.empty():
             try:
                 data = self.queue.get_nowait()
@@ -103,7 +109,6 @@ class BaseDB(object):
                 print(data)
             except:
                 pass
-
 
     def parse_schema(self):
         if self.args.meta:

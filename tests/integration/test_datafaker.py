@@ -127,7 +127,7 @@ def test_hive():
 
 def test_op():
     meta_content = """
-        id||int||自增id[:inc(id)]
+        id||int||自增id[:inc(id,1)]
         name||varchar(20)||学生名字[:name]
         nickname||varchar(20)||学生名字[:enum(xiao ming, hah, lele, esd f222)]
         age||int||学生年龄[:enum(3, 6, 7, 8, 9)]
@@ -136,7 +136,7 @@ def test_op():
         allage||int||总年龄[:op(c0*c3+c4)]
     """
     test_tmpdir, meta_file = _make_tmp_file()
-    cmd = 'datafaker file . hello.txt 100 --meta {meta_file} --format text --outprint --withheader'.format(meta_file=meta_file)
+    cmd = 'datafaker file . hello.txt 23 --meta {meta_file} --format text --outprint'.format(meta_file=meta_file)
     _main(cmd, meta_content)
 
 
@@ -149,6 +149,6 @@ def test_es():
 
 def test_mysql():
 
-    cmd = 'datafaker mysql mysql+mysqldb://root:root@localhost:3600/test pig_fnumbe_test 10 --meta data/meta.txt --format text'
+    cmd = 'datafaker mysql mysql+mysqldb://root:root@localhost:3600/test pig_fnumbe_test 1 --meta data/meta.txt --format text'
     sys.argv = cmd.strip().split(' ')
     main()
