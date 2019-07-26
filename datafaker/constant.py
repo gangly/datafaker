@@ -1,35 +1,35 @@
 #!/usr/bin/env python
 # -*- coding: UTF-8 -*-
 
-__version__ = '0.3.6'
+__version__ = '0.3.7'
 
-# 每次批量插入数据条数
+# batch size for inserting records
 BATCH_SIZE = 1000
 
-# multiprocessing  queue 最大为32767，超过会报错
+# multiprocessing  queue, max size is 32767
 MAX_QUEUE_SIZE = 30000
 
-# 产生流数据间隔时间(秒)
+# time interval for streaming record producing
 DEFAULT_INTERVAL = 1
 
-# 任务并发数
+# task num for paralleling
 WORKERS = 4
 
-# 最小并行产生记录数（小于该值为单线程）
+# minimum records for multiple threading, single thread if number of record lower than MIN_RECORDS_FOR_PARALLEL
 MIN_RECORDS_FOR_PARALLEL = 10
 
-# 输出数据格式
+# output format
 TEXT_FORMAT = 'text'
 JSON_FORMAT = 'json'
 DEFAULT_FORMAT = TEXT_FORMAT
 
-# 语言类型
+# local language
 DEFAULT_LOCALE = 'zh_CN'
 
-# ENUM类型，从文件中读取枚举值
+# ENUM
 ENUM_FILE = 'file://'
 
-# 判断哪些需要加上引号
+# types of needing quotation marks
 STR_TYPES = ['date', 'time', 'datetime', 'char', 'varchar', 'tinyblob',
              'tinytext', 'text', 'mediumtext', 'longtext', 'string']
 
