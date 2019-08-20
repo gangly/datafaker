@@ -2,12 +2,12 @@
 # -*- coding: UTF-8 -*-
 from datafaker.dbs.basedb import BaseDB
 # from drivers import load_sqlalchemy
-from datafaker.dbs.rdb import RDB
+from datafaker.dbs.rdbdb import RdbDB
 from datafaker.drivers import load_sqlalchemy
 from datafaker.utils import save2db
 
 
-class MysqlDB(RDB):
+class MysqlDB(RdbDB):
 
     def construct_self_rows(self):
         session = load_sqlalchemy(self.args.connect)

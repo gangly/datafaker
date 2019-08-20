@@ -7,10 +7,9 @@ import os
 import platform
 import zipfile
 import six
-#import hcmd.compat
 
 # If you ever want to import from the vendored six. Add it here and then
-# import from hcmd.compat. Also try to keep it in alphabetical order.
+# import from datafaker.compat. Also try to keep it in alphabetical order.
 # This may get large.
 advance_iterator = six.advance_iterator
 PY3 = six.PY3
@@ -39,13 +38,16 @@ except ImportError:
 is_windows = sys.platform == 'win32'
 
 if is_windows:
-    from hcmd.multithreading import *
+    from datafaker.multithreading import *
 else:
     import multiprocessing
     from multiprocessing import Process, Lock, Value, Queue
     List = multiprocessing.Manager().list
     Dict = multiprocessing.Manager().dict
-
+# import multiprocessing
+# from multiprocessing import Process, Lock, Value, Queue
+# List = multiprocessing.Manager().list
+# Dict = multiprocessing.Manager().dict
 
 
 if is_windows:

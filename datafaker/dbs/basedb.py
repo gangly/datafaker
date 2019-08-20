@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: UTF-8 -*-
-from Queue import Queue
+
 from abc import abstractmethod
 from time import sleep
 

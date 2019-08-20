@@ -7,7 +7,7 @@ from __future__ import unicode_literals
 
 class BaseError(Exception):
     """
-    The base exception class for fablinker base exceptions.
+    The base exception class for datafaker base exceptions.
 
     :ivar msg: The descriptive message associated with the error.
     """

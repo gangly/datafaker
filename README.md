@@ -17,7 +17,7 @@ https://github.com/gangly/datafaker
 针对kafka流数据，需要不断定时生成测试数据写入kafka
 
 
-经过调研，目前没有一个开源的测试数据生成工具，用来生成mysql 表结构相似的数据。常用方法是人工手动造几条数据写入数据库，这种方法带来的弊端是
+经过调研，目前没有一个开源的测试数据生成工具，用来生成表结构相似的数据。常用方法是人工手动造几条数据写入数据库，这种方法带来的弊端是
 - 浪费工时
 针对表的不同数据类型的字段，需要构造不同数据
 - 数据量小
@@ -67,10 +67,23 @@ datafaker是用python编写，支持python2.7，python3.4+。目前版本0.08，
 
 ```python setup.py install ```
 
-
 方法2.直接安装
 
 ```pip install datafaker```
+
+#### 安装对应数据库包
+对于不同的数据库需要用到不同的python包，若在执行过程中报包缺失问题。
+请pip安装对应包
+
+| 数据库 | python包| 备注| 
+| -------- | -------- | ------ |
+|mysql/tidb| mysql-python/mysqlclient | windows+python3请使用mysqlclient| 
+|postgresql/redshift | psycopg2 | 根据sqlachemy选择对应包 | 
+|Hbase | happybase,thrift | | 
+|es | elasticsearch | | 
+|hive | pyhive | | 
+|kafka | kafka-python | | 
+
 
 ## 五、使用举例
 
@@ -114,7 +127,7 @@ optional arguments:
 ```
 
 
-### 5.2 从本地mysql的test数据库的stu表中读取表元数据，并构造10条数据写入stu表
+### 5.2 直接从本地mysql的test数据库的stu表中读取表元数据，并构造10条数据写入stu表
 ---------
 
 ```
@@ -128,7 +141,7 @@ time used: 0.038 s
 ----------------
 
 ```
-$ datafaker mysql mysql+mysqldb://root:root@localhost:3600/test stu 10 --outprint --meta meta.txt --outspliter ',,'
+$ datafaker rdb mysql+mysqldb://root:root@localhost:3600/test stu 10 --outprint --meta meta.txt --outspliter ',,'
 1,,鲍红,,人和中心,,高小王子,,3,,81,,55.6,,13197453222,,mwei@gmail.com,,192.100.224.255,,江苏省西宁市梁平朱路I座 944204
 2,,刘东,,清华中学,,高小王子,,3,,31,,52.4,,15206198472,,lili@kong.cn,,203.0.190.6,,内蒙古自治区嘉禾市兴山呼和浩特街E座 706421
 3,,匡静,,人和中心,,歌神,,9,,84,,72.51,,18944398099,,zouchao@gmail.com,,203.1.53.166,,安徽省永安市沈河惠州街x座 345415
@@ -257,7 +270,7 @@ datafaker参数包含4个必选参数和一些可选参数，如下表所示
 
 | 参数名 | 含义 |  参数类型| 是否必选 | 默认值 | 备注 |
 | ------ | ------ | ------ | ----- | ------| ---- |
-|dbtype| 数据源类型 | string | 是 | 无 | 可选值为 mysql,hive, kafka, file |
+|dbtype| 数据源类型 | string | 是 | 无 | 可选值为 rdb,mysql,hive, kafka, file |
 | connect | 数据源连接信息 | string| 是 | 无 | 关系型数据库和hive为 sqlachemy的连接串<br>kafka为broker连接串<br>file为文件路径<br>hbase为thrift host和端口|
 |table| 表名 | string | 是 |  无 | 将各种数据源操作单位都抽象为表，数据库中为表，kafka中为topic，file为文件名，hbase为表，es为索引和type，mongo为集合|
 | num | 数据条数 | int | 是 | 无 | 其中kafka必须为1 |
@@ -528,14 +541,22 @@ op(c1*c4+c13) 表示第一列值乘上第五列值加上第十四列值
 
 ### 3. 支持关系型数据库
 例子中大部分是以mysql为例子展示的。
-只要支持sqlachemy的都是可以的，例如pg, oracle, tidb等等。
-但type类型都是mysql指定，例如：
-```datafaker mysql postgresql+psycopg2://postgres:postgres@localhost/testpg pig_fnumbe_test 100000 --meta meta.txt --worker 8 --batch 2000```
+只要支持sqlachemy的关系型数据库都是可以的，例如pg, oracle, tidb，redshift等等。
+但type类型都是rdb，例如：
+```datafaker rdb postgresql+psycopg2://postgres:postgres@localhost/testpg pig_fnumbe_test 100000 --meta meta.txt --worker 8 --batch 2000```
+
+### 4. 测试情况
+
+| 操作系统 |python版本| 测试情况| 备注 |
+| -------- | -------- | ------ | ------- |
+|Mac osx| python2.7/3.5+ |通过| |
+|Linux | python2.7 | 通过 | |
+|Windows10 | python3.6| 通过| |
 
 
 
-
-
+### 5. 其他数据库
+如果需要写入其他数据库请给我提issue
 
 
 

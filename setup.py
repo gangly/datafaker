@@ -12,7 +12,7 @@ here = os.path.abspath(os.path.dirname(__file__))
 
 
 def read(*parts):
-    return codecs.open(os.path.join(here, *parts), 'r').read()
+    return codecs.open(os.path.join(here, *parts)).read()
 
 
 def find_version(*file_paths):
@@ -23,20 +23,12 @@ def find_version(*file_paths):
         return version_match.group(1)
     raise RuntimeError("Unable to find version string.")
 
-
-
-
 # requires = [open('requirements.txt').read().splitlines()]
 requires = [
-    'pyhive',
     'sqlparse',
     'faker',
     'configparser>=3.5.0',
-    'kafka-python==1.4.3',
     'sqlalchemy',
-    'happybase',
-    'elasticsearch',
-    'mysql-python'
 ]
 
 if sys.platform == 'win32':
@@ -56,7 +48,7 @@ setup_options = dict(
     author='GaryLi',
     author_email='gangly123@163.com',
     url='https://github.com/gangly/datafaker',
-    scripts=['bin/datafaker',
+    scripts=['bin/datafaker', 'bin/datafaker.cmd',
              ],
     packages=find_packages(exclude=['tests*']),
     package_data={'datafaker': ['data/*.json', 'data/*.ini', 'requirements.txt', ]},
@@ -103,7 +95,7 @@ if 'py2exe' in sys.argv:
             'skip_archive': True,
             'dll_excludes': ['crypt32.dll'],
             'packages': ['urllib', 'httplib', 'HTMLParser',
-                         'fablinker', 'ConfigParser', 'xml.etree', 'pipes'],
+                         'datafaker', 'ConfigParser', 'xml.etree', 'pipes'],
         }
     }
     setup_options['console'] = ['bin/datafaker']

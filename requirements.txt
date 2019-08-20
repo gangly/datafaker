@@ -8,4 +8,6 @@ happybase
 elasticsearch
 thrift
 sasl
-mysql-python
+#mysql-python
+mysqlclient
+psycopg2

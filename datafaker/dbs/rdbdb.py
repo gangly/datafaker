@@ -5,7 +5,7 @@ from datafaker.dbs.basedb import BaseDB
 from datafaker.drivers import load_sqlalchemy
 
 
-class RDB(BaseDB):
+class RdbDB(BaseDB):
 
     def init(self):
         self.session = load_sqlalchemy(self.args.connect)
