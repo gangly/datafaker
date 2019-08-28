@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: UTF-8 -*-
-from kafka import KafkaProducer
+
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
@@ -15,8 +15,3 @@ def load_sqlalchemy(connet):
     DBSession = sessionmaker(engine)
     session = DBSession()
     return session
-
-
-def load_kafka(brokers):
-    producer = KafkaProducer(bootstrap_servers=brokers)
-    return producer
