@@ -46,7 +46,7 @@ https://github.com/gangly/datafaker
 
 ## 三、软件架构
 
-datafaker是用python编写，支持python2.7，python3.4+。目前版本0.08，已经发布在pypi上。
+datafaker是用python编写，支持python2.7，python3.4+。已经发布在pypi上，https://pypi.org/search/?q=datafaker。
 
 ![架构图](img/datafaker.png)
 
