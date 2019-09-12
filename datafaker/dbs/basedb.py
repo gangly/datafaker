@@ -106,8 +106,10 @@ class BaseDB(object):
         while not self.isover.value or not self.queue.empty():
             try:
                 data = self.queue.get_nowait()
-                # data = self.queue.get()
                 print(data)
+                if self.args.interval:
+                    time.sleep(self.args.interval)
+
             except:
                 pass
 
