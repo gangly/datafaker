@@ -276,7 +276,7 @@ datafaker参数包含4个必选参数和一些可选参数，如下表所示
 | num | 数据条数 | int | 是 | 无 | 其中kafka必须为1 |
 | auth | 账号密码 | string | 否 | 无 | 数据源的账号密码，以:分隔，例如 admin:12334 |
 | meta | 元数据文件 | string | 否 | 无 | 若设定该参数，则忽略从数据源连接信息中读取远数据 |
-| interval | 流数据产生间隔 | int | 否 | 1 | 单位秒|
+| interval | 流数据产生间隔 | float | 否 | 1 | 单位秒|
 | version | 显示版本号 | bool | 否 |  无 |  |
 | outprint | 是否在屏幕打印 | bool | 否 |  false |  若设置屏幕打印，则数据不会写文件或数据源 |
 | outspliter |  数据字段分割符 | string | 否 |  , | 屏幕打印，保存文件有效 |
@@ -553,9 +553,12 @@ op(c1*c4+c13) 表示第一列值乘上第五列值加上第十四列值
 |Linux | python2.7 | 通过 | |
 |Windows10 | python3.6| 通过| |
 
+### 5. 每隔一定时间一条条写入数据i
+需要设置interval和batch参数，例如：
+```datafaker rdb postgresql+psycopg2://postgres:postgres@localhost/testpg pig_fnumbe_test 100000 --meta meta.txt --interval 0.5 --batch 1```
 
 
-### 5. 其他数据库
+### xx. 其他问题
 如果需要写入其他数据库请给我提issue
 
 

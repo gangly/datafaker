@@ -1,11 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: UTF-8 -*-
-
+import time
 from abc import abstractmethod
 from time import sleep
 
 from datafaker import compat
-from datafaker.compat import safe_encode, safe_decode
 from datafaker.constant import INT_TYPES, FLOAT_TYPES, ENUM_FILE, JSON_FORMAT, MAX_QUEUE_SIZE, MIN_RECORDS_FOR_PARALLEL
 from datafaker.exceptions import MetaFileError, FileNotFoundError, EnumMustNotEmptyError, ParseSchemaError
 from datafaker.fakedata import FackData
@@ -95,6 +94,8 @@ class BaseDB(object):
                 except:
                     pass
             self.save_data(lines)
+            if self.args.interval:
+                time.sleep(self.args.interval)
             saved_records += len(lines)
             del(lines)
             print('insert %d records' % saved_records)

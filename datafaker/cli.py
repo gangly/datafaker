@@ -15,14 +15,14 @@ def parse_args():
         exit(0)
 
     parser = argparse.ArgumentParser(
-        description='fakegen, a tool to make generate data easy.')
+        description='datafaker, a tool to make generate data easy.')
     parser.add_argument('dbtype', nargs='?', action='store', help='data source type')
     parser.add_argument('connect', nargs='?', action='store', help='connect info to the database')
     parser.add_argument('table', action='store', help='table to process')
     parser.add_argument('num', nargs='?', action='store', type=int, help='number of records to generate')
     parser.add_argument('--auth', nargs='?', action='store', help='user and password')
     parser.add_argument('--meta', nargs='?', action='store', help='meta file path')
-    parser.add_argument('--interval', action='store', type=int, default=DEFAULT_INTERVAL, help='the interval to make stream data')
+    parser.add_argument('--interval', action='store', type=float, help='the interval to make stream data')
     parser.add_argument('--batch', action='store', type=int, default=BATCH_SIZE, help='the interval to make stream data')
     parser.add_argument('--workers', action='store', type=int, default=WORKERS, help='the interval to make stream data')
     parser.add_argument('--version', action='store_true', help="print the version number and exit")
