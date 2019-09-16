@@ -428,7 +428,7 @@ op(c1*c4+c13) 表示第一列值乘上第五列值加上第十四列值
 | date_between| 指定范围内日期| 1997-08-29 |date_between(start_date,end_date,format)<br>start_date表示开始日期，必填<br>end_date表示结束日期，必填<br>format为日期格式,默认值为%Y-%m-%d<br>date_between(2017-01-01, 2019-12-02, '%Y%m%d')|
 |date_this_month | 当前月份的日期 | 2019-03-13 | |
 | date_this_year | 今年内的日期 | 2019-03-09 | |
-| date_time/datetime | （1970年1月1日至今）时间| 可不带参数datetime, datatime(%Y-%m-%d %H:%M)   2010-06-15 04:07 | 带一个时间格式参数，默认为%Y-%m-%d %H:%M:%S|
+| date_time/datetime | （1970年1月1日至今）时间| 可不带参数datetime, 或者带一个参数datatime(%Y-%m-%d %H:%M)   2010-06-15 04:07 | 带一个时间格式参数，默认为%Y-%m-%d %H:%M:%S|
 | date_time_between | 指定范围时间 |  2009-10-03 03:15:07  |用法同dates
 | month | 随机月份| 05 | |
 |month_name | 随机月份（英文）| December | |
