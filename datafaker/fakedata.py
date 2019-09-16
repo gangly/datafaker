@@ -108,8 +108,8 @@ class FackData(object):
     def fake_year(self, *args):
         return self.faker.year()
 
-    def fake_datetime(self, *args):
-        return self.faker.date_time()
+    def fake_datetime(self, format='%Y-%m-%d %H:%M:%S'):
+        return self.faker.date_time().strftime(format)
 
     def fake_timestamp(self, *args):
 

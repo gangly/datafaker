@@ -2,7 +2,6 @@
 # -*- coding: UTF-8 -*-
 import sys
 from datafaker import main
-
 if __name__ == "__main__":
 
     sys.exit(main())
