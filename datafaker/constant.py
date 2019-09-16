@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: UTF-8 -*-
 
-__version__ = '0.4.4'
+__version__ = '0.4.5'
 
 # batch size for inserting records
 BATCH_SIZE = 1000

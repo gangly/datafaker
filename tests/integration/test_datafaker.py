@@ -134,10 +134,11 @@ def test_op():
         age2||int||学生年龄[:age(10, 20)]
         score||int||学生年龄[:inc(score, 10, 2)]
         allage||int||总年龄[:op(c0*c3+c4)]
-        timestamp||varchar(20)||时间[:timestamp]
+        timestamp||varchar(20)||时间[:timestamp(1)]
+        datetime||varchar(20)||时间[:datetime(1,%Y-%m-%d %H:%M)]
     """
     test_tmpdir, meta_file = _make_tmp_file()
-    cmd = 'datafaker file . hello.txt 23 --meta {meta_file} --format text --outprint'.format(meta_file=meta_file)
+    cmd = 'datafaker file . hello.txt 1 --meta {meta_file} --format text --outprint'.format(meta_file=meta_file)
     _main(cmd, meta_content)
 
 

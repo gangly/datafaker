@@ -2,6 +2,7 @@
 # -*- coding: UTF-8 -*-
 import datetime
 import random
+import time
 from copy import copy
 
 from faker import Faker
@@ -108,14 +109,14 @@ class FackData(object):
     def fake_year(self, *args):
         return self.faker.year()
 
-    def fake_datetime(self, format='%Y-%m-%d %H:%M:%S'):
-        return self.faker.date_time().strftime(format)
+    def fake_datetime(self, now=0, format='%Y-%m-%d %H:%M:%S'):
+        dt = datetime.datetime.now() if now else self.faker.date_time()
+        return dt.strftime(format)
 
-    def fake_timestamp(self, *args):
+    def fake_timestamp(self, now=0):
 
-        return self.faker.unix_time()
-
-
+        timestamp = int(time.time()) if now else self.faker.unix_time()
+        return timestamp
 
     ########### mysql 字符串类型##############
 
