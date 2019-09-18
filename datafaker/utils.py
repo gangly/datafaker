@@ -80,7 +80,7 @@ def count_time(func):
 def read_file_lines(filepath):
     if not os.path.exists(filepath):
         raise FileNotFoundError(filepath)
-    with open(filepath) as fp:
+    with open(filepath, 'r', encoding='UTF-8') as fp:
         lines = fp.read().splitlines()
         # start with # is comment line, and filter empty line
         lines = [safe_decode(line) for line in lines if line and not line.startswith("#") and line.strip()]

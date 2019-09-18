@@ -35,7 +35,9 @@ class FackData(object):
     def fake_mediumint(self, digits=None, unsigned=False):
         return self.faker.random_int(0, 16777215) if unsigned else self.faker.random_int(-8388608, 8388607)
 
-    def fake_int(self, digits=None, unsigned=False):
+    def fake_int(self, min=None, max=None, unsigned=False):
+        if min or max:
+            return self.faker.random_int(min, max)
         return self.faker.random_int(0, 4294967295) if unsigned else self.faker.random_int(-2147483648, 2147483647)
 
     def fake_integer(self, *args):
