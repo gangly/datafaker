@@ -138,7 +138,7 @@ def test_op():
         datetime||varchar(20)||时间[:datetime(1,%Y-%m-%d %H:%M)]
     """
     test_tmpdir, meta_file = _make_tmp_file()
-    cmd = 'datafaker file . hello.txt 1 --meta {meta_file} --format text --outprint'.format(meta_file=meta_file)
+    cmd = 'datafaker file . hello.txt 10 --meta {meta_file} --format text --outprint --format json'.format(meta_file=meta_file)
     _main(cmd, meta_content)
 
 

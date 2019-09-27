@@ -27,7 +27,7 @@ def find_version(*file_paths):
 requires = [
     'sqlparse==0.3.0',
     'faker==2.0.2',
-    'configparser==4.0.2',
+    'configparser',
     'sqlalchemy==1.3.8',
 ]
 

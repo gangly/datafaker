@@ -6,10 +6,10 @@ from time import sleep
 
 from datafaker import compat
 from datafaker.constant import INT_TYPES, FLOAT_TYPES, ENUM_FILE, JSON_FORMAT, MAX_QUEUE_SIZE, MIN_RECORDS_FOR_PARALLEL
-from datafaker.exceptions import MetaFileError, FileNotFoundError, EnumMustNotEmptyError, ParseSchemaError
+from datafaker.exceptions import EnumMustNotEmptyError, ParseSchemaError
 from datafaker.fakedata import FackData
 from datafaker.reg import reg_keyword, reg_cmd, reg_args
-from datafaker.utils import save2file, count_time, read_file_lines, json_item, process_op_args
+from datafaker.utils import count_time, read_file_lines, json_item, process_op_args
 
 
 class BaseDB(object):
@@ -41,7 +41,7 @@ class BaseDB(object):
                 self.cur_num.value += 1
             columns = self.fake_column()
             if self.args.format == JSON_FORMAT:
-                columns = [json_item(self.column_names, line) for line in columns]
+                columns = json_item(self.column_names, columns)
             self.queue.put(columns)
 
         sleep(0.1)
