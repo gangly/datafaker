@@ -37,7 +37,7 @@ https://github.com/gangly/datafaker
 包括常见数据库字段类型（整型、浮点型、字符型）、自定义类型（IP地址，邮箱，身份证号码等）
 - 模拟多表关联数据
 通过制定某些字段为枚举类型（从指定的数据列表里面随机选择），这样在数据量多的情况下能保证多表Join能关联上，查询到数据
-- 支持批数据和流数据生成，可指定流数据间隔时间
+- 支持批数据和流数据生成，可指定数据产生间隔时间
 - 支持多种数据输出方式，包括屏幕打印、文件和远程数据源
 - 支持多种数据源。目前支持关系型数据库、Hive、Kafka、Hbase、ES。后面将扩展到Mongo，Kudu等数据源
 - 可指定输出格式，目前支持text，json
@@ -63,13 +63,17 @@ datafaker是用python编写，支持python2.7，python3.4+。已经发布在pypi
 有两种安装方法：
 
 方法1.下载安装
-下载源码压缩包，解压后，执行：
+下载源码压缩包，解压后，到datafaker目录里面执行：
 
-```python setup.py install ```
+```bash
+python setup.py install
+ ```
 
 方法2.直接安装（此方法使用若有问题，请用方法1安装）
 
-```pip install datafaker```
+```bash
+pip install datafaker
+```
 
 
 #### 安装对应数据库包
