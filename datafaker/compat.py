@@ -165,8 +165,6 @@ if six.PY3:
         encoding.
 
         """
-        if 'b' not in mode:
-            encoding = locale.getpreferredencoding()
         return open(filename, mode, encoding=encoding)
 
     def bytes_print(statement, stdout=None):
@@ -230,8 +228,8 @@ else:
 
     def compat_open(filename, mode='r', encoding=None):
         # See docstring for compat_open in the PY3 section above.
-        if 'b' not in mode:
-            encoding = locale.getpreferredencoding()
+        # if 'b' not in mode:
+        #     encoding = locale.getpreferredencoding()
         return io.open(filename, mode, encoding=encoding)
 
     def bytes_print(statement, stdout=None):

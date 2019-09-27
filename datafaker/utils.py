@@ -7,7 +7,7 @@ import json
 import re
 import time
 
-from datafaker.compat import safe_decode, safe_encode
+from datafaker.compat import safe_decode, safe_encode, compat_open
 from datafaker.constant import STR_TYPES, INT_TYPES, FLOAT_TYPES
 from datafaker.drivers import load_sqlalchemy
 from datafaker.exceptions import FileNotFoundError
@@ -80,7 +80,7 @@ def count_time(func):
 def read_file_lines(filepath):
     if not os.path.exists(filepath):
         raise FileNotFoundError(filepath)
-    with open(filepath, 'r', encoding='UTF-8') as fp:
+    with compat_open(filepath, 'r', encoding='UTF-8') as fp:
         lines = fp.read().splitlines()
         # start with # is comment line, and filter empty line
         lines = [safe_decode(line) for line in lines if line and not line.startswith("#") and line.strip()]
