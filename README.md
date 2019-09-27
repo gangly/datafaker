@@ -30,7 +30,7 @@ https://github.com/gangly/datafaker
 比如针对流数据，需要随机每隔几秒钟写入kafka。或者动态随机插入mysql，手工操作相对麻烦，而且不好统计写入数据条数
 
 
-**<font color=#6495ED face="黑体">针对目前这些痛点，datafaker应运而生。datafaker是一个多数据源测试数据构造工具，可以模拟产生大部分常用数据类型，轻松解决以上痛点。datafaker具有以下功能：</font>**
+**<font color=#6495ED face="黑体">datafaker是一个多数据源测试数据构造工具，可以模拟产生大部分常用数据类型，具有以下功能：</font>**
 
 
 - 多种数据类型
@@ -67,9 +67,10 @@ datafaker是用python编写，支持python2.7，python3.4+。已经发布在pypi
 
 ```python setup.py install ```
 
-方法2.直接安装
+方法2.直接安装（此方法使用若有问题，请用方法1安装）
 
 ```pip install datafaker```
+
 
 #### 安装对应数据库包
 对于不同的数据库需要用到不同的python包，若在执行过程中报包缺失问题。

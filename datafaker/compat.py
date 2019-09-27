@@ -165,6 +165,8 @@ if six.PY3:
         encoding.
 
         """
+        if encoding is None:
+            encoding = locale.getpreferredencoding()
         return open(filename, mode, encoding=encoding)
 
     def bytes_print(statement, stdout=None):
@@ -180,8 +182,6 @@ if six.PY3:
             # If it is not possible to write to the standard out buffer.
             # The next best option is to decode and write to standard out.
             stdout.write(statement.decode('utf-8'))
-
-
 
 else:
     import codecs
@@ -228,8 +228,8 @@ else:
 
     def compat_open(filename, mode='r', encoding=None):
         # See docstring for compat_open in the PY3 section above.
-        # if 'b' not in mode:
-        #     encoding = locale.getpreferredencoding()
+        if encoding is None:
+            encoding = locale.getpreferredencoding()
         return io.open(filename, mode, encoding=encoding)
 
     def bytes_print(statement, stdout=None):
