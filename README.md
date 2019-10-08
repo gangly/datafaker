@@ -39,8 +39,9 @@ https://github.com/gangly/datafaker
 通过制定某些字段为枚举类型（从指定的数据列表里面随机选择），这样在数据量多的情况下能保证多表Join能关联上，查询到数据
 - 支持批数据和流数据生成，可指定数据产生间隔时间
 - 支持多种数据输出方式，包括屏幕打印、文件和远程数据源
-- 支持多种数据源。目前支持关系型数据库、Hive、Kafka、Hbase、ES。后面将扩展到Mongo，Kudu等数据源
+- 支持多种数据源。目前支持关系型数据库、Hive、Kafka、Hbase、ES、File或屏幕打印。后面将扩展到Mongo，Kudu等数据源
 - 可指定输出格式，目前支持text，json
+- 生成自增主键
 
 
 
@@ -48,7 +49,8 @@ https://github.com/gangly/datafaker
 
 datafaker是用python编写，支持python2.7，python3.4+。已经发布在pypi，https://pypi.org/search/?q=datafaker。
 
-![架构图](doc/img/datafaker.png)
+
+<img src="https://github.com/gangly/datafaker/blob/master/doc/img/datafaker.png" width="150" height="200" alt="图片描述文字"/>
 
 架构图完整的画出了工具的执行过程，从图可知工具经历了5个模块：
 - 参数解析器。解析用户从终端命令行输入的命令。
@@ -127,48 +129,9 @@ datafaker参数包含4个必选参数和一些可选参数，如下表所示
 
 ## 八、注意事项
 
-#### 1.构造大批量数据
-若需要构造大批量数据，原生python将耗费大量时间，请使用pypy执行datafaker。例如：
-
-```pypy -m datafaker hbase localhost:9090 PIGONE 50000 --meta hbase.txt```
-
-或者多线程执行, 8个线程产生数据，每次批量写入pg 2000条数据:
-
-```datafaker mysql postgresql+psycopg2://postgres:postgres@localhost/testpg pig_fnumbe_test 100000 --meta meta.txt --worker 8 --batch 2000```
-
-#### 2.写入Hbase报错Broken pipe
-是由于hbase设置的hbase.thrift.server.socket.read.timeout参数过小，默认为60秒
-因此在conf/hbase-site.xml中添加上配置即可：
-```
-<property>
-         <name>hbase.thrift.server.socket.read.timeout</name>
-         <value>600000</value>
-         <description>eg:milisecond</description>
-</property>
-```
-重启hbase, 重启thrift
-
-### 3. 支持关系型数据库
-例子中大部分是以mysql为例子展示的。
-只要支持sqlachemy的关系型数据库都是可以的，例如pg, oracle, tidb，redshift等等。
-但type类型都是rdb，例如：
-```datafaker rdb postgresql+psycopg2://postgres:postgres@localhost/testpg pig_fnumbe_test 100000 --meta meta.txt --worker 8 --batch 2000```
-
-### 4. 测试情况
-
-| 操作系统 |python版本| 测试情况| 备注 |
-| -------- | -------- | ------ | ------- |
-|Mac osx| python2.7/3.5+ |通过| |
-|Linux | python2.7 | 通过 | |
-|Windows10 | python3.6| 通过| |
-
-### 5. 每隔一定时间一条条写入数据i
-需要设置interval和batch参数，例如：
-```datafaker rdb postgresql+psycopg2://postgres:postgres@localhost/testpg pig_fnumbe_test 100000 --meta meta.txt --interval 0.5 --batch 1```
+[细节注意事项](https://github.com/gangly/datafaker/blob/master/doc/注意事项.md)
 
 
-### xx. 其他问题
-如果需要写入其他数据库请给我提issue
 
 
 
