@@ -113,6 +113,8 @@ pip install datafaker
 
 [细节注意事项](https://github.com/gangly/datafaker/blob/master/doc/注意事项.md)
 
+_____
+
 **请作者喝杯咖啡**
 
 <div align=left><img
