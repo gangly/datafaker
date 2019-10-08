@@ -49,8 +49,9 @@ https://github.com/gangly/datafaker
 
 datafaker是用python编写，支持python2.7，python3.4+。已经发布在pypi，https://pypi.org/search/?q=datafaker。
 
-
-<img src="https://github.com/gangly/datafaker/blob/master/doc/img/datafaker.png" width="150" height="200" alt="图片描述文字"/>
+<div align=center><img
+src="https://github.com/gangly/datafaker/blob/master/doc/img/datafaker.png" width="500" height="600" alt="软件架构"/>
+</div>
 
 架构图完整的画出了工具的执行过程，从图可知工具经历了5个模块：
 - 参数解析器。解析用户从终端命令行输入的命令。
@@ -97,28 +98,9 @@ pip install datafaker
 [具体使用例子](https://github.com/gangly/datafaker/blob/master/doc/使用举例.md)
 
 
-## 六、命令参数
+## 六、命令行参数
 
-datafaker参数包含4个必选参数和一些可选参数，如下表所示
-
-| 参数名 | 含义 |  参数类型| 是否必选 | 默认值 | 备注 |
-| ------ | ------ | ------ | ----- | ------| ---- |
-|dbtype| 数据源类型 | string | 是 | 无 | 可选值为 rdb,mysql,hive, kafka, file |
-| connect | 数据源连接信息 | string| 是 | 无 | 关系型数据库和hive为 sqlachemy的连接串<br>kafka为broker连接串<br>file为文件路径<br>hbase为thrift host和端口|
-|table| 表名 | string | 是 |  无 | 将各种数据源操作单位都抽象为表，数据库中为表，kafka中为topic，file为文件名，hbase为表，es为索引和type，mongo为集合|
-| num | 数据条数 | int | 是 | 无 | 其中kafka必须为1 |
-| auth | 账号密码 | string | 否 | 无 | 数据源的账号密码，以:分隔，例如 admin:12334 |
-| meta | 元数据文件 | string | 否 | 无 | 若设定该参数，则忽略从数据源连接信息中读取远数据 |
-| interval | 流数据产生间隔 | float | 否 | 1 | 单位秒|
-| version | 显示版本号 | bool | 否 |  无 |  |
-| outprint | 是否在屏幕打印 | bool | 否 |  false |  若设置屏幕打印，则数据不会写文件或数据源 |
-| outspliter |  数据字段分割符 | string | 否 |  , | 屏幕打印，保存文件有效 |
-| locale | 语言类型 | string | 否 | zh_CN | 支持多国语言，en_US， zh_CN|
-| outfile | 输出到文件 | string | 否 |  无 |  |
-| format | 数据格式 | string | 否 |  text |  kafka 默认为json|
-| withheader | 打印和存储到文件是否带表头 | bool | 否 | False| |
-| batch | 每次批量写入数据源大小 | int | 否 | 1000 |  |
-| workers | 生成测试数据的线程数 | int | 否 | 4 |  |
+[命令行参数详解](https://github.com/gangly/datafaker/blob/master/doc/命令参数.md)
 
 
 
@@ -131,6 +113,11 @@ datafaker参数包含4个必选参数和一些可选参数，如下表所示
 
 [细节注意事项](https://github.com/gangly/datafaker/blob/master/doc/注意事项.md)
 
+**请作者喝杯咖啡**
+
+<div align=left><img
+src="https://github.com/gangly/datafaker/blob/master/doc/img/微信pay.png" width="200" height="200" alt="喝杯咖啡"/>
+</div>
 
 
 
