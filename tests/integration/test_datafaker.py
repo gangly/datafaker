@@ -142,7 +142,6 @@ def test_op():
     _main(cmd, meta_content)
 
 
-
 def test_es():
     test_tmpdir, meta_file = _make_tmp_file()
     cmd = 'datafaker es localhost:9200 example1/tp1 100 --auth elastic:elastic --meta {meta_file} --format text'.format(meta_file=meta_file)
@@ -154,3 +153,27 @@ def test_mysql():
     cmd = 'datafaker mysql mysql+mysqldb://root:root@localhost:3600/test pig_fnumbe_test 1 --meta data/meta.txt --format text'
     sys.argv = cmd.strip().split(' ')
     main()
+
+
+def test_mysql_with_nometa():
+    cmd = "datafaker mysql mysql+mysqldb://root:root@localhost:3600/test stu 10"
+    sys.argv = cmd.strip().split(' ')
+    main()
+
+
+def test_int():
+    meta_content = """
+        id||int||not,
+        name||varchar(200)||default,
+        school||char(30)||default,
+        nickname||char(30)||default,
+        age||varchar(10)||default,
+        class_num||char(10)||default,
+        phone||int||default,
+        email||char(10)||default,
+        ip||char(10)||default,
+        address||char(40)||default,
+    """
+    test_tmpdir, meta_file = _make_tmp_file()
+    cmd = 'datafaker file . hello.txt 10 --meta {meta_file} --format text --outprint'.format(meta_file=meta_file)
+    _main(cmd, meta_content)

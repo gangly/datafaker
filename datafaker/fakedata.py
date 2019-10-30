@@ -16,11 +16,8 @@ class FackData(object):
     def __init__(self, locale):
 
         self.faker = Faker(locale)
-        self.faker.random_int()
         self.faker_funcs = dir(self.faker)
-
         self.lock = compat.Lock()
-        # self.auto_inc = {}
         self.auto_inc = Dict()
 
 
