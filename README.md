@@ -78,6 +78,9 @@ python setup.py install
 pip install datafaker
 ```
 
+更新版本：
+pip install datafaker --upgrade
+
 
 #### 安装对应数据库包
 对于不同的数据库需要用到不同的python包，若在执行过程中报包缺失问题。
