@@ -78,8 +78,11 @@ python setup.py install
 pip install datafaker
 ```
 
-更新版本：
+更新到最新版本：
 pip install datafaker --upgrade
+
+卸载工具：
+pip uninstall datafaker
 
 
 #### 安装对应数据库包
