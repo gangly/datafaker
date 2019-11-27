@@ -3,10 +3,7 @@
 import datetime
 import random
 import time
-from copy import copy
-
 from faker import Faker
-
 from datafaker import compat
 from datafaker.compat import Dict
 
@@ -19,7 +16,7 @@ class FackData(object):
         self.faker_funcs = dir(self.faker)
         self.lock = compat.Lock()
         self.auto_inc = Dict()
-
+        self.current_num = 0
 
     ######## mysql 数值类型 #############
 
@@ -175,7 +172,7 @@ class FackData(object):
 
     def fake_inc(self, mark, start=0, step=1):
         """
-        用于实现自增id
+        用于实现整型变量自增
         :param args:
         :return:
         """
@@ -189,16 +186,34 @@ class FackData(object):
     def fake_enum(self, *args):
         """
         实现枚举类型，随机返回一个列表中值
-        :param args:
+        :param args: 枚举数组
         :return:
         """
         return random.choice(list(args))
 
+    def fake_order_enum(self, *args):
+        """
+        用于循环顺序产生枚举值。常用于多列关联产生值
+        :param args: 数组值
+        :return:
+        """
+        datas = list(args)
+        num = len(datas)
+
+        idx = (self.current_num % num) - 1
+        return datas[idx]
+
+
     def fake_op(self, *args):
+        """
+        实现多字段四项运算
+        :param args:
+        :return:
+        """
         return None
 
-    #################
-    def do_fake(self, keyword, args):
+    ######## 执行主函数 #########
+    def do_fake(self, keyword, args, current_num):
         """
         首先查看是否在faker类的成员函数内，如果在则调用；
         否者调用FakeData类中自定义的成员函数
@@ -206,7 +221,7 @@ class FackData(object):
         :param args:
         :return:
         """
-
+        self.current_num = current_num
         method = getattr(self, 'fake_' + keyword, None)
         if callable(method):
             return method(*args)

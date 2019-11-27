@@ -11,7 +11,6 @@ from datafaker.fakedata import FackData
 from datafaker.reg import reg_keyword, reg_cmd, reg_args
 from datafaker.utils import count_time, read_file_lines, json_item, process_op_args
 
-
 class BaseDB(object):
 
     def __init__(self, args):
@@ -22,24 +21,33 @@ class BaseDB(object):
 
         self.queue = compat.Queue(maxsize=MAX_QUEUE_SIZE)
         self.isover = compat.Value('b', False)
+
         self.cur_num = compat.Value('L', 0)
         self.lock = compat.Lock()
+
+        # 调用子类初始化函数
         self.init()
 
     def init(self):
         pass
 
+    def get_cur_num(self):
+        """
+        必须将取值与计算同时锁住做原子计算，不然其他线程会执行产生多的数据
+        :return:
+        """
+        with self.lock:
+            self.cur_num.value += 1
+            return self.cur_num.value-1
+
     def fake_data(self):
         """
-        多线程产生数据，需要先加一再产生数据，不然其他线程会执行产生多的数据
         sleep是为了防止产生数据后消费数据过慢
         :return:
         """
 
-        while self.cur_num.value < self.args.num:
-            with self.lock:
-                self.cur_num.value += 1
-            columns = self.fake_column()
+        while self.get_cur_num() < self.args.num:
+            columns = self.fake_column(self.cur_num.value)
             if self.args.format == JSON_FORMAT:
                 columns = json_item(self.column_names, columns)
             self.queue.put(columns)
@@ -47,10 +55,10 @@ class BaseDB(object):
         sleep(0.1)
         self.isover.value = True
 
-    def fake_column(self):
+    def fake_column(self, current_num):
         columns = []
         for item in self.schema:
-            columns.append(self.fakedata.do_fake(item['cmd'], item['args']))
+            columns.append(self.fakedata.do_fake(item['cmd'], item['args'], current_num))
 
         # 处理op操作，与多个字段有逻辑关系
         # 必须等第一遍完成后再处理一遍
@@ -66,6 +74,7 @@ class BaseDB(object):
             self.queue.put(self.column_names)
 
         procs = []
+        # 如果产生的数据很少，则采用单线程
         procs_num = 1 if self.args.num <= MIN_RECORDS_FOR_PARALLEL else self.args.workers
         for _ in range(procs_num):
             producer = compat.Process(target=self.fake_data, args=())

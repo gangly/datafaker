@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: UTF-8 -*-
 
-__version__ = '0.5.1'
+__version__ = '0.6.1'
 
 # batch size for inserting records
 BATCH_SIZE = 1000
@@ -37,6 +37,7 @@ STR_TYPES = ['date', 'time', 'datetime', 'char', 'varchar', 'tinyblob',
 INT_TYPES = ['tinyint', 'smallint', 'mediumint', 'int', 'integer', 'bigint', ]
 
 FLOAT_TYPES = ['float', 'double', 'decimal', ]
+
 
 
 

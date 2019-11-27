@@ -109,8 +109,6 @@ pip uninstall datafaker
 [命令行参数详解](https://github.com/gangly/datafaker/blob/master/doc/命令参数.md)
 
 
-
-
 ## 七、数据构造规则
 
 [数据构造规则](https://github.com/gangly/datafaker/blob/master/doc/数据构造规则.md)
@@ -119,6 +117,8 @@ pip uninstall datafaker
 
 [细节注意事项](https://github.com/gangly/datafaker/blob/master/doc/注意事项.md)
 
+## 九、Release note
+[Release note](https://github.com/gangly/datafaker/blob/master/doc/release_note.md)
 _____
 
 **请作者喝杯咖啡**

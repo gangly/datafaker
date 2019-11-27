@@ -175,5 +175,16 @@ def test_int():
         address||char(40)||default,
     """
     test_tmpdir, meta_file = _make_tmp_file()
-    cmd = 'datafaker file . hello.txt 10 --meta {meta_file} --format text --outprint'.format(meta_file=meta_file)
+    cmd = 'datafaker file . hello.txt 20 --meta {meta_file} --format text --outprint'.format(meta_file=meta_file)
+    _main(cmd, meta_content)
+
+
+def test_order_enum():
+    meta_content = """
+        id||int||not,
+        nickname||varchar(20)||学生名字[:order_enum(xiao ming, hah, lele, esd, f222)]
+        nickname2||varchar(20)||学生名字[:order_enum(xiao ming, hah, lele, esd, f222)]
+    """
+    test_tmpdir, meta_file = _make_tmp_file()
+    cmd = 'datafaker file . hello.txt 21 --meta {meta_file} --format text --outprint'.format(meta_file=meta_file)
     _main(cmd, meta_content)
