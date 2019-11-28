@@ -156,7 +156,7 @@ class BaseDB(object):
             cmd = reg_cmd(keyword) if keyword else ctype
 
             rets = reg_args(keyword)
-            if cmd == 'enum':
+            if cmd == 'enum' or cmd == 'order_enum':
                 if len(rets) == 0:
                     raise EnumMustNotEmptyError
 
