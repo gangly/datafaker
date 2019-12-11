@@ -184,6 +184,11 @@ def test_order_enum():
         id||int||not,
         nickname||varchar(20)||学生名字[:order_enum(xiao ming, hah, lele, esd, f222)]
         nickname2||varchar(20)||学生名字[:order_enum(xiao ming, hah, lele, esd, f222)]
+        class_num||char(10)||default,
+        phone||int||default,
+        email||char(10)||default,
+        ip||char(10)||default,
+        address||char(40)||default,
     """
     test_tmpdir, meta_file = _make_tmp_file()
     cmd = 'datafaker file . hello.txt 21 --meta {meta_file} --format text --outprint'.format(meta_file=meta_file)

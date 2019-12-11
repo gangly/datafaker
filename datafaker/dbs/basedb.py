@@ -110,7 +110,7 @@ class BaseDB(object):
             print('insert %d records' % saved_records)
 
     def print_data(self):
-        print()
+        print('')
         # start with empty queue, must set self.isover.value
         while not self.isover.value or not self.queue.empty():
             try:
