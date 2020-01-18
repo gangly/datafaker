@@ -23,12 +23,12 @@ class KafkaDB(BaseDB):
         i = 0
         try:
             while True:
-                lines = self.fake_column()
+                i += 1
+                lines = self.fake_column(i)
                 content = json_item(self.column_names, lines)
                 if self.args.outprint:
                     print(content)
                 self.save_data(content)
-                i += 1
                 print('insert %d records' % i)
                 if self.args.interval:
                     time.sleep(self.args.interval)
