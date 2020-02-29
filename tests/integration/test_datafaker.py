@@ -136,6 +136,8 @@ def test_op():
         allage||int||总年龄[:op(c0*c3+c4)]
         timestamp||varchar(20)||时间[:timestamp(1)]
         datetime||varchar(20)||时间[:datetime(1,%Y-%m-%d %H:%M)]
+        capStampTime||varchar(64)||捕获时间[:date(-5d,-0d, %Y-%m-%d %H:%M:%S)]
+        capStampDate||datetime||捕获日期[:date(-5d,-0d, %Y-%m-%d)]
     """
     test_tmpdir, meta_file = _make_tmp_file()
     cmd = 'datafaker file . hello.txt 10 --meta {meta_file} --format text --outprint --format json'.format(meta_file=meta_file)
@@ -175,7 +177,16 @@ def test_int():
         address||char(40)||default,
     """
     test_tmpdir, meta_file = _make_tmp_file()
-    cmd = 'datafaker file . hello.txt 20 --meta {meta_file} --format text --outprint'.format(meta_file=meta_file)
+    cmd = 'datafaker file . hello.txt 20 --meta {meta_file} --format text --format json --outprint'.format(meta_file=meta_file)
+    _main(cmd, meta_content)
+
+
+def test_date():
+    meta_content = """
+        date2||date||[:date(-30d, -20d, %Y.%m.%d)]
+    """
+    test_tmpdir, meta_file = _make_tmp_file()
+    cmd = 'datafaker file . hello.txt 20 --meta {meta_file} --format text --format json --outprint'.format(meta_file=meta_file)
     _main(cmd, meta_content)
 
 

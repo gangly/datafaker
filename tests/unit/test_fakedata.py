@@ -13,6 +13,7 @@ def test_date():
     print(fakedata.fake_date(start_date='today'))
     assert today.strftime('%Y-%m-%d') == fakedata.fake_date(start_date='today')
     assert today.strftime('%y%m%d') == fakedata.fake_date(start_date='today', format='%y%m%d')
+    print(fakedata.fake_date('-5d', '-2d', '%Y-%m-%d %H:%M:%S'))
 
 
 def test_date_between():
