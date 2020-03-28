@@ -140,7 +140,7 @@ def test_op():
         capStampDate||datetime||捕获日期[:date(-5d,-0d, %Y-%m-%d)]
     """
     test_tmpdir, meta_file = _make_tmp_file()
-    cmd = 'datafaker file . hello.txt 10 --meta {meta_file} --format text --outprint --format json'.format(meta_file=meta_file)
+    cmd = 'datafaker file . hello.txt 10 --meta {meta_file} --format text --outprint'.format(meta_file=meta_file)
     _main(cmd, meta_content)
 
 
@@ -193,6 +193,7 @@ def test_date():
 def test_order_enum():
     meta_content = """
         id||int||not,
+        name||varchar(20)||学生名字[:name]
         nickname||varchar(20)||学生名字[:order_enum(xiao ming, hah, lele, esd, f222)]
         nickname2||varchar(20)||学生名字[:order_enum(xiao ming, hah, lele, esd, f222)]
         class_num||char(10)||default,
@@ -202,5 +203,5 @@ def test_order_enum():
         address||char(40)||default,
     """
     test_tmpdir, meta_file = _make_tmp_file()
-    cmd = 'datafaker file . hello.txt 21 --meta {meta_file} --format text --outprint'.format(meta_file=meta_file)
+    cmd = 'datafaker file . hello.txt 21 --meta {meta_file} --format text --outprint --outspliter :'.format(meta_file=meta_file)
     _main(cmd, meta_content)

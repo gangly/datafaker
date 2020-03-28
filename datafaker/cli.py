@@ -27,7 +27,7 @@ def parse_args():
     parser.add_argument('--workers', action='store', type=int, default=WORKERS, help='the interval to make stream data')
     parser.add_argument('--version', action='store_true', help="print the version number and exit")
     parser.add_argument('--outprint', action='store_true', help="print fake date to screen")
-    parser.add_argument('--outspliter', action='store', help="print data, to split columns")
+    parser.add_argument('--outspliter', action='store', default=',', help="print data, to split columns")
     parser.add_argument('--locale', action='store', default=DEFAULT_LOCALE, help='locale language')
     parser.add_argument('--outfile', help='file to write output to (default: stdout)')
     parser.add_argument('--format', default=DEFAULT_FORMAT, help='outprint and outfile format: json, text (default: text)')

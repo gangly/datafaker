@@ -5,13 +5,18 @@ from abc import abstractmethod
 from time import sleep
 
 from datafaker import compat
+from datafaker.compat import safe_decode, queue
 from datafaker.constant import INT_TYPES, FLOAT_TYPES, ENUM_FILE, JSON_FORMAT, MAX_QUEUE_SIZE, MIN_RECORDS_FOR_PARALLEL
 from datafaker.exceptions import EnumMustNotEmptyError, ParseSchemaError
 from datafaker.fakedata import FackData
 from datafaker.reg import reg_keyword, reg_cmd, reg_args
 from datafaker.utils import count_time, read_file_lines, json_item, process_op_args
 
+
 class BaseDB(object):
+    """
+    基础数据源类
+    """
 
     def __init__(self, args):
         self.args = args
@@ -115,12 +120,23 @@ class BaseDB(object):
         while not self.isover.value or not self.queue.empty():
             try:
                 data = self.queue.get_nowait()
-                print(data)
+                items = []
+                for item in data:
+                    if item is None:
+                        items.append('None')
+                    elif isinstance(item, int):
+                        items.append(str(item))
+                    else:
+                        items.append(safe_decode(item))
+                row = self.args.outspliter.join(items)
+                print(row)
+                # print(data)
                 if self.args.interval:
                     time.sleep(self.args.interval)
-
-            except:
+            except queue.Empty:
                 pass
+            except Exception as e:
+                print(e)
 
     def parse_schema(self):
         if self.args.meta:

@@ -8,6 +8,10 @@ from faker import Factory
 fake = Factory().create('zh_CN')
 
 
+def test_dir():
+    print(dir(fake))
+
+
 def test_func():
     print(fake.random_number(1))
     print(fake.random_number(2))
@@ -111,6 +115,10 @@ def test_faker():
     print(fake.color_name())
     print(fake.hex_color())
     print(fake.rgb_color())
+
+
+def test_name():
+    print(fake.name())
 
 
 

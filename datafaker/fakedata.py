@@ -3,7 +3,7 @@
 import datetime
 import random
 import time
-from faker import Faker
+from faker import Faker, Factory
 from datafaker import compat
 from datafaker.compat import Dict
 
@@ -12,7 +12,7 @@ class FackData(object):
 
     def __init__(self, locale):
 
-        self.faker = Faker(locale)
+        self.faker = Factory().create(locale)
         self.faker_funcs = dir(self.faker)
         self.lock = compat.Lock()
         self.auto_inc = Dict()
