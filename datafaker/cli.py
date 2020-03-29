@@ -33,7 +33,6 @@ def parse_args():
     parser.add_argument('--outprint', action='store_true', help="print fake date to screen")
     parser.add_argument('--outspliter', action='store', default=',', help="print data, to split columns")
     parser.add_argument('--locale', action='store', default=DEFAULT_LOCALE, help='locale language')
-    parser.add_argument('--outfile', help='file to write output to (default: stdout)')
     parser.add_argument('--format', default=DEFAULT_FORMAT, help='outprint and outfile format: json, text (default: text)')
     parser.add_argument('--withheader', action='store_true', help='print data or write data to file with column header')
     args = parser.parse_args()

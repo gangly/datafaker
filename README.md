@@ -1,147 +1,130 @@
-## 一、开源情况
-datafaker是一个大批量测试数据和流测试数据生成工具，兼容python2.7和python3.4+，欢迎下载使用。github地址为：
+datafaker
+=========
+
+[![License](https://img.shields.io/badge/license-Apache%202-4EB1BA.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)
+
+English | [中文](docs/zh_CN/README.md)
+
+
+## 1. Introduction
+
+Datafaker is a large-scale test data and flow test data generation tool developed by the author. It is compatible with python2.7 and python3.4+. Welcome to download and use. The github address is:
 
 https://github.com/gangly/datafaker
 
-文档同步更新在github
+Document sync updates on github
 
-## 二、工具产生背景
+## 2. Tool background
+In the software development testing process, test data is often needed. These scenarios include:
 
+- Backend development
+After creating a new table, you need to construct database test data and generate interface data for use by the front end.
+- Database performance test
+generates a lot of test data to test database performance
+- Stream data test
+For kafka streaming data, it is necessary to continuously generate test data to write to kafka.
 
-<font color=gray face="黑体">在软件开发测试过程，经常需要测试数据。这些场景包括：</font>
-- 后端开发
-新建表后，需要构造数据库测试数据，生成接口数据提供给前端使用。
-- 数据库性能测试
-生成大量测试数据，测试数据库性能
-- 流数据测试
-针对kafka流数据，需要不断定时生成测试数据写入kafka
+After research, there is currently no open source test data generation tool for generating data with similar structure in mysql table. The common method is to manually create several pieces of data into the database. The disadvantage of this method is
 
+- Wasting work hours
+needs to construct different data for fields of different data types of the table
+- Small amount of data
+If you need to construct a lot of data, you can't do it manually.
+- Not accurate enough
+For example, you need to construct a mailbox (satisfying a certain format), a phone number (determined number of digits), an ip address (fixed format), age (cannot be negative, have a size range), and so on. These test data have certain restrictions or rules, and the manual construction may not meet the data range or some format requirements, resulting in the backend program error.
+- Multi-table association
+The amount of data created manually is small, and the primary key in multiple tables may not be associated with, or associated with no data.
+- Dynamic random write
+For example, for streaming data, you need to write kafka randomly every few seconds. Or dynamically insert mysql randomly, manual operation is relatively cumbersome, and it is not good to count the number of data written.
 
-常用方法是人工手动造几条数据写入数据库，这种方法带来的弊端是
-- 浪费工时
-针对表的不同数据类型的字段，需要构造不同数据
-- 数据量小
-如果需要构造大量数据，手动造数据无能为力
-- 不够准确
-比如需要构造邮箱（满足一定格式），电话号码（确定的数字位数），ip地址（固定格式），年龄（不能为负数，有大小范围）等。这些测试数据有一定的限制或规律，手工构造可能不能满足数据范围或一些格式要求而导致后端程序报错
-- 多表关联
-手动造的数据量较小，在多个表中用主键不一定能关联上，或者关联出来没数据
-- 动态随机写入
-比如针对流数据，需要随机每隔几秒钟写入kafka。或者动态随机插入mysql，手工操作相对麻烦，而且不好统计写入数据条数
+In response to these current pain points, datafaker came into being. Datafaker is a multi-data source test data construction tool that can simulate most common data types and easily solve the above pain points. Datafaker has the following features:
 
+- Multiple data types.
+includes common database field types (integer, float, character), custom types (IP address, mailbox, ID number, etc.)
+- Simulate multi-table association data
+By formulating some fields as enumerated types (randomly selected from the specified data list), in the case of a large amount of data, it can ensure that multiple tables can be associated with each other and query data.
+- Support batch data and stream data generation, and specify stream data interval time
+- Support multiple data output methods, including screen printing, files and remote data sources
+- Support for multiple data sources. Currently supports relational databases, Hive, Kafka. Will be extended to Mongo, ES and other data sources.
+- Can specify the output format, currently supports text, json
 
-**<font color=#6495ED face="黑体">datafaker是一个多数据源测试数据构造工具，可以模拟产生大部分常用数据类型，具有以下功能：</font>**
+## 3. Software Architecture
+Datafaker is written in python and supports python2.7, python3.4+. The current version has been released on pypi.
 
-
-- 多种数据类型
-包括常见数据库字段类型（整型、浮点型、字符型）、自定义类型（IP地址，邮箱，身份证号码等）
-- 模拟多表关联数据
-通过制定某些字段为枚举类型（从指定的数据列表里面随机选择），这样在数据量多的情况下能保证多表Join能关联上，查询到数据
-- 支持批数据和流数据生成，可指定数据产生间隔时间
-- 支持多种数据输出方式，包括屏幕打印、文件和远程数据源
-- 支持多种数据源。目前支持关系型数据库、Hive、Kafka、Hbase、ES、File或屏幕打印。后面将扩展到Mongo，Kudu等数据源
-- 可指定输出格式，目前支持text，json
-- 生成自增主键
-
-
-
-## 三、软件架构
-
-datafaker是用python编写，支持python2.7，python3.4+。已经发布在pypi，https://pypi.org/search/?q=datafaker。
 
 <div align=center><img
 src="https://github.com/gangly/datafaker/blob/master/doc/img/datafaker.png" width="500" height="600" alt="软件架构"/>
 </div>
 
-架构图完整的画出了工具的执行过程，从图可知工具经历了5个模块：
-- 参数解析器。解析用户从终端命令行输入的命令。
-- 元数据解析器。用户可以指定元数据来自本地文件或者远程数据库表。解析器获取到文件内容后按照规则将文本内容解析成表字段元数据和数据构造规则。
-- 数据构造引擎。构造引擎根据元数据解析器产生的数据构造规则，模拟产生不同类型的数据。
-- 数据路由。根据不同的数据输出类型，分成批量数据和流数据生成。流数据可指定产生频率。然后将数据转换成用户指定的格式输出到不同数据源中。
-- 数据源适配器。适配不同数据源，将数据导入到数据源中。
+The architecture diagram completely shows the execution process of the tool. From the figure, the tool has gone through five modules:
 
-## 四、安装流程
+- Parameter parser. Parse the commands that the user enters from the terminal command line.
+- Metadata parser. Users can specify metadata from local files or remote database tables. After the parser obtains the content of the file, the text content is parsed into table field metadata and data construction rules according to the rules.
+- Data construction engine. The construction engine constructs rules based on the data generated by the metadata parser, simulating the generation of different types of data.
+- Data routing. According to different data output types, it is divided into batch data and stream data generation. Stream data can specify the frequency of generation. The data is then converted to a user-specified format for output to a different data source.
+- Data source adapter. Adapt to different data sources and import the data into the data source.
 
-首先确保已经安装python和pip
-有两种安装方法：
+## 4. Installation process
 
-方法1.下载安装
-下载源码压缩包，解压后，到datafaker目录里面执行：
-
+#### Method 1, install from source file:
+Download the source file, and run:
 ```bash
 python setup.py install
  ```
 
-方法2.直接安装（此方法使用若有问题，请用方法1安装）
-
+#### Method 2, use pip:
 ```bash
 pip install datafaker
 ```
 
-更新到最新版本：
+#### Upgrade tool
+```bash
 pip install datafaker --upgrade
+```
 
-卸载工具：
+#### Uninstall tool
+```bash
 pip uninstall datafaker
+```
 
-
-#### 安装对应数据库包
-对于不同的数据库需要用到不同的python包，若在执行过程中报包缺失问题。
-请pip安装对应包
-
-| 数据库 | python包| 备注| 
+#### Install require package
+| datasouce | package | note |
 | -------- | -------- | ------ |
-|mysql/tidb| mysql-python/mysqlclient | windows+python3请使用mysqlclient| 
-|oracle| cx-Oracle | 同时需要下载orale相关库 |
-|postgresql/redshift | psycopg2 | 根据sqlachemy选择对应包 |
+|mysql/tidb| mysql-python/mysqlclient | windows+python3 use mysqlclient|
+|oracle| cx-Oracle | need some orale lib |
+|postgresql/redshift | psycopg2 |  |
 |Hbase | happybase,thrift | |
-|es | elasticsearch | | 
-|hive | pyhive | | 
-|kafka | kafka-python | | 
+|es | elasticsearch | |
+|hive | pyhive | |
+|kafka | kafka-python | |
+
+## 5. examples
+
+[usage example(使用举例)](doc/UseExample.md)
 
 
-## 五、使用举例
+## 6. command parameters
 
-[具体使用例子](https://github.com/gangly/datafaker/blob/master/doc/使用举例.md)
-
-
-## 六、命令行参数
-
-[命令行参数详解](https://github.com/gangly/datafaker/blob/master/doc/命令参数.md)
+[parameters detail(命令行参数)](doc/cmdParameters.md)
 
 
-## 七、数据构造规则
+## 7. construction rule
 
-[数据构造规则](https://github.com/gangly/datafaker/blob/master/doc/数据构造规则.md)
+[construction rule(构造规则)](doc/ConstructionRule.md)
 
-## 八、注意事项
+## 8. note
 
-[细节注意事项](https://github.com/gangly/datafaker/blob/master/doc/注意事项.md)
+[note(注意事项)](doc/note.md)
 
-## 九、Release note
-[Release note](https://github.com/gangly/datafaker/blob/master/doc/release_note.md)
+## 9. Release note
+[Release note(发布记录)](doc/release_note.md)
 _____
 
-**给作者点个star或请作者喝杯咖啡**
+**Give the author a star or donate a coffee**
 
 <div align=left><img
 src="https://github.com/gangly/datafaker/blob/master/doc/img/微信pay.png" width="200" height="200" alt="喝杯咖啡"/>
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
