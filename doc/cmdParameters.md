@@ -1,5 +1,5 @@
 ## 6、command parameters
-English | [中文](doc/zh_CN/命令参数.md)
+English | [中文](zh_CN/命令参数.md)
 
 
 The datafaker parameter contains 4 mandatory parameters and some optional parameters, as shown in the following table.

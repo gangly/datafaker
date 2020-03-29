@@ -1,5 +1,5 @@
 ## 8 Precautions
-English | [中文](doc/zh_CN/注意事项.md)
+English | [中文](zh_CN/注意事项.md)
 
 #### 1. Construct mass data
 

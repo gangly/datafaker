@@ -1,5 +1,5 @@
 ## 9. release note
-English | [中文](doc/zh_CN/release_note.md)
+English | [中文](zh_CN/release_note.md)
 
 0.7.0
 

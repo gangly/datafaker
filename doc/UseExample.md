@@ -1,6 +1,6 @@
 ## 5. Usage example
 
-English | [中文](doc/zh_CN/使用举例.md)
+English | [中文](zh_CN/使用举例.md)
 
 $ stands for terminal prompt
 
