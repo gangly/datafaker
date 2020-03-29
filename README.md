@@ -14,7 +14,7 @@ https://github.com/gangly/datafaker
 
 Document sync updates on github
 
-## 2. Tool background
+## 2. Background
 In the software development testing process, test data is often needed. These scenarios include:
 
 - Backend development
@@ -66,7 +66,7 @@ The architecture diagram completely shows the execution process of the tool. Fro
 - Data routing. According to different data output types, it is divided into batch data and stream data generation. Stream data can specify the frequency of generation. The data is then converted to a user-specified format for output to a different data source.
 - Data source adapter. Adapt to different data sources and import the data into the data source.
 
-## 4. Installation process
+## 4. Installation
 
 #### Method 1, install from source file:
 Download the source file, and run:
