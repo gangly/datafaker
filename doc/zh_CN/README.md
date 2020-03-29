@@ -49,9 +49,7 @@ https://github.com/gangly/datafaker
 
 datafaker是用python编写，支持python2.7，python3.4+。已经发布在pypi，https://pypi.org/search/?q=datafaker。
 
-<div align=center><img
-src="https://github.com/gangly/datafaker/blob/master/doc/img/datafaker.png" width="500" height="600" alt="软件架构"/>
-</div>
+![pay](../img/datafaker.png)
 
 架构图完整的画出了工具的执行过程，从图可知工具经历了5个模块：
 - 参数解析器。解析用户从终端命令行输入的命令。
@@ -124,6 +122,4 @@ _____
 
 **给作者点个star或请作者喝杯咖啡**
 
-<div align=left><img
-src="https://github.com/gangly/datafaker/blob/master/doc/img/微信pay.png" width="200" height="200" alt="喝杯咖啡"/>
-</div>
+![pay](../img/微信pay.png)

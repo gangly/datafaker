@@ -52,9 +52,11 @@ By formulating some fields as enumerated types (randomly selected from the speci
 Datafaker is written in python and supports python2.7, python3.4+. The current version has been released on pypi.
 
 
-<div align=center><img
-src="https://github.com/gangly/datafaker/blob/master/doc/img/datafaker.png" width="500" height="600" alt="软件架构"/>
-</div>
+<!-- <div align=center><img -->
+<!-- src="https://github.com/gangly/datafaker/blob/master/doc/img/datafaker.png" width="500" height="600" alt="软件架构"/> -->
+<!-- </div> -->
+
+![architectur](doc/img/datafaker.png)
 
 The architecture diagram completely shows the execution process of the tool. From the figure, the tool has gone through five modules:
 
@@ -122,10 +124,10 @@ _____
 
 **Give a star or donate a coffee to the author**
 - 给作者点个star或请作者喝杯咖啡
-<div align=left><img
-src="https://github.com/gangly/datafaker/blob/master/doc/img/微信pay.png" width="200" height="200" alt="喝杯咖啡"/>
-</div>
-
+<!-- <div align=left><img -->
+<!-- src="https://github.com/gangly/datafaker/blob/master/doc/img/微信pay.png" width="200" height="200" alt="喝杯咖啡"/> -->
+<!-- </div> -->
+![pay](doc/img/微信pay.png)
 
 
 
