@@ -21,7 +21,7 @@ Because the hbase.thrift.server.socket.read.timeout parameter set by HBase is to
 
 Therefore, add the configuration in conf/hbase-site.xml:
 
-` ` ` `
+```
 
 <property>
 
@@ -33,7 +33,7 @@ Therefore, add the configuration in conf/hbase-site.xml:
 
 </property>
 
-` ` ` `
+```
 
 Restart HBase and thrift
 
@@ -50,11 +50,11 @@ But the type is RDB, for example:
 Write to Oracle
 
 
-` ` ` `
+```
 
 datafaker rdb oracle://root:root@127.0.0.1:1521/helowin stu 10 --meta meta.txt
 
-` ` ` `
+```
 
 Sqlalchemy connection string must be Oracle: form
 

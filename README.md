@@ -88,7 +88,7 @@ pip uninstall datafaker
 ```
 
 #### Install require package
-| datasouce | package | note |
+| data source | package | note |
 | -------- | -------- | ------ |
 |mysql/tidb| mysql-python/mysqlclient | windows+python3 use mysqlclient|
 |oracle| cx-Oracle | need some orale lib |
@@ -120,7 +120,7 @@ pip uninstall datafaker
 [Release note(发布记录)](doc/release_note.md)
 _____
 
-**Give the author a star or donate a coffee**
+**Give a star or donate a coffee to the author**
 - 给作者点个star或请作者喝杯咖啡
 <div align=left><img
 src="https://github.com/gangly/datafaker/blob/master/doc/img/微信pay.png" width="200" height="200" alt="喝杯咖啡"/>

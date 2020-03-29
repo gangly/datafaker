@@ -1,5 +1,5 @@
 ## 7 Data construction rule
-English | [中文](doc/zh_CN/数据构造规则.md)
+English | [中文](zh_CN/数据构造规则.md)
 
 #### 1. Common types of databases
 
