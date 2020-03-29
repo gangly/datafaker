@@ -7,6 +7,9 @@ from datafaker import main
 from datafaker.cli import parse_args
 from datafaker.testutils import FileCreator
 
+
+
+
 META_CONTENT = """
    id||int||自增id[:id]
    name||varchar(20)||学生名字[:name]
@@ -204,4 +207,13 @@ def test_order_enum():
     """
     test_tmpdir, meta_file = _make_tmp_file()
     cmd = 'datafaker file . hello.txt 21 --meta {meta_file} --format text --outprint --outspliter :'.format(meta_file=meta_file)
+    _main(cmd, meta_content)
+
+
+def test_oracle():
+    meta_content = """
+        name||varchar(20)||[:name]
+        age||int||学生年龄[:age]
+    """
+    cmd = 'datafaker rdb oracle://root:root@127.0.0.1:1521/helowin stu 10 --meta stu.txt'
     _main(cmd, meta_content)

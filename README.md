@@ -92,8 +92,9 @@ pip uninstall datafaker
 | 数据库 | python包| 备注| 
 | -------- | -------- | ------ |
 |mysql/tidb| mysql-python/mysqlclient | windows+python3请使用mysqlclient| 
-|postgresql/redshift | psycopg2 | 根据sqlachemy选择对应包 | 
-|Hbase | happybase,thrift | | 
+|oracle| cx-Oracle | 同时需要下载orale相关库 |
+|postgresql/redshift | psycopg2 | 根据sqlachemy选择对应包 |
+|Hbase | happybase,thrift | |
 |es | elasticsearch | | 
 |hive | pyhive | | 
 |kafka | kafka-python | | 

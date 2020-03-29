@@ -2,10 +2,14 @@
 # -*- coding: UTF-8 -*-
 import argparse
 import sys
+import os
 import traceback
 
-
 from datafaker.constant import __version__, DEFAULT_INTERVAL, DEFAULT_FORMAT, DEFAULT_LOCALE, BATCH_SIZE, WORKERS
+
+# solve problem of oracle database
+# UnicodeEncodeError: 'ascii' codec can't encode characters in position 32-3
+os.environ['NLS_LANG'] = 'SIMPLIFIED CHINESE_CHINA.UTF8'
 
 
 def parse_args():

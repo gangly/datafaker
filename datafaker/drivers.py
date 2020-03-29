@@ -15,3 +15,9 @@ def load_sqlalchemy(connet):
     DBSession = sessionmaker(engine)
     session = DBSession()
     return session
+
+
+def load_conn(connet):
+
+    engine = create_engine(connet, pool_recycle=1800)
+    return engine.connect()
