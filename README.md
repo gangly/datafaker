@@ -121,7 +121,7 @@ pip uninstall datafaker
 _____
 
 **Give the author a star or donate a coffee**
-
+- 给作者点个star或请作者喝杯咖啡
 <div align=left><img
 src="https://github.com/gangly/datafaker/blob/master/doc/img/微信pay.png" width="200" height="200" alt="喝杯咖啡"/>
 </div>
