@@ -8,7 +8,7 @@ English | [中文](doc/zh_CN/README.md)
 
 ## 1. Introduction
 
-Datafaker is a large-scale test data and flow test data generation tool developed by the author. It is compatible with python2.7 and python3.4+. Welcome to download and use. The github address is:
+Datafaker is a large-scale test data and flow test data generation tool. It is compatible with python2.7 and python3.4+. Welcome to download and use. The github address is:
 
 https://github.com/gangly/datafaker
 
