@@ -93,7 +93,7 @@ pip uninstall datafaker
 | data source | package | note |
 | -------- | -------- | ------ |
 |mysql/tidb| mysql-python/mysqlclient | windows+python3 use mysqlclient|
-|oracle| cx-Oracle | need some orale lib |
+|oracle| cx-Oracle | need some oracle lib |
 |postgresql/redshift | psycopg2 |  |
 |Hbase | happybase,thrift | |
 |es | elasticsearch | |
