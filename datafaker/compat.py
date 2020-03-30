@@ -167,7 +167,7 @@ if six.PY3:
         """
         if encoding is None:
             encoding = locale.getpreferredencoding()
-        return open(filename, mode, encoding=encoding)
+        return open(filename, mode, encoding=encoding,  errors='ignore')
 
     def bytes_print(statement, stdout=None):
         """

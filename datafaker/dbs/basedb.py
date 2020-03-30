@@ -124,7 +124,7 @@ class BaseDB(object):
                 for item in data:
                     if item is None:
                         items.append('None')
-                    elif isinstance(item, int):
+                    elif isinstance(item, (int, float)):
                         items.append(str(item))
                     else:
                         items.append(safe_decode(item))

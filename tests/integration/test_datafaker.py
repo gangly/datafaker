@@ -62,6 +62,25 @@ def _make_tmp_file():
     return test_tmpdir, meta_file
 
 
+def test_oracle_stu():
+    meta_content = """
+        id||int||自增id[:inc(id,1)]
+        name||varchar(20)||学生名字
+        school||varchar(20)||学校名字[:name]
+        nickname||varchar(20)||学生小名[:enum(鬼泣, 高小王子, 歌神, 逗比)]
+        age||int||学生年龄[:age]
+        class_num||int||班级人数[:int(10, 100)]
+        score||decimal(4,2)||成绩[:decimal(4,2,1)]
+        phone||bigint||电话号码[:phone_number]
+        email||varchar(64)||家庭网络邮箱[:email]
+        ip||varchar(32)||IP地址[:ipv4]
+        address||text||家庭地址[:address]
+    """
+    # test_tmpdir, meta_file = _make_tmp_file()
+    meta_file = 'D://meta.txt'
+    cmd = 'datafaker rdb oracle://system:oracle@172.19.101.51:1521/helowin stu 10 --meta {meta_file} --format text --outprint --format json'.format(meta_file=meta_file)
+    _main(cmd, meta_content)
+
 def test_fake_data_to_file():
 
     test_tmpdir, meta_file = _make_tmp_file()
@@ -215,5 +234,22 @@ def test_oracle():
         name||varchar(20)||[:name]
         age||int||学生年龄[:age]
     """
-    cmd = 'datafaker rdb oracle://root:root@127.0.0.1:1521/helowin stu 10 --meta stu.txt'
+    cmd = 'datafaker rdb oracle://root:root@127.0.0.1:1521/helowin stu 10 --meta stu.txt --outprint'
+    _main(cmd, meta_content)
+
+def test_stu2():
+    meta_content = """
+        id||int||auto increament id[:inc(id,1)]
+        name||varchar(20)||name
+        school||varchar(20)||school name[:enum(file://d://names.txt)]
+        nickname||varchar(20)||nickname[:enum(鬼泣, 高小王子, 歌神, 逗比)]
+        age||int||student age[:age]
+        class_num||int||class size[:int(10, 100)]
+        score||decimal(4,2)||score[:decimal(4,2,1)]
+        phone||bigint||phone number[:phone_number]
+        email||varchar(64)||email[:email]
+        ip||varchar(32)||IP[:ipv4]
+        address||text||home address[:address]
+        """
+    cmd = 'datafaker rdb oracle://root:root@127.0.0.1:1521/helowin stu 10 --meta stu.txt --outprint'
     _main(cmd, meta_content)
