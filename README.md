@@ -50,7 +50,7 @@ By formulating some fields as enumerated types (randomly selected from the speci
 - Support for multiple data sources. Currently supports relational databases, Hive, Kafka. Will be extended to Mongo, ES and other data sources.
 - Can specify the output format, currently supports text, json
 
-## 3. Software Architecture
+## 3. Architecture
 Datafaker is written in python and supports python2.7, python3.4+. The current version has been released on pypi.
 
 
@@ -70,7 +70,7 @@ The architecture diagram completely shows the execution process of the tool. Fro
 
 ## 4. Installation
 
-#### Method 1, install from source file:
+#### Method 1, install from source code:
 Download the source file, and run:
 ```bash
 python setup.py install
@@ -127,7 +127,7 @@ _____
 **Give a star or donate a coffee to the author**
 - 给作者点个star或请作者喝杯咖啡
 
-WeChart Pay
+
 ![pay](doc/img/微信pay.png)
 
 
