@@ -241,7 +241,7 @@ def test_stu2():
     meta_content = """
         id||int||auto increament id[:inc(id,1)]
         name||varchar(20)||name
-        school||varchar(20)||school name[:enum(file://d://names.txt)]
+        school||varchar(20)||school name[:enum(file://data/pigtype.txt)]
         nickname||varchar(20)||nickname[:enum(鬼泣, 高小王子, 歌神, 逗比)]
         age||int||student age[:age]
         class_num||int||class size[:int(10, 100)]
@@ -251,5 +251,5 @@ def test_stu2():
         ip||varchar(32)||IP[:ipv4]
         address||text||home address[:address]
         """
-    cmd = 'datafaker rdb oracle://root:root@127.0.0.1:1521/helowin stu 10 --meta stu.txt --outprint'
+    cmd = 'datafaker file . stu 10 --meta stu.txt --outprint'
     _main(cmd, meta_content)

@@ -35,7 +35,6 @@ optional arguments:
   --outspliter OUTSPLITER
                         print data, to split columns
   --locale LOCALE       which country language
-  --outfile OUTFILE     file to write output to (default: stdout)
   --format FORMAT       outprint and outfile format: json, text (default:
                         text)
 ```
@@ -142,7 +141,7 @@ user name is yarn，hive must support acid，or else generate data file and uplo
 datafaker hive hive://yarn@localhost:10000/test stu 1000 --meta data/hive_meta.txt
 ```
 
-### 5.5 generate 10 json records and write to out.txt of /home directory
+### 5.5 write to file, write to out.txt of /home directory
 --------------------
 
 ```
