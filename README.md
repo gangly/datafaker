@@ -71,7 +71,7 @@ The architecture diagram completely shows the execution process of the tool. Fro
 ## 4. Installation
 
 #### Method 1, install from source code:
-Download the source file, and run:
+Download the source file, unzip and install:
 ```bash
 python setup.py install
  ```
