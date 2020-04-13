@@ -100,24 +100,24 @@ pip uninstall datafaker
 
 ## 五、使用举例
 
-[具体使用例子](https://github.com/gangly/datafaker/blob/master/doc/使用举例.md)
+[具体使用例子](使用举例.md)
 
 
 ## 六、命令行参数
 
-[命令行参数详解](https://github.com/gangly/datafaker/blob/master/doc/命令参数.md)
+[命令行参数详解](命令参数.md)
 
 
 ## 七、数据构造规则
 
-[数据构造规则](https://github.com/gangly/datafaker/blob/master/doc/数据构造规则.md)
+[数据构造规则](数据构造规则.md)
 
 ## 八、注意事项
 
-[细节注意事项](https://github.com/gangly/datafaker/blob/master/doc/注意事项.md)
+[细节注意事项](注意事项.md)
 
 ## 九、Release note
-[Release note](https://github.com/gangly/datafaker/blob/master/doc/release_note.md)
+[Release note](release_note.md)
 _____
 
 **给作者点个star或请作者喝杯咖啡**
