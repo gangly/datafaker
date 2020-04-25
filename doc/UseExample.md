@@ -101,6 +101,7 @@ if there is no enum type，not need names.txt file.
 
 ```
 $ datafaker mysql mysql+mysqldb://root:root@localhost:3600/test stu 10 --outprint --meta meta.txt --outspliter ,,
+
  1, Bao Hong,, and the center, Gao Xiao prince,, 3,, 81,, 55.6,, 13197453222,, mwei@gmail.com,, 192.100.224.255, Block I, Liangping Zhu Road, Xining City, Jiangsu Province 944204
  2, Liu Dong, Tsinghua Middle School, Gao Xiaopu, 3,, 31,, 52.4,, 15206198472,, lili@kong.cn,, 203.0.190.6, Block E, Hingshan Hohhot Street, Jiahe City, Inner Mongolia Autonomous Region 706421
  3,,  ,, ,, ,,9,,84,,72.51,,18944398099,,zouchao@gmail.com,,203.1.53.166,Xihe Huizhou Street, Yongan City, Anhui Province, 345415
