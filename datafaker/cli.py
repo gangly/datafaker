@@ -6,9 +6,12 @@ import os
 import traceback
 
 from datafaker.constant import __version__, DEFAULT_INTERVAL, DEFAULT_FORMAT, DEFAULT_LOCALE, BATCH_SIZE, WORKERS
+from datafaker.constant import JSON_FORMAT
 
 # solve problem of oracle database
 # UnicodeEncodeError: 'ascii' codec can't encode characters in position 32-3
+from datafaker.exceptions import ParamError
+
 os.environ['NLS_LANG'] = 'SIMPLIFIED CHINESE_CHINA.UTF8'
 
 
@@ -26,6 +29,7 @@ def parse_args():
     parser.add_argument('num', nargs='?', action='store', type=int, help='number of records to generate')
     parser.add_argument('--auth', nargs='?', action='store', help='user and password')
     parser.add_argument('--meta', nargs='?', action='store', help='meta file path')
+    parser.add_argument('--metaj', nargs='?', action='store', help='metaj file path')
     parser.add_argument('--interval', action='store', type=float, help='the interval to make stream data')
     parser.add_argument('--batch', action='store', type=int, default=BATCH_SIZE, help='the interval to make stream data')
     parser.add_argument('--workers', action='store', type=int, default=WORKERS, help='the interval to make stream data')
@@ -56,6 +60,11 @@ def parse_args():
         print('You must supply number of records\n')
         parser.print_help()
         exit(0)
+
+    if args.format == JSON_FORMAT and any([args.outprint, args.dbtype in ['file', 'kafka']]):
+        raise ParamError('rdb not support for json format')
+    if args.metaj and args.dbtype not in ['file', 'kafka']:
+        raise ParamError('rdb not support for metaj')
 
     return args
 

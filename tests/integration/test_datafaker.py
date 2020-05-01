@@ -50,7 +50,8 @@ def _main(cmd, meta=None):
 
     sys.argv = cmd.strip().split(' ')
     args = parse_args()
-    with open(args.meta, 'w') as fp:
+    filepath = args.meta if args.meta else args.metaj
+    with open(filepath, 'w') as fp:
         fp.write(meta)
     main()
 
@@ -61,25 +62,6 @@ def _make_tmp_file():
     meta_file = os.path.join(test_tmpdir, "schema.txt")
     return test_tmpdir, meta_file
 
-
-def test_oracle_stu():
-    meta_content = """
-        id||int||自增id[:inc(id,1)]
-        name||varchar(20)||学生名字
-        school||varchar(20)||学校名字[:name]
-        nickname||varchar(20)||学生小名[:enum(鬼泣, 高小王子, 歌神, 逗比)]
-        age||int||学生年龄[:age]
-        class_num||int||班级人数[:int(10, 100)]
-        score||decimal(4,2)||成绩[:decimal(4,2,1)]
-        phone||bigint||电话号码[:phone_number]
-        email||varchar(64)||家庭网络邮箱[:email]
-        ip||varchar(32)||IP地址[:ipv4]
-        address||text||家庭地址[:address]
-    """
-    # test_tmpdir, meta_file = _make_tmp_file()
-    meta_file = 'D://meta.txt'
-    cmd = 'datafaker rdb oracle://system:oracle@172.19.101.51:1521/helowin stu 10 --meta {meta_file} --format text --outprint --format json'.format(meta_file=meta_file)
-    _main(cmd, meta_content)
 
 def test_fake_data_to_file():
 
@@ -174,7 +156,7 @@ def test_es():
 
 def test_mysql():
 
-    cmd = 'datafaker mysql mysql+mysqldb://root:root@localhost:3600/test pig_fnumbe_test 1 --meta data/meta.txt --format text'
+    cmd = 'datafaker mysql mysql+mysqldb://root:root@localhost:3600/test pig_fnumbe_test 1 --meta ../data/meta.txt --format text'
     sys.argv = cmd.strip().split(' ')
     main()
 
@@ -237,11 +219,12 @@ def test_oracle():
     cmd = 'datafaker rdb oracle://root:root@127.0.0.1:1521/helowin stu 10 --meta stu.txt --outprint'
     _main(cmd, meta_content)
 
+
 def test_stu2():
     meta_content = """
-        id||int||auto increament id[:inc(id,1)]
+        id||int||auto increament id[:inc(id,12)]
         name||varchar(20)||name
-        school||varchar(20)||school name[:enum(file://data/pigtype.txt)]
+        school||varchar(20)||school name[:enum(file://../data/pigtype.txt)]
         nickname||varchar(20)||nickname[:enum(鬼泣, 高小王子, 歌神, 逗比)]
         age||int||student age[:age]
         class_num||int||class size[:int(10, 100)]
@@ -251,5 +234,36 @@ def test_stu2():
         ip||varchar(32)||IP[:ipv4]
         address||text||home address[:address]
         """
-    cmd = 'datafaker file . stu 10 --meta stu.txt --outprint'
+    # cmd = 'datafaker file . stu 10 --meta stu.txt --outprint'
+    # cmd = "datafaker mysql mysql+mysqldb://root:root@localhost:3600/test stu 10 --meta stu.txt"
+    cmd = "datafaker kafka localhost:9092 hello 10 --meta meta.txt"
+    _main(cmd, meta_content)
+
+
+def test_metaj():
+    meta_content = """
+        {
+            "name": [:name],
+            "age": [:age],
+            "school": {
+                "sch_name": [:enum(file://../data/names.txt)],
+                "sch_address": [:address],
+                "scores": [
+                    {
+                        "class": [:enum(Math, English)],
+                        "score": [:decimal(4,2,1)]
+                    },
+                    {
+                        "class": [:enum(Chinese, Computer)],
+                        "score": [:decimal(4,2,1)]
+                    }
+                ]
+        
+            }
+        }
+        """
+    # cmd = "datafaker mysql mysql+mysqldb://root:root@localhost:3600/test stu 10 --metaj stu.txt"
+
+    # cmd = 'datafaker file . stu.txt 10 --metaj stu.txt'
+    cmd = "datafaker kafka localhost:9092 hello 10 --metaj meta.txt --outprint"
     _main(cmd, meta_content)

@@ -11,7 +11,8 @@ The datafaker parameter contains 4 mandatory parameters and some optional parame
 | table| table name | string | Yes |  None | Abstract various data source operation units are abstracted into tables, tables in the database, topics in kafka, file names, hbase columns, mongos as collections|
 | num | records number | int | Yes | None | must be 1 for kafka |
 | auth | account and password | string | No | None | split by `:`, such as admin:12334 |
-| meta | meta data file | string | No | None |  |
+| meta | meta data file | string | No | None | meta file |
+| metaj | 元数据文件 | string | 否 | 无 | meta file |
 | interval | interval | float | No | 1 | second unit |
 | version | Display version number | bool | No |  None |  |
 | outprint | Whether to print on the screen | bool | No |  false | If the screen is set to print, the data will not be written to a file or data source. |

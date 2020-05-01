@@ -150,7 +150,7 @@ datafaker file /home out.txt 10 --meta meta.txt --format json
 ```
 
 
-### 5.6 write to the topic hello of kafka for every 1 second
+### 5.6 write to kafka, write to the topic hello of kafka for every 1 second
 -------------------------------------------
 
 ```
@@ -168,6 +168,62 @@ time used: 6.285 s
 the result is:
 
 ![result](img/kafka.png)
+
+### JSON nesting or arbitrary data structure (not Json)
+```sh
+datafaker kafka localhost:9092 hello 10 --metaj meta.txt
+```
+use --metaj for meta file meta.txt：
+```
+{
+    "name": [:name],
+    "age": [:age],
+    "school": {
+        "sch_name": [:enum(file://../data/names.txt)],
+        "sch_address": [:address],
+        "scores": [
+            {
+                "class": [:enum(Math, English)],
+                "score": [:decimal(4,2,1)]
+            },
+            {
+                "class": [:enum(Chinese, Computer)],
+                "score": [:decimal(4,2,1)]
+            }
+        ]
+    }
+}
+```
+
+Datafaker replaces the marked string in meta.txt and remain the format, includes tab and space.
+The result is:
+```
+{
+    "name": 驷俊,
+    "age": 95,
+    "school": {
+        "sch_name": 旧大院,
+        "sch_address": 湖北省济南市上街宁德路I座 557270,
+        "scores": [
+            {
+                "class": Math,
+                "score": 83.28
+            },
+            {
+                "class": Computer,
+                "score": 52.37
+            }
+        ]
+    }
+}
+
+```
+
+You can compress the json to a string:
+```
+{"name":[:name],"age":[:age],"school":{"sch_name":[:enum(file://../data/names.txt)],"sch_address":[:address],"scores":[{"class":[:enum(Math,English)],"score":[:decimal(4,2,1)]},{"class":[:enum(Chinese,Computer)],"score":[:decimal(4,2,1)]}]}}
+```
+
 
 ### 5.7 write to hbase
 ----------

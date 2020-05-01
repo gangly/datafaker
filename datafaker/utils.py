@@ -77,14 +77,19 @@ def count_time(func):
     return wrapper
 
 
-def read_file_lines(filepath):
+def read_file(filepath):
     if not os.path.exists(filepath):
         raise FileNotFoundError(filepath)
     with compat_open(filepath, 'r', encoding='utf8') as fp:
-        lines = fp.read()
-        lines = lines.splitlines()
-        # start with # is comment line, and filter empty line
-        lines = [safe_decode(line) for line in lines if line and not line.strip().startswith("#") and line.strip()]
+        contents = fp.read()
+    return contents
+
+
+def read_file_lines(filepath):
+    contents = read_file(filepath)
+    lines = contents.splitlines()
+    # start with # is comment line, and filter empty line
+    lines = [safe_decode(line) for line in lines if line and not line.strip().startswith("#") and line.strip()]
     return lines
 
 

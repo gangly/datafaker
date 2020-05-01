@@ -1,10 +1,6 @@
 #!/usr/bin/env python 2.7
 # -*- coding: utf-8 -*-
-###############################################################################
-#
-# Copyright (c) 2015 Baidu.com, Inc. All Rights Reserved
-#
-###############################################################################
+
 """
 对正则表达式函数的封装
 
@@ -27,6 +23,25 @@ def reg_keyword(data):
     return ret[0] if ret else None
 
 
+def reg_all_keywords(data):
+    """
+    从meta file中提取所有关键词，格式为：
+    ***[:###]***
+    提取出###
+    :param data:
+    :return:
+    """
+    patt = re.compile(r"\[:([^\[\]]+)\]")
+    ret = patt.findall(data)
+    return ret if ret else None
+
+
+def reg_replace_keywords(data, repl="%s"):
+
+    ret = re.sub(r"(\[:[^\[\]]+\])", repl, data)
+    return ret
+
+
 def reg_args(data):
     # patt = re.compile(r"(?<=[\(|,\s*])\w+")
     # ret = patt.findall(data)
@@ -37,6 +52,12 @@ def reg_args(data):
 
 
 def reg_cmd(data):
+    """
+    提取keyword中具体命令,格式为:
+    [:cmd()] 或者 [:cmd]
+    :param data: [:cmd()] 或者 [:cmd]
+    :return: cmd
+    """
     patt = re.compile(r"(.+)\(.*")
     ret = patt.findall(data)
     return ret[0] if ret else data
@@ -123,6 +144,7 @@ def reg_all_chinese(data):
     ret = patt.findall(data)
     return ret
 
+
 def reg_match(reg_str, targetstr):
     """
     正则match函数匹配
@@ -132,6 +154,7 @@ def reg_match(reg_str, targetstr):
     """
     m = re.match(reg_str, targetstr)
     return m
+
 
 def reg_search(reg_str, targetstr):
     """

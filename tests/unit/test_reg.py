@@ -2,7 +2,7 @@
 # -*- coding: UTF-8 -*-
 import re
 
-from datafaker.reg import reg_float, reg_keyword, reg_args, reg_cmd
+from datafaker.reg import reg_float, reg_keyword, reg_args, reg_cmd, reg_all_keywords, reg_replace_keywords
 
 
 def test_reg_float():
@@ -25,3 +25,11 @@ def test_reg_cmd():
     assert 'varchar' == reg_cmd('varchar(20)')
     assert 'varchar' == reg_cmd('varchar')
     assert 'int' == reg_cmd('int')
+
+
+def test_reg_all_keywords():
+    assert ['name', 'age(1,10)'] == reg_all_keywords("wer[:name]234e, wer[:age(1,10)]234e")
+
+
+def test_reg_replace_keywords():
+    assert "wer%se, wer%s234e" == reg_replace_keywords("wer[:name]e, wer[:age(1,10)]234e")

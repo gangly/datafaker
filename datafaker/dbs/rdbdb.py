@@ -10,10 +10,6 @@ class RdbDB(BaseDB):
     def init(self):
         self.session = load_sqlalchemy(self.args.connect)
 
-    def __del__(self):
-        if self.session:
-            self.session.close()
-
     def save_data(self, lines):
 
         names = [column['name'] for column in self.schema]

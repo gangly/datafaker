@@ -1,10 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: UTF-8 -*-
+import json
+
 from elasticsearch import Elasticsearch
 from elasticsearch.helpers import bulk
 
 from datafaker.dbs.basedb import BaseDB
 from datafaker.exceptions import ParamError
+from datafaker.utils import json_item
 
 
 class EsDB(BaseDB):
@@ -23,7 +26,8 @@ class EsDB(BaseDB):
         actions = []
 
         for line in lines:
-            source = dict(zip(self.column_names, line))
+
+            source = self.format_data(line)
             action = {
                 "_index": self.index,
                 "_type": self.type,
@@ -32,6 +36,16 @@ class EsDB(BaseDB):
             actions.append(action)
 
         success, _ = bulk(self.es, actions, index=self.args.table, raise_on_error=True)
+
+    def format_data(self, columns):
+        if self.args.metaj:
+            data = self.metaj_content % tuple(columns)
+            source = json.loads(data)
+        else:
+            source = dict(zip(self.column_names, columns))
+        return source
+
+
 
 
 

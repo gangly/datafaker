@@ -9,8 +9,8 @@ from datafaker.compat import safe_decode, queue
 from datafaker.constant import INT_TYPES, FLOAT_TYPES, ENUM_FILE, JSON_FORMAT, MAX_QUEUE_SIZE, MIN_RECORDS_FOR_PARALLEL
 from datafaker.exceptions import EnumMustNotEmptyError, ParseSchemaError
 from datafaker.fakedata import FackData
-from datafaker.reg import reg_keyword, reg_cmd, reg_args
-from datafaker.utils import count_time, read_file_lines, json_item, process_op_args
+from datafaker.reg import reg_keyword, reg_cmd, reg_args, reg_all_keywords, reg_replace_keywords
+from datafaker.utils import count_time, read_file_lines, json_item, process_op_args, read_file
 
 
 class BaseDB(object):
@@ -21,7 +21,8 @@ class BaseDB(object):
     def __init__(self, args):
         self.args = args
         self.schema = self.parse_schema()
-        self.column_names = [item['name'] for item in self.schema]
+        if self.args.metaj is None:
+            self.column_names = [item['name'] for item in self.schema]
         self.fakedata = FackData(self.args.locale)
 
         self.queue = compat.Queue(maxsize=MAX_QUEUE_SIZE)
@@ -29,6 +30,11 @@ class BaseDB(object):
 
         self.cur_num = compat.Value('L', 0)
         self.lock = compat.Lock()
+
+        # 处理自定义格式，可以用来json嵌套
+        if self.args.metaj:
+            meta = read_file(self.args.metaj)
+            self.metaj_content = reg_replace_keywords(meta)
 
         # 调用子类初始化函数
         self.init()
@@ -45,6 +51,14 @@ class BaseDB(object):
             self.cur_num.value += 1
             return self.cur_num.value-1
 
+    def format_data(self, columns):
+        data = columns
+        if self.args.metaj:
+            data = self.metaj_content % tuple(columns)
+        elif self.args.format == JSON_FORMAT:
+            data = json_item(self.column_names, columns)
+        return data
+
     def fake_data(self):
         """
         sleep是为了防止产生数据后消费数据过慢
@@ -53,8 +67,6 @@ class BaseDB(object):
 
         while self.get_cur_num() < self.args.num:
             columns = self.fake_column(self.cur_num.value)
-            if self.args.format == JSON_FORMAT:
-                columns = json_item(self.column_names, columns)
             self.queue.put(columns)
 
         sleep(0.1)
@@ -120,17 +132,21 @@ class BaseDB(object):
         while not self.isover.value or not self.queue.empty():
             try:
                 data = self.queue.get_nowait()
-                items = []
-                for item in data:
-                    if item is None:
-                        items.append('None')
-                    elif isinstance(item, (int, float)):
-                        items.append(str(item))
-                    else:
-                        items.append(safe_decode(item))
-                row = self.args.outspliter.join(items)
+                # 调用基类的方法
+                data = BaseDB.format_data(self, data)
+                if self.args.format == JSON_FORMAT or self.args.metaj:
+                    row = data
+                else:
+                    items = []
+                    for item in data:
+                        if item is None:
+                            items.append('None')
+                        elif isinstance(item, (int, float)):
+                            items.append(str(item))
+                        else:
+                            items.append(safe_decode(item))
+                    row = self.args.outspliter.join(items)
                 print(row)
-                # print(data)
                 if self.args.interval:
                     time.sleep(self.args.interval)
             except queue.Empty:
@@ -141,6 +157,8 @@ class BaseDB(object):
     def parse_schema(self):
         if self.args.meta:
             schema = self.parse_meta_schema()
+        elif self.args.metaj:
+            schema = self.parse_metaj_schema()
         else:
             schema = self.parse_self_schema()
         return schema
@@ -153,8 +171,18 @@ class BaseDB(object):
         rows = self.construct_meta_rows()
         return self.parse_schema_from_rows(rows)
 
+    def parse_metaj_schema(self):
+        meta = read_file(self.args.metaj)
+        return self.parse_schema_from_text(meta)
+
     def parse_schema_from_rows(self, rows):
-        shema = []
+        """
+        解析meta file
+        :param rows: 行信息
+        :return: schema: 命令关键字，数据类型，命令参数
+
+        """
+        schema = []
         column_names = []
         for row in rows:
             item = {'name': row[0], 'type': row[1], 'comment': row[-1]}
@@ -166,6 +194,7 @@ class BaseDB(object):
             keyword = reg_keyword(item['comment'])
 
             ctype = reg_cmd(item['type'])
+            # 如果没有找到标记，则使用第二列数据类型
             if not keyword:
                 keyword = item['type']
 
@@ -201,9 +230,46 @@ class BaseDB(object):
             item['cmd'] = cmd
             item['ctype'] = ctype
             item['args'] = args
-            shema.append(item)
+            schema.append(item)
 
-        return shema
+        return schema
+
+    def parse_schema_from_text(self, text):
+
+        keywords = reg_all_keywords(text)
+        schema = []
+
+        for keyword in keywords:
+
+            cmd = reg_cmd(keyword)
+            rets = reg_args(keyword)
+            if cmd == 'enum' or cmd == 'order_enum':
+                if len(rets) == 0:
+                    raise EnumMustNotEmptyError
+
+                # 如果enum类型只有一个值，则产生固定值
+                # 如果enum类型只有一个值，且以file://开头，则读取文件
+                if len(rets) == 1 and rets[0].startswith(ENUM_FILE):
+                    args = read_file_lines(rets[0][len(ENUM_FILE):])
+                else:
+                    # 枚举全部当做字符类型
+                    args = rets
+
+            elif cmd in INT_TYPES:
+                args = [int(ret) for ret in rets]
+                args.append(True) if 'unsigned' in keyword else args.append(False)
+            elif cmd == 'op':
+                args = [process_op_args(rets[0], 'columns'), ]
+            else:
+                try:
+                    args = [int(ret) for ret in rets]
+                except:
+                    args = rets
+
+            item = {'cmd': cmd,  'args': args}
+            schema.append(item)
+        return schema
+
 
     def construct_meta_rows(self):
         """
