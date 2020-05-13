@@ -95,7 +95,7 @@ pip uninstall datafaker
 |sqlserver | pyodbc |  mssql+pyodbc  |
 |Hbase | happybase,thrift | |
 |es | elasticsearch | |
-|hive | pyhive | |s
+|hive | pyhive | |
 |kafka | kafka-python | |
 
 
