@@ -8,8 +8,6 @@ from datafaker.cli import parse_args
 from datafaker.testutils import FileCreator
 
 
-
-
 META_CONTENT = """
    id||int||自增id[:id]
    name||varchar(20)||学生名字[:name]
@@ -21,6 +19,7 @@ META_CONTENT = """
    email||decimal(4,2)||邮箱[:email]
    address||decimal(4,2)||地址[:address]
    """
+
 
 def _main_file(cmd, meta=None):
     """
@@ -86,6 +85,7 @@ def test_fake_data_to_mysql():
     cmd = 'datafaker mysql mysql+mysqldb://root:root@localhost:3600/test student 100'
     sys.argv = cmd.strip().split(' ')
     main()
+
 
 def test_fake_data_to_hbase():
     """
@@ -266,4 +266,14 @@ def test_metaj():
 
     # cmd = 'datafaker file . stu.txt 10 --metaj stu.txt'
     cmd = "datafaker kafka localhost:9092 hello 10 --metaj meta.txt --outprint"
+    _main(cmd, meta_content)
+
+
+def test_err():
+    meta_content = """
+        id||int||[:inc(id,1)]
+        name||varchar(20)||[:name]
+        age||int||[:age]
+        """
+    cmd = "datafaker mysql mysql+mysqldb://root:root@localhost:3306/test student 10 --meta meta.txt"
     _main(cmd, meta_content)

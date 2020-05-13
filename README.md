@@ -97,6 +97,7 @@ pip uninstall datafaker
 |mysql/tidb| mysql-python/mysqlclient | windows+python3 use mysqlclient|
 |oracle| cx-Oracle | need some oracle lib |
 |postgresql/redshift | psycopg2 |  |
+| sqlserver | pyodbc |  mssql+pyodbc://mssql-v  |
 |Hbase | happybase,thrift | |
 |es | elasticsearch | |
 |hive | pyhive | |
