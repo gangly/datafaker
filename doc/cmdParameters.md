@@ -9,7 +9,7 @@ The datafaker parameter contains 4 mandatory parameters and some optional parame
 | dbtype| Data source type | string | Yes | None | The optional value is rdb, hive, kafka, hbase, es, file |
 | connect | connection information | string| Yes | None | sqlachemy string for relational database and hive. <br>broker string for kafka<br>file path for file type<br>thrift host and port for hbase|
 | table| table name | string | Yes |  None | Abstract various data source operation units are abstracted into tables, tables in the database, topics in kafka, file names, hbase columns, mongos as collections|
-| num | records number | int | Yes | None | must be 1 for kafka |
+| num | records number | int | Yes | None |  |
 | auth | account and password | string | No | None | split by `:`, such as admin:12334 |
 | meta | meta data file | string | No | None | meta file |
 | metaj | 元数据文件 | string | 否 | 无 | meta file |
