@@ -47,7 +47,8 @@ class FackData(object):
     def fake_double(self, *args):
         return self.fake_float()
 
-    def fake_decimal(self, *args):
+    def fake_decimal(self, digits, right_digits, flag=None,
+                min_value=None, max_value=None):
         """
         mysql中DECIMAL(6,2);
         最多可以存储6位数字，小数位数为2位; 因此范围是从-9999.99到9999.99
@@ -56,12 +57,11 @@ class FackData(object):
         :param args:
         :return:
         """
-        if len(args) >= 3:
-            if int(args[2]) == 1:
-                return self.faker.pyfloat(left_digits=(args[0] - args[1]), right_digits=args[1], positive=True)
-            else:
-                return -self.faker.pyfloat(left_digits=(args[0] - args[1]), right_digits=args[1], positive=True)
-        return self.faker.pyfloat(left_digits=(args[0]-args[1]), right_digits=args[1])
+        if flag is None:
+            flag = random.randint(0, 1)
+        number = self.faker.pyfloat(left_digits=(digits - right_digits), right_digits=right_digits,
+                                  positive=True, min_value=min_value, max_value=max_value)
+        return number if flag == 1 else -number
 
 
     ############ mysql 日期和时间类型 ###################
@@ -108,6 +108,17 @@ class FackData(object):
     def fake_datetime(self, now=0, format='%Y-%m-%d %H:%M:%S'):
         dt = datetime.datetime.now() if now else self.faker.date_time()
         return dt.strftime(format)
+
+    def fake_datetime_between(self, sdt, edt, foramt='%Y-%m-%d %H:%M:%S'):
+        sdatetime = datetime.datetime.strptime(sdt, '%Y-%m-%d %H:%M:%S')
+        stimestamp = time.mktime(sdatetime.timetuple())
+
+        edatetime = datetime.datetime.strptime(edt, '%Y-%m-%d %H:%M:%S')
+        etimestamp = time.mktime(edatetime.timetuple())
+
+        timestamp = random.randint(stimestamp, etimestamp)
+        ltime = time.localtime(timestamp)
+        return time.strftime(foramt, ltime)
 
     def fake_timestamp(self, now=0):
 

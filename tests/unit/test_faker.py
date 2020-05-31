@@ -68,7 +68,7 @@ def test_faker():
     print(fake.credit_card_security_code())
     print(fake.currency_code())
 
-    print('-----------------')
+    print('-------date----------')
     print(fake.century())
     print(fake.date())
     print(fake.date_between())
@@ -76,6 +76,7 @@ def test_faker():
     print(fake.date_this_year())
     print(fake.date_time())
     print(fake.date_time_between())
+    print(fake.date_time_between(-1, 3))
     print(fake.month())
     print(fake.month_name())
     print(fake.time())
@@ -104,7 +105,19 @@ def test_faker():
     print(fake.simple_profile())
     print(fake.ssn())
 
+
+def test_name():
+    print(fake.name())
+
+
+def test_number():
     print('--------number----------')
+    print(fake.pydecimal(4, 2, False, 88, 90))
+    print(fake.pydecimal(4, 2))
+    print(fake.pydecimal(4, 2, False))
+    print(fake.pydecimal(4, 2, False))
+    print(fake.pydecimal(4, 2, False))
+    print(fake.pydecimal(4, 2, False))
     print(fake.random_digit())
     print(fake.random_element())
     print(fake.random_letter())
@@ -115,10 +128,6 @@ def test_faker():
     print(fake.color_name())
     print(fake.hex_color())
     print(fake.rgb_color())
-
-
-def test_name():
-    print(fake.name())
 
 
 

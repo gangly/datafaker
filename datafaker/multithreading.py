@@ -3,7 +3,7 @@
 
 import ctypes
 import threading
-from queue import Queue
+
 
 class StoppableThread(threading.Thread):
     """Thread class with a terminate() method. The thread itself has to check

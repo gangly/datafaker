@@ -20,7 +20,7 @@ String types refer to char, varchar, binary, varbinary, blob, text, enum, and se
 ------------------
 | Type name | description | Defaults | note |
 | ---- | ---- | ---- | ---- |
-| decimal(M,D, negative) | M specifies the total number of data bits, D specifies the number of decimal places, negative specifies positive 1 negative 0 | None | Decimal (4, 2, 1) specifies a 4-digit, 2-digit fractional positive floating point number, such as 78.23 |
+| M,D, negative, min, max) | M specifies the total number of data bits, D specifies the number of decimal places, negative specifies positive 1 negative 0, min,max is the min and max value and must be integer | None | Decimal (4, 2, 1, 70, 90) specifies a 4-digit, 2-digit fractional positive floating point number, such as 78.23 |
 | string(min, max) | Min, max specifies the range of string digits | None | |
 |date(start, end)| Start, end specifies the date range |  None | Such as date (1990-01-01, 2019-12-12) |
 
