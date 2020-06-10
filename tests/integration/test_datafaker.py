@@ -144,7 +144,7 @@ def test_op():
         capStampDate||datetime||捕获日期[:date(-5d,-0d, %Y-%m-%d)]
     """
     test_tmpdir, meta_file = _make_tmp_file()
-    cmd = 'datafaker file . hello.txt 10 --meta {meta_file} --format text --outprint'.format(meta_file=meta_file)
+    cmd = 'datafaker file . hello.txt 100 --meta {meta_file} --format text --outprint'.format(meta_file=meta_file)
     _main(cmd, meta_content)
 
 

@@ -39,15 +39,12 @@ is_windows = sys.platform == 'win32'
 
 if is_windows:
     from datafaker.multithreading import *
+    from six.moves.queue import Queue
 else:
     import multiprocessing
     from multiprocessing import Process, Lock, Value, Queue
     List = multiprocessing.Manager().list
     Dict = multiprocessing.Manager().dict
-# import multiprocessing
-# from multiprocessing import Process, Lock, Value, Queue
-# List = multiprocessing.Manager().list
-# Dict = multiprocessing.Manager().dict
 
 
 if is_windows:
