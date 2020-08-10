@@ -124,3 +124,13 @@ _____
 **给作者点个star或请作者喝杯咖啡**
 
 ![pay](../img/微信pay.png)
+
+
+## 招聘信息
+大型央企招聘大数据开发，数据分析，java开发若干。
+https://www.zhipin.com/job_detail/3506a76bec18199b0HJy3d2-E1Y~.html?ka=search_list_jname_20_blank&lid=nlp-95vIY8gpmwO.search.20
+待遇优厚，工作有挑战，工作时间有节操。
+欢迎简历砸过来，gangly123@163.com
+
+
+
