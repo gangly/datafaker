@@ -215,6 +215,7 @@ def test_oracle():
     meta_content = """
         name||varchar(20)||[:name]
         age||int||学生年龄[:age]
+        plan_end_time||varchar(32)||计划结束时间[:date_between(2020-01-01, 2020-12-02, %Y-%m-%d)]
     """
     cmd = 'datafaker rdb oracle://root:root@127.0.0.1:1521/helowin stu 10 --meta stu.txt --outprint'
     _main(cmd, meta_content)

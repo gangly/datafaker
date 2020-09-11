@@ -78,26 +78,26 @@ class FackData(object):
         thedate = self.faker.date_between(start_date, end_date)
         return thedate.strftime(format)
 
-    def fake_date_between(self, start_date=None, end_date=None, format='%Y-%m-%d'):
+    def fake_datetime_between(self, sdt, edt, foramt='%Y-%m-%d %H:%M:%S'):
+        sdatetime = datetime.datetime.strptime(sdt, '%Y-%m-%d %H:%M:%S')
+        stimestamp = time.mktime(sdatetime.timetuple())
+
+        edatetime = datetime.datetime.strptime(edt, '%Y-%m-%d %H:%M:%S')
+        etimestamp = time.mktime(edatetime.timetuple())
+
+        timestamp = random.randint(stimestamp, etimestamp)
+        ltime = time.localtime(timestamp)
+        return time.strftime(foramt, ltime)
+
+    def fake_date_between(self, start_date, end_date, format='%Y-%m-%d'):
         # 去掉时分秒，不然后续计算天差值会出错
-        today = datetime.datetime.strftime(datetime.datetime.today(), "%Y-%m-%d")
-        today = datetime.datetime.strptime(today, '%Y-%m-%d')
 
-        if start_date is None:
-            start_diff = 'today'
-        else:
-            start_date = datetime.datetime.strptime(start_date, '%Y-%m-%d')
-            diff = (start_date - today).days
-            start_diff = '%dd' % diff if diff != 0 else 'today'
+        start_date_time = '{0} 00:00:00'.format(start_date)
+        end_date_time = '{0} 23:59:59'.format(end_date)
+        random_datetime = self.fake_datetime_between(start_date_time, end_date_time)
+        random_date = datetime.datetime.strptime(random_datetime.split()[0], '%Y-%m-%d').date()
+        return datetime.datetime.strftime(random_date, format)
 
-        if end_date is None:
-            end_diff = today
-        else:
-            end_date = datetime.datetime.strptime(end_date, '%Y-%m-%d')
-            diff = (end_date - today).days
-            end_diff = '%dd' % diff if diff != 0 else 'today'
-
-        return self.fake_date(start_diff, end_diff, format)
 
     def fake_time(self, *args):
         return self.faker.time()
@@ -109,16 +109,7 @@ class FackData(object):
         dt = datetime.datetime.now() if now else self.faker.date_time()
         return dt.strftime(format)
 
-    def fake_datetime_between(self, sdt, edt, foramt='%Y-%m-%d %H:%M:%S'):
-        sdatetime = datetime.datetime.strptime(sdt, '%Y-%m-%d %H:%M:%S')
-        stimestamp = time.mktime(sdatetime.timetuple())
 
-        edatetime = datetime.datetime.strptime(edt, '%Y-%m-%d %H:%M:%S')
-        etimestamp = time.mktime(edatetime.timetuple())
-
-        timestamp = random.randint(stimestamp, etimestamp)
-        ltime = time.localtime(timestamp)
-        return time.strftime(foramt, ltime)
 
     def fake_timestamp(self, now=0):
 
