@@ -47,6 +47,7 @@ class KafkaDB(BaseDB):
     def format_data(self, columns):
         if self.args.metaj:
             data = self.metaj_content % tuple(columns)
+            data = data.strip()
         else:
             data = json_item(self.column_names, columns)
 
