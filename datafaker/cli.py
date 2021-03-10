@@ -61,7 +61,7 @@ def parse_args():
         parser.print_help()
         exit(0)
 
-    if args.format == JSON_FORMAT and any([args.outprint, args.dbtype in ['file', 'kafka']]):
+    if args.format == JSON_FORMAT and any([args.outprint, args.dbtype not in ['file', 'kafka']]):
         raise ParamError('rdb not support for json format')
     if args.metaj and args.dbtype not in ['file', 'kafka']:
         raise ParamError('rdb not support for metaj')
