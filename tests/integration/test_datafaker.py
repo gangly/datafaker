@@ -265,8 +265,8 @@ def test_metaj():
         """
     # cmd = "datafaker mysql mysql+mysqldb://root:root@localhost:3600/test stu 10 --metaj stu.txt"
 
-    # cmd = 'datafaker file . stu.txt 10 --metaj stu.txt'
-    cmd = "datafaker kafka localhost:9092 hello 10 --metaj meta.txt --outprint"
+    cmd = 'datafaker file . stu.txt 10 --metaj stu.txt'
+    # cmd = "datafaker kafka localhost:9092 hello 10 --metaj meta.txt --outprint"
     _main(cmd, meta_content)
 
 
@@ -277,4 +277,21 @@ def test_err():
         age||int||[:age]
         """
     cmd = "datafaker mysql mysql+mysqldb://root:root@localhost:3306/test student 10 --meta meta.txt"
+    _main(cmd, meta_content)
+
+
+def test_json():
+    meta_content = """
+        id||int||not,
+        name||varchar(20)||学生名字[:name]
+        nickname||varchar(20)||学生名字[:order_enum(xiao ming, hah, lele, esd, f222)]
+        nickname2||varchar(20)||学生名字[:order_enum(xiao ming, hah, lele, esd, f222)]
+        class_num||char(10)||default,
+        phone||int||default,
+        email||char(10)||default,
+        ip||char(10)||default,
+        address||char(40)||default,
+    """
+    test_tmpdir, meta_file = _make_tmp_file()
+    cmd = 'datafaker file . hello.txt 21 --meta {meta_file} --format json'.format(meta_file=meta_file)
     _main(cmd, meta_content)
