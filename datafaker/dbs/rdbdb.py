@@ -39,7 +39,8 @@ class RdbDB(BaseDB):
 
         sql = u"insert into {table} ({column_names}) values {values}".format(
             table=self.args.table, column_names=column_names, values=u','.join([item for item in batch_value]))
-        self.session.execute(sql)
+		sql = sql.replace('\'\'', '\'')
+		self.session.execute(sql)
 
         self.session.commit()
 
